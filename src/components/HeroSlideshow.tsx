@@ -75,8 +75,7 @@ const HeroSlideshow = () => {
                 <img
                   src={slide.image}
                   alt={slide.alt}
-                  className="w-full h-full object-cover object-center"
-                  style={{ minHeight: '100vh', minWidth: '100%' }}
+                  className="w-full h-full object-contain object-center bg-gray-900"
                 />
                 <div className="absolute inset-0 bg-black/40" />
               </div>
