@@ -6,7 +6,6 @@ const Hero = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center">
       <HeroSlideshow />
-      <div className="absolute inset-0 bg-gradient-hero opacity-60" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center text-primary-foreground">
