@@ -11,21 +11,31 @@ import { type CarouselApi } from "@/components/ui/carousel";
 const slides = [
   {
     id: 1,
-    image: "/lovable-uploads/e9471843-6a3a-4c47-a0f4-28ed932348a4.png",
-    alt: "Modern brick and metal cladding house with stylish window features"
+    image: "/lovable-uploads/a3dfe94a-179a-4c2c-b164-a5875b958caa.png",
+    alt: "Modern grey vertical cladding with dark window shrouds and trim details"
   },
   {
     id: 2,
-    image: "/lovable-uploads/3ce8917c-cb8f-4f4d-a942-4c3f850d1c47.png",
-    alt: "Detailed view of modern window framing with stone accent wall"
-  },
-  {
-    id: 3,
     image: "/lovable-uploads/ac7d710d-dfad-4ca8-862e-faca579d2447.png",
     alt: "Curved modern architecture with timber screening and window shrouds"
   },
   {
+    id: 3,
+    image: "/lovable-uploads/e9471843-6a3a-4c47-a0f4-28ed932348a4.png",
+    alt: "Modern brick and metal cladding house with stylish window features"
+  },
+  {
     id: 4,
+    image: "/lovable-uploads/492e0bbf-6590-4f46-b1ac-2e1d032d1224.png",
+    alt: "Contemporary home with angular window shroud projecting from vertical cladding"
+  },
+  {
+    id: 5,
+    image: "/lovable-uploads/3ce8917c-cb8f-4f4d-a942-4c3f850d1c47.png",
+    alt: "Detailed view of modern window framing with stone accent wall"
+  },
+  {
+    id: 6,
     image: "/lovable-uploads/a296ce98-9e42-4bd8-ad52-b5c23e16640d.png",
     alt: "Modern home with prominent upper floor window shrouds and vertical screening"
   }
