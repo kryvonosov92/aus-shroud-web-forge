@@ -29,32 +29,6 @@ const Hero = () => {
               View Gallery
             </Button>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="flex flex-col items-center text-center">
-              <div className="bg-primary-glow/20 p-4 rounded-full mb-4">
-                <Shield className="w-8 h-8 text-primary-glow" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Premium Quality</h3>
-              <p className="text-primary-foreground/70">Australian-made materials built to last</p>
-            </div>
-            
-            <div className="flex flex-col items-center text-center">
-              <div className="bg-primary-glow/20 p-4 rounded-full mb-4">
-                <Star className="w-8 h-8 text-primary-glow" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Expert Installation</h3>
-              <p className="text-primary-foreground/70">Professional fitting by certified technicians</p>
-            </div>
-            
-            <div className="flex flex-col items-center text-center">
-              <div className="bg-primary-glow/20 p-4 rounded-full mb-4">
-                <Users className="w-8 h-8 text-primary-glow" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Trusted by 1000+</h3>
-              <p className="text-primary-foreground/70">Satisfied customers across Australia</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
