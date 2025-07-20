@@ -7,12 +7,11 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-primary">
-              AusWindowShrouds
-            </div>
-            <div className="hidden sm:block text-sm text-muted-foreground">
-              .com.au
-            </div>
+            <img 
+              src="/lovable-uploads/df654ff6-def4-4349-8292-8713634579f4.png" 
+              alt="AusWindowShrouds Logo" 
+              className="h-10 w-auto"
+            />
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
