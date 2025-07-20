@@ -29,7 +29,11 @@ const Header = () => {
             </a>
           </nav>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
+            <Button variant="outline-hero" size="sm" className="hidden sm:flex">
+              <Mail className="w-4 h-4" />
+              Email Us
+            </Button>
             <Button variant="outline-hero" size="sm" className="hidden sm:flex">
               <Phone className="w-4 h-4" />
               Call Now
