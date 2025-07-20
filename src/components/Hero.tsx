@@ -16,8 +16,7 @@ const Hero = () => {
           </h1>
           
           <p className="text-xl md:text-2xl mb-8 text-primary-foreground/80 max-w-3xl mx-auto">
-            Transform your property with our expertly crafted window shrouds. 
-            Enhance privacy, control light, and add architectural elegance to any building.
+            Talk to us today about your project's custom window shroud and screen needs.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
