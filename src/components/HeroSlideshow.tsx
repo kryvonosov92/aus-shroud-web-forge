@@ -21,21 +21,26 @@ const slides = [
   },
   {
     id: 3,
+    image: "/lovable-uploads/e9471843-6a3a-4c47-a0f4-28ed932348a4.png",
+    alt: "Modern brick and metal cladding house with stylish window features"
+  },
+  {
+    id: 4,
     image: "/lovable-uploads/492e0bbf-6590-4f46-b1ac-2e1d032d1224.png",
     alt: "Contemporary home with angular window shroud projecting from vertical cladding"
   },
   {
-    id: 4,
+    id: 5,
     image: "/lovable-uploads/3ce8917c-cb8f-4f4d-a942-4c3f850d1c47.png",
     alt: "Detailed view of modern window framing with stone accent wall"
   },
   {
-    id: 5,
+    id: 6,
     image: "/lovable-uploads/a296ce98-9e42-4bd8-ad52-b5c23e16640d.png",
     alt: "Modern home with prominent upper floor window shrouds and vertical screening"
   },
   {
-    id: 6,
+    id: 7,
     image: "/lovable-uploads/343f3cb9-d1c4-4136-96d5-13942a24619d.png",
     alt: "Contemporary home with prominent upper window feature and vertical screening elements"
   }
@@ -86,8 +91,8 @@ const HeroSlideshow = () => {
                   src={slide.image}
                   alt={slide.alt}
                   className={`max-w-full max-h-full object-cover ${
-                    slide.id === 5 ? 'object-[center_30%]' : 
-                    slide.id === 6 ? 'object-[center_25%]' : ''
+                    slide.id === 4 ? 'object-[center_30%]' : 
+                    slide.id === 7 ? 'object-[center_25%]' : ''
                   }`}
                   style={{ aspectRatio: '16/9', width: '100%', height: '90vh' }}
                 />
