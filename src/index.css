@@ -9,25 +9,33 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 218 27% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 218 27% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 218 27% 8%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220 76% 17%;
+    --primary-foreground: 210 100% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 220 76% 17%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 214 32% 91%;
+    --muted-foreground: 218 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 212 97% 87%;
+    --accent-foreground: 220 76% 17%;
+
+    /* Custom design tokens */
+    --primary-light: 220 76% 25%;
+    --primary-glow: 212 100% 85%;
+    --gradient-primary: linear-gradient(135deg, hsl(220 76% 17%), hsl(220 76% 25%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 76% 17%), hsl(212 100% 85%));
+    --shadow-elegant: 0 20px 40px -10px hsl(220 76% 17% / 0.2);
+    --shadow-glow: 0 0 30px hsl(212 100% 85% / 0.3);
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
