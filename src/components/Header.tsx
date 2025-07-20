@@ -5,12 +5,12 @@ const Header = () => {
   return (
     <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           <div className="flex items-center space-x-2">
             <img 
               src="/lovable-uploads/df654ff6-def4-4349-8292-8713634579f4.png" 
               alt="AusWindowShrouds Logo" 
-              className="h-16 w-auto"
+              className="h-20 w-auto"
             />
           </div>
           
