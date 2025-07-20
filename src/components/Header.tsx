@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Phone, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -16,12 +17,12 @@ const Header = () => {
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/" className="text-foreground hover:text-primary transition-colors">
               Home
-            </a>
-            <a href="/products" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/products" className="text-foreground hover:text-primary transition-colors">
               Products
-            </a>
+            </Link>
             <a href="#services" className="text-foreground hover:text-primary transition-colors">
               Services
             </a>
