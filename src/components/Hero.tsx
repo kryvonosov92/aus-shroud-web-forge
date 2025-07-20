@@ -1,15 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Star, Users } from "lucide-react";
-import heroImage from "@/assets/hero-image.jpg";
+import HeroSlideshow from "./HeroSlideshow";
 
 const Hero = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center">
-      <div className="absolute inset-0 bg-gradient-hero opacity-90" />
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      />
+      <HeroSlideshow />
+      <div className="absolute inset-0 bg-gradient-hero opacity-60" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center text-primary-foreground">
