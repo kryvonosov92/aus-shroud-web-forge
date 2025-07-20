@@ -10,7 +10,7 @@ const Header = () => {
             <img 
               src="/lovable-uploads/df654ff6-def4-4349-8292-8713634579f4.png" 
               alt="AusWindowShrouds Logo" 
-              className="h-20 w-auto"
+              className="h-24 w-auto"
               style={{ clipPath: 'inset(15% 0 15% 0)' }}
             />
           </div>
