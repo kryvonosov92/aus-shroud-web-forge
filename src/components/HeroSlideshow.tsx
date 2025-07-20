@@ -71,11 +71,12 @@ const HeroSlideshow = () => {
         <CarouselContent className="w-full h-full">
           {slides.map((slide) => (
             <CarouselItem key={slide.id} className="w-full h-full">
-              <div className="relative w-full h-full overflow-hidden">
+              <div className="relative w-full h-full flex items-center justify-center bg-gray-900 overflow-hidden">
                 <img
                   src={slide.image}
                   alt={slide.alt}
-                  className="w-full h-full object-contain object-center bg-gray-900"
+                  className="max-w-full max-h-full object-cover"
+                  style={{ aspectRatio: '16/9', width: '100%', height: '70vh' }}
                 />
                 <div className="absolute inset-0 bg-black/40" />
               </div>
