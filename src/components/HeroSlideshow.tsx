@@ -36,11 +36,6 @@ const slides = [
   },
   {
     id: 6,
-    image: "/lovable-uploads/a296ce98-9e42-4bd8-ad52-b5c23e16640d.png",
-    alt: "Modern home with prominent upper floor window shrouds and vertical screening"
-  },
-  {
-    id: 7,
     image: "/lovable-uploads/343f3cb9-d1c4-4136-96d5-13942a24619d.png",
     alt: "Contemporary home with prominent upper window feature and vertical screening elements"
   }
@@ -92,7 +87,7 @@ const HeroSlideshow = () => {
                   alt={slide.alt}
                   className={`max-w-full max-h-full object-cover ${
                     slide.id === 4 ? 'object-[center_30%]' : 
-                    slide.id === 7 ? 'object-[center_25%]' : ''
+                    slide.id === 6 ? 'object-[center_25%]' : ''
                   }`}
                   style={{ aspectRatio: '16/9', width: '100%', height: '90vh' }}
                 />
