@@ -28,6 +28,11 @@ const slides = [
     id: 4,
     image: "/lovable-uploads/ac7d710d-dfad-4ca8-862e-faca579d2447.png",
     alt: "Curved modern architecture with timber screening and window shrouds"
+  },
+  {
+    id: 5,
+    image: "/lovable-uploads/a296ce98-9e42-4bd8-ad52-b5c23e16640d.png",
+    alt: "Modern home with prominent upper floor window shrouds and vertical screening"
   }
 ];
 
@@ -75,7 +80,9 @@ const HeroSlideshow = () => {
                 <img
                   src={slide.image}
                   alt={slide.alt}
-                  className="max-w-full max-h-full object-cover"
+                  className={`max-w-full max-h-full object-cover ${
+                    slide.id === 5 ? 'object-[center_30%]' : ''
+                  }`}
                   style={{ aspectRatio: '16/9', width: '100%', height: '90vh' }}
                 />
                 <div className="absolute inset-0 bg-black/40" />
