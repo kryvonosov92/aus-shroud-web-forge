@@ -16,21 +16,16 @@ const slides = [
   },
   {
     id: 2,
-    image: "/lovable-uploads/70ed9857-9c7c-463c-a206-4b2cd32c8fbf.png",
-    alt: "Contemporary home with vertical window screening and privacy solutions"
-  },
-  {
-    id: 3,
     image: "/lovable-uploads/3ce8917c-cb8f-4f4d-a942-4c3f850d1c47.png",
     alt: "Detailed view of modern window framing with stone accent wall"
   },
   {
-    id: 4,
+    id: 3,
     image: "/lovable-uploads/ac7d710d-dfad-4ca8-862e-faca579d2447.png",
     alt: "Curved modern architecture with timber screening and window shrouds"
   },
   {
-    id: 5,
+    id: 4,
     image: "/lovable-uploads/a296ce98-9e42-4bd8-ad52-b5c23e16640d.png",
     alt: "Modern home with prominent upper floor window shrouds and vertical screening"
   }
@@ -81,7 +76,7 @@ const HeroSlideshow = () => {
                   src={slide.image}
                   alt={slide.alt}
                   className={`max-w-full max-h-full object-cover ${
-                    slide.id === 5 ? 'object-[center_30%]' : ''
+                    slide.id === 4 ? 'object-[center_30%]' : ''
                   }`}
                   style={{ aspectRatio: '16/9', width: '100%', height: '90vh' }}
                 />
