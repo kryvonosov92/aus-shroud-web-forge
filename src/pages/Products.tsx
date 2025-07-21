@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Shield, Eye, Sun, Wind, Wrench, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -86,26 +87,28 @@ const Products = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
               {products.map((product) => (
                 <Card key={product.id} className="overflow-hidden hover-scale">
-                  <div className="relative">
-                    <img 
-                      src={product.image_url} 
-                      alt={product.name}
-                      className="w-full h-64 object-cover"
-                    />
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="text-xl">{product.name}</CardTitle>
-                    <CardDescription>{product.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {/* Features and popular fields are omitted as they are not in the DB */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-primary">
-                        {product.price ? `From $${parseFloat(product.price).toLocaleString()}` : ''}
-                      </span>
-                      <Button variant="outline">Get Quote</Button>
+                  <Link to={`/products/${encodeURIComponent(product.name.toLowerCase().replace(/\s+/g, '-'))}`} className="block">
+                    <div className="relative">
+                      <img 
+                        src={product.image_url} 
+                        alt={product.name}
+                        className="w-full h-64 object-cover"
+                      />
                     </div>
-                  </CardContent>
+                    <CardHeader>
+                      <CardTitle className="text-xl">{product.name}</CardTitle>
+                      <CardDescription>{product.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      {/* Features and popular fields are omitted as they are not in the DB */}
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold text-primary">
+                          {product.price ? `From $${parseFloat(product.price).toLocaleString()}` : ''}
+                        </span>
+                        <Button variant="outline">Get Quote</Button>
+                      </div>
+                    </CardContent>
+                  </Link>
                 </Card>
               ))}
             </div>
