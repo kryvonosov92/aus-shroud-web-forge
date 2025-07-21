@@ -12,6 +12,7 @@ interface Product {
   description: string;
   price: number;
   image_url: string;
+  additional_images?: string[];
   category?: string;
   created_at?: string;
   updated_at?: string;
@@ -24,6 +25,8 @@ const AdminPanel = () => {
   const [form, setForm] = useState<Partial<Product>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [mainImageFile, setMainImageFile] = useState<File | null>(null);
+  const [additionalImageFiles, setAdditionalImageFiles] = useState<File[]>([]);
 
   // Auth state
   useEffect(() => {
@@ -70,6 +73,16 @@ const AdminPanel = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const handleMainImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setMainImageFile(e.target.files[0]);
+    }
+  };
+  const handleAdditionalImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setAdditionalImageFiles(Array.from(e.target.files));
+    }
+  };
   const handleEdit = (product: Product) => {
     setEditingId(product.id);
     setForm(product);
@@ -84,27 +97,57 @@ const AdminPanel = () => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    let image_url = form.image_url || "";
+    let additional_images: string[] = form.additional_images || [];
+    // Upload main image if selected
+    if (mainImageFile) {
+      const fileExt = mainImageFile.name.split('.').pop();
+      const filePath = `products/${Date.now()}-main.${fileExt}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage.from('aws-media').upload(filePath, mainImageFile, { upsert: true });
+      if (!uploadError) {
+        const { data: publicUrlData } = supabase.storage.from('aws-media').getPublicUrl(filePath);
+        image_url = publicUrlData.publicUrl;
+      }
+    }
+    // Upload additional images if selected
+    if (additionalImageFiles.length > 0) {
+      const uploadedUrls: string[] = [];
+      for (const file of additionalImageFiles) {
+        const fileExt = file.name.split('.').pop();
+        const filePath = `products/${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage.from('aws-media').upload(filePath, file, { upsert: true });
+        if (!uploadError) {
+          const { data: publicUrlData } = supabase.storage.from('aws-media').getPublicUrl(filePath);
+          uploadedUrls.push(publicUrlData.publicUrl);
+        }
+      }
+      additional_images = uploadedUrls;
+    }
     if (editingId) {
       // Update
       const { data, error } = await supabase
         .from("products")
-        .update(form)
+        .update({ ...form, image_url, additional_images, price: Number(form.price) })
         .eq("id", editingId)
         .select();
       if (!error && data) {
         setProducts(products.map((p) => (p.id === editingId ? data[0] : p)));
         setEditingId(null);
         setForm({});
+        setMainImageFile(null);
+        setAdditionalImageFiles([]);
       }
     } else {
       // Create
       const { data, error } = await supabase
         .from("products")
-        .insert([{ ...form, price: Number(form.price) }])
+        .insert([{ ...form, image_url, additional_images, price: Number(form.price) }])
         .select();
       if (!error && data) {
         setProducts([...products, data[0]]);
         setForm({});
+        setMainImageFile(null);
+        setAdditionalImageFiles([]);
       }
     }
   };
@@ -149,12 +192,29 @@ const AdminPanel = () => {
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input name="name" value={form.name || ""} onChange={handleChange} placeholder="Name" className="border p-2 rounded" required />
               <input name="price" value={form.price || ""} onChange={handleChange} placeholder="Price" type="number" min="0" step="0.01" className="border p-2 rounded" required />
-              <input name="image_url" value={form.image_url || ""} onChange={handleChange} placeholder="Image URL" className="border p-2 rounded" required />
               <input name="category" value={form.category || ""} onChange={handleChange} placeholder="Category" className="border p-2 rounded" />
               <textarea name="description" value={form.description || ""} onChange={handleChange} placeholder="Description" className="border p-2 rounded col-span-1 md:col-span-2" required />
+              <div className="col-span-1 md:col-span-2">
+                <label className="block mb-1">Main Featured Image</label>
+                <input type="file" accept="image/*" onChange={handleMainImageChange} />
+                {mainImageFile && <img src={URL.createObjectURL(mainImageFile)} alt="Preview" className="h-24 mt-2 object-cover" />}
+                {form.image_url && !mainImageFile && <img src={form.image_url} alt="Current" className="h-24 mt-2 object-cover" />}
+              </div>
+              <div className="col-span-1 md:col-span-2">
+                <label className="block mb-1">Additional Images</label>
+                <input type="file" accept="image/*" multiple onChange={handleAdditionalImagesChange} />
+                <div className="flex gap-2 mt-2">
+                  {additionalImageFiles.map((file, idx) => (
+                    <img key={idx} src={URL.createObjectURL(file)} alt="Preview" className="h-16 object-cover" />
+                  ))}
+                  {form.additional_images && !additionalImageFiles.length && form.additional_images.map((url, idx) => (
+                    <img key={idx} src={url} alt="Current" className="h-16 object-cover" />
+                  ))}
+                </div>
+              </div>
               <div className="col-span-1 md:col-span-2 flex gap-2">
                 <Button type="submit">{editingId ? "Update" : "Add"} Product</Button>
-                {editingId && <Button type="button" variant="outline" onClick={() => { setEditingId(null); setForm({}); }}>Cancel</Button>}
+                {editingId && <Button type="button" variant="outline" onClick={() => { setEditingId(null); setForm({}); setMainImageFile(null); setAdditionalImageFiles([]); }}>Cancel</Button>}
               </div>
             </form>
           </CardContent>
@@ -174,6 +234,7 @@ const AdminPanel = () => {
                     <th className="p-2 border">Price</th>
                     <th className="p-2 border">Category</th>
                     <th className="p-2 border">Image</th>
+                    <th className="p-2 border">Additional Images</th>
                     <th className="p-2 border">Actions</th>
                   </tr>
                 </thead>
@@ -184,6 +245,13 @@ const AdminPanel = () => {
                       <td className="p-2 border">${parseFloat(product.price as any).toLocaleString()}</td>
                       <td className="p-2 border">{product.category}</td>
                       <td className="p-2 border"><img src={product.image_url} alt={product.name} className="h-12 w-12 object-cover" /></td>
+                      <td className="p-2 border">
+                        <div className="flex gap-1">
+                          {product.additional_images && product.additional_images.map((url, idx) => (
+                            <img key={idx} src={url} alt={product.name + " additional"} className="h-8 w-8 object-cover" />
+                          ))}
+                        </div>
+                      </td>
                       <td className="p-2 border">
                         <Button size="sm" variant="outline" onClick={() => handleEdit(product)}>Edit</Button>
                         <Button size="sm" variant="destructive" onClick={() => handleDelete(product.id)} className="ml-2">Delete</Button>
