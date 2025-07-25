@@ -61,7 +61,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="font-semibold">Service Areas</div>
-                    <div className="text-muted-foreground">Brisbane, Sydney, Melbourne, Perth & Regional QLD</div>
+                    <div className="text-muted-foreground">Australia-Wide</div>
                   </div>
                 </div>
 
