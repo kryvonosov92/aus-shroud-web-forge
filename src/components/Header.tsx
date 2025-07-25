@@ -39,9 +39,11 @@ const Header = () => {
               <Mail className="w-4 h-4" />
               Email Us
             </Button>
-            <Button variant="outline-hero" size="sm" className="hidden sm:flex">
-              <Phone className="w-4 h-4" />
-              Call Now
+            <Button variant="outline-hero" size="sm" className="hidden sm:flex" asChild>
+              <a href="tel:0390201422">
+                <Phone className="w-4 h-4" />
+                Call Now
+              </a>
             </Button>
           </div>
         </div>
