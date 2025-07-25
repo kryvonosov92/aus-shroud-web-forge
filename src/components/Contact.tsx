@@ -31,7 +31,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="font-semibold">Phone</div>
-                    <div className="text-muted-foreground">1800 SHROUD (1800 747 683)</div>
+                    <div className="text-muted-foreground">(03) 90201422</div>
                   </div>
                 </div>
 
