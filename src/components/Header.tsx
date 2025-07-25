@@ -35,9 +35,11 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-3">
-            <Button variant="outline-hero" size="sm" className="hidden sm:flex">
-              <Mail className="w-4 h-4" />
-              Email Us
+            <Button variant="outline-hero" size="sm" className="hidden sm:flex" asChild>
+              <a href="mailto:info@auswindowshrouds.com.au">
+                <Mail className="w-4 h-4" />
+                Email Us
+              </a>
             </Button>
             <Button variant="outline-hero" size="sm" className="hidden sm:flex" asChild>
               <a href="tel:0390201422">
