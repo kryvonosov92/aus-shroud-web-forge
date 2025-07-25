@@ -71,7 +71,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="font-semibold">Business Hours</div>
-                    <div className="text-muted-foreground">Mon-Fri: 7AM-5PM, Sat: 8AM-2PM</div>
+                    <div className="text-muted-foreground">Mon-Fri 8am-5.30pm</div>
                   </div>
                 </div>
               </CardContent>
