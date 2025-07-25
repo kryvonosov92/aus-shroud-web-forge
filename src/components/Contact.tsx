@@ -50,6 +50,16 @@ const Contact = () => {
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
+                    <div className="font-semibold">Address</div>
+                    <div className="text-muted-foreground">1/10 Clarissa St, Campbellfield VIC 3061</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="bg-primary/10 p-3 rounded-lg">
+                    <MapPin className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
                     <div className="font-semibold">Service Areas</div>
                     <div className="text-muted-foreground">Brisbane, Sydney, Melbourne, Perth & Regional QLD</div>
                   </div>
