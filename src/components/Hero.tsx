@@ -1,11 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Star, Users } from "lucide-react";
 import HeroSlideshow from "./HeroSlideshow";
-
 const Hero = () => {
-  return (
-    <section id="home" className="relative h-screen flex items-center overflow-hidden">
+  return <section id="home" className="relative h-screen flex items-center overflow-hidden">
       <HeroSlideshow />
       
       <div className="container mx-auto px-4 relative z-10">
@@ -19,21 +16,18 @@ const Hero = () => {
           <p className="text-xl md:text-2xl mb-8 text-primary-foreground/80 max-w-3xl mx-auto">Talk to us today about your project's custom window shroud and screen needs</p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button variant="hero" size="lg" className="text-lg px-8 py-6 w-full sm:w-48">
+            <Button variant="hero" size="lg" className="text-lg px-8 py-6">
               Request Quote
               <ArrowRight className="w-5 h-5" />
             </Button>
             <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6 w-full sm:w-48">
+              <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6">
                 Latest Projects
-                <span className="w-5 h-5"></span>
               </Button>
             </a>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
