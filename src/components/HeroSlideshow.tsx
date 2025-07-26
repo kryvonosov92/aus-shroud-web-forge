@@ -78,9 +78,9 @@ const HeroSlideshow = () => {
           loop: true,
         }}
       >
-        <CarouselContent className="w-full h-full">
+        <CarouselContent className="w-full h-full ml-0">
           {slides.map((slide) => (
-            <CarouselItem key={slide.id} className="w-full h-full">
+            <CarouselItem key={slide.id} className="w-full h-full pl-0">
               <div className="relative w-full h-full flex items-center justify-center bg-gray-900 overflow-hidden">
                 <img
                   src={slide.image}
