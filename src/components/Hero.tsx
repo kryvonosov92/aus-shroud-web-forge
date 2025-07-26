@@ -1,8 +1,11 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Star, Users } from "lucide-react";
 import HeroSlideshow from "./HeroSlideshow";
+
 const Hero = () => {
-  return <section id="home" className="relative h-screen flex items-center overflow-hidden">
+  return (
+    <section id="home" className="relative h-screen flex items-center overflow-hidden">
       <HeroSlideshow />
       
       <div className="container mx-auto px-4 relative z-10">
@@ -23,11 +26,14 @@ const Hero = () => {
             <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
               <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6 w-full sm:w-48">
                 Latest Projects
+                <span className="w-5 h-5"></span>
               </Button>
             </a>
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default Hero;
