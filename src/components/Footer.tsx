@@ -29,12 +29,16 @@ const Footer = () => {
 
           <div>
             <h3 className="text-lg font-semibold mb-4">Service Areas</h3>
-            <ul className="space-y-2 text-primary-foreground/80">
-              <li>Brisbane & South East QLD</li>
-              <li>Sydney & Greater NSW</li>
-              <li>Melbourne & Victoria</li>
-              <li>Perth & Western Australia</li>
-              <li>Regional Queensland</li>
+            <p className="text-primary-foreground/80 mb-3">We offer Australia-wide delivery, including all states and territories:</p>
+            <ul className="space-y-1 text-primary-foreground/80 text-sm">
+              <li>New South Wales (Sydney, Newcastle, Wollongong)</li>
+              <li>Victoria (Melbourne, Geelong, Ballarat)</li>
+              <li>Queensland (Brisbane, Gold Coast, Sunshine Coast)</li>
+              <li>Western Australia (Perth, Bunbury)</li>
+              <li>South Australia (Adelaide)</li>
+              <li>Tasmania (Hobart, Launceston)</li>
+              <li>Australian Capital Territory (Canberra)</li>
+              <li>Northern Territory (Darwin, Alice Springs)</li>
             </ul>
           </div>
 
