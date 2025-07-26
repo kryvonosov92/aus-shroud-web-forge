@@ -58,7 +58,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-primary-foreground/60">
-          <p>&copy; 2024 AusWindowShrouds.com.au. All rights reserved. | ABN: 12 345 678 901</p>
+          <p>© 2025 AusWindowShrouds.com.au. All rights reserved. | ABN: 22 665 547 375</p>
         </div>
       </div>
     </footer>;
