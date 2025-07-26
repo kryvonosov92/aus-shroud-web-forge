@@ -21,7 +21,7 @@ const Hero = () => {
               <ArrowRight className="w-5 h-5" />
             </Button>
             <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-              <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6 w-full">
+              <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6 w-full sm:w-auto">
                 Latest Projects
               </Button>
             </a>
