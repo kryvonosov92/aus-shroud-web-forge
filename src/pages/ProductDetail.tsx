@@ -72,24 +72,24 @@ const ProductDetail = () => {
             <div className="text-center text-lg">Product not found.</div>
           ) : (
             <Card className="max-w-2xl mx-auto overflow-hidden">
-              <div className="relative w-full aspect-[4/3] bg-muted flex items-center justify-center">
+              <div className="relative w-full aspect-[3/2] bg-muted flex items-center justify-center">
                 {/* Image Carousel or Fallback */}
                 {images.length === 0 || imgError ? (
                   <img
                     src={PLACEHOLDER}
                     alt="No product image"
-                    className="object-contain w-full h-full"
-                    style={{ minHeight: 200 }}
+                    className="object-cover w-full h-full"
+                    style={{ minHeight: 300 }}
                   />
                 ) : (
                   <>
                     <img
                       src={images[activeIdx]}
                       alt={product.name}
-                      className={`object-contain w-full h-full transition-opacity duration-300 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
+                      className={`object-cover w-full h-full transition-opacity duration-300 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
                       onLoad={handleImgLoad}
                       onError={handleImgError}
-                      style={{ minHeight: 200 }}
+                      style={{ minHeight: 300 }}
                     />
                     {imgLoading && (
                       <div className="absolute inset-0 flex items-center justify-center bg-muted animate-pulse">
