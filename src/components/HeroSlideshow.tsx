@@ -69,7 +69,7 @@ const HeroSlideshow = () => {
   }, [api]);
 
   return (
-    <div className="absolute inset-0 w-full h-full">
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
       <Carousel
         setApi={setApi}
         className="w-full h-full"
