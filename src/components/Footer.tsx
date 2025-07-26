@@ -46,7 +46,7 @@ const Footer = () => {
                 <span>(03) 9020 1422</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4 flex-shrink-0" />
                 <span>info@auswindowshrouds.com.au</span>
               </div>
               <div className="flex items-center space-x-2">
