@@ -16,12 +16,12 @@ const Hero = () => {
           <p className="text-xl md:text-2xl mb-8 text-primary-foreground/80 max-w-3xl mx-auto">Talk to us today about your project's custom window shroud and screen needs</p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button variant="hero" size="lg" className="text-lg px-8 py-6">
+            <Button variant="hero" size="lg" className="text-lg px-8 py-6 w-full sm:w-auto">
               Request Quote
               <ArrowRight className="w-5 h-5" />
             </Button>
-            <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6">
+            <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6 w-full">
                 Latest Projects
               </Button>
             </a>
