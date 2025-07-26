@@ -1,8 +1,6 @@
 import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
-
 const Footer = () => {
-  return (
-    <footer className="bg-primary text-primary-foreground">
+  return <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
@@ -45,7 +43,8 @@ const Footer = () => {
             <div className="space-y-3 text-primary-foreground/80">
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <span>1800 SHROUD</span>
+                <span>(03) 90201422
+              </span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4" />
@@ -63,8 +62,6 @@ const Footer = () => {
           <p>&copy; 2024 AusWindowShrouds.com.au. All rights reserved. | ABN: 12 345 678 901</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
