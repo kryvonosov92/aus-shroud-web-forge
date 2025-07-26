@@ -6,15 +6,6 @@ import { Phone, Mail, MapPin, Clock } from "lucide-react";
 const Contact = () => {
   return <section id="contact" className="py-20 bg-secondary/20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-            Get Your Free Quote Today
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Ready to transform your property with premium window shrouds? 
-            Contact our expert team for a free consultation and quote.
-          </p>
-        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           <div>
