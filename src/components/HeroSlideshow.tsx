@@ -85,11 +85,10 @@ const HeroSlideshow = () => {
                 <img
                   src={slide.image}
                   alt={slide.alt}
-                  className={`max-w-full max-h-full object-cover ${
+                  className={`w-full h-full object-cover ${
                     slide.id === 4 ? 'object-[center_30%]' : 
                     slide.id === 6 ? 'object-[center_25%]' : ''
                   }`}
-                  style={{ aspectRatio: '16/9', width: '100%', height: '90vh' }}
                 />
                 <div className="absolute inset-0 bg-black/40" />
               </div>
