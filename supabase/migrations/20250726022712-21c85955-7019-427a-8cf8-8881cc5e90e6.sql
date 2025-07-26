@@ -1,0 +1,1 @@
+UPDATE products SET image_url = '/products/black-shroud-1.png' WHERE name = 'Premium Black Window Shroud - Model 1';
