@@ -20,9 +20,11 @@ const Hero = () => {
               Get Free Quote
               <ArrowRight className="w-5 h-5" />
             </Button>
-            <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6">
-              View Gallery
-            </Button>
+            <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6">
+                Latest Projects
+              </Button>
+            </a>
           </div>
         </div>
       </div>
