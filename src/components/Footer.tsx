@@ -42,15 +42,15 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <div className="space-y-3 text-primary-foreground/80">
               <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4" />
+                <Phone className="w-4 h-4 flex-shrink-0" />
                 <span>(03) 9020 1422</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                <span>info@auswindowshrouds.com.au</span>
+                <span className="break-all">info@auswindowshrouds.com.au</span>
               </div>
               <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-4 h-4 flex-shrink-0" />
                 <span>Servicing All Major Australian Cities</span>
               </div>
             </div>
