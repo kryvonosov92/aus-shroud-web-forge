@@ -17,7 +17,7 @@ const Hero = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button variant="hero" size="lg" className="text-lg px-8 py-6">
-              Get Free Quote
+              Request Quote
               <ArrowRight className="w-5 h-5" />
             </Button>
             <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
