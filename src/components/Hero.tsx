@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Star, Users } from "lucide-react";
 import HeroSlideshow from "./HeroSlideshow";
-
 const Hero = () => {
-  return (
-    <section id="home" className="relative h-screen flex items-center overflow-hidden">
+  return <section id="home" className="relative h-screen flex items-center overflow-hidden">
       <HeroSlideshow />
       
       <div className="container mx-auto px-4 relative z-10">
@@ -15,9 +13,7 @@ const Hero = () => {
             for Australian Homes
           </h1>
           
-          <p className="text-xl md:text-2xl mb-8 text-primary-foreground/80 max-w-3xl mx-auto">
-            Talk to us today about your project's custom window shroud and screen needs.
-          </p>
+          <p className="text-xl md:text-2xl mb-8 text-primary-foreground/80 max-w-3xl mx-auto">Talk to us today about your project's custom window shroud and screen needs</p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button variant="hero" size="lg" className="text-lg px-8 py-6">
@@ -30,8 +26,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
