@@ -183,6 +183,16 @@ const Contact = () => {
 
                 <div className="flex items-center space-x-4">
                   <div className="bg-primary/10 p-3 rounded-lg">
+                    <Instagram className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">Instagram</div>
+                    <div className="text-muted-foreground">@auswindowshrouds</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="bg-primary/10 p-3 rounded-lg">
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
@@ -198,16 +208,6 @@ const Contact = () => {
                   <div>
                     <div className="font-semibold">Service Areas</div>
                     <div className="text-muted-foreground">Australia-Wide</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-4">
-                  <div className="bg-primary/10 p-3 rounded-lg">
-                    <Instagram className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">Instagram</div>
-                    <div className="text-muted-foreground">@auswindowshrouds</div>
                   </div>
                 </div>
 
