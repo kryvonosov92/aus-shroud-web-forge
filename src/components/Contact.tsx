@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Phone, Mail, MapPin, Clock, Upload, X } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -13,14 +14,24 @@ const Contact = () => {
     lastName: '',
     email: '',
     phone: '',
-    propertyType: '',
-    projectDetails: ''
+    companyName: '',
+    projectAddress: '',
+    architectDesigner: '',
+    message: '',
+    howHeardAboutUs: ''
   });
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -102,8 +113,11 @@ const Contact = () => {
           last_name: formData.lastName,
           email: formData.email,
           phone: formData.phone,
-          property_type: formData.propertyType,
-          project_details: formData.projectDetails,
+          company_name: formData.companyName,
+          project_address: formData.projectAddress,
+          architect_designer: formData.architectDesigner,
+          message: formData.message,
+          how_heard_about_us: formData.howHeardAboutUs,
           attachment_urls: attachmentUrls
         });
 
@@ -122,8 +136,11 @@ const Contact = () => {
         lastName: '',
         email: '',
         phone: '',
-        propertyType: '',
-        projectDetails: ''
+        companyName: '',
+        projectAddress: '',
+        architectDesigner: '',
+        message: '',
+        howHeardAboutUs: ''
       });
       setAttachments([]);
       
@@ -255,26 +272,76 @@ const Contact = () => {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Property Type</label>
+                    <label className="text-sm font-medium mb-2 block">Company Name</label>
                     <Input 
-                      name="propertyType"
-                      value={formData.propertyType}
+                      name="companyName"
+                      value={formData.companyName}
                       onChange={handleInputChange}
-                      placeholder="e.g., Residential home, Commercial building" 
-                      required
+                      placeholder="Enter your company name" 
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Project Details</label>
+                    <label className="text-sm font-medium mb-2 block">Project Address</label>
+                    <Input 
+                      name="projectAddress"
+                      value={formData.projectAddress}
+                      onChange={handleInputChange}
+                      placeholder="Enter the project address" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Architect / Designer</label>
+                    <Input 
+                      name="architectDesigner"
+                      value={formData.architectDesigner}
+                      onChange={handleInputChange}
+                      placeholder="Enter architect or designer name" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Message *</label>
                     <Textarea 
-                      name="projectDetails"
-                      value={formData.projectDetails}
+                      name="message"
+                      value={formData.message}
                       onChange={handleInputChange}
                       placeholder="Tell us about your window shroud requirements, number of windows, preferred style, etc." 
                       rows={4} 
                       required
                     />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">How did you hear about us? *</label>
+                    <Select
+                      value={formData.howHeardAboutUs}
+                      onValueChange={(value) => handleSelectChange('howHeardAboutUs', value)}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select an option" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="architect">Architect</SelectItem>
+                        <SelectItem value="arc-agency">Arc Agency</SelectItem>
+                        <SelectItem value="archipro">ArchiPro</SelectItem>
+                        <SelectItem value="builder">Builder</SelectItem>
+                        <SelectItem value="built-environment">Built Environment Channel</SelectItem>
+                        <SelectItem value="building-design-qld">Building Design Queensland</SelectItem>
+                        <SelectItem value="google">Google</SelectItem>
+                        <SelectItem value="mail-out">Mail Out</SelectItem>
+                        <SelectItem value="referral">Referral</SelectItem>
+                        <SelectItem value="info-pack">Received Information Pack</SelectItem>
+                        <SelectItem value="specifying-dynamics">Specifying Dynamics</SelectItem>
+                        <SelectItem value="magazine">Magazine Publication</SelectItem>
+                        <SelectItem value="the-block">The Block</SelectItem>
+                        <SelectItem value="social-media">Social Media</SelectItem>
+                        <SelectItem value="local-project">The Local Project</SelectItem>
+                        <SelectItem value="trade-show">Trade Show / Expo / Seminar</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div>

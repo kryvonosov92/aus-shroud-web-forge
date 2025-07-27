@@ -49,39 +49,48 @@ export type Database = {
       }
       quote_requests: {
         Row: {
+          architect_designer: string | null
           attachment_urls: string[] | null
+          company_name: string | null
           created_at: string
           email: string
           first_name: string
+          how_heard_about_us: string
           id: string
           last_name: string
+          message: string
           phone: string
-          project_details: string
-          property_type: string
+          project_address: string | null
           updated_at: string
         }
         Insert: {
+          architect_designer?: string | null
           attachment_urls?: string[] | null
+          company_name?: string | null
           created_at?: string
           email: string
           first_name: string
+          how_heard_about_us?: string
           id?: string
           last_name: string
+          message: string
           phone: string
-          project_details: string
-          property_type: string
+          project_address?: string | null
           updated_at?: string
         }
         Update: {
+          architect_designer?: string | null
           attachment_urls?: string[] | null
+          company_name?: string | null
           created_at?: string
           email?: string
           first_name?: string
+          how_heard_about_us?: string
           id?: string
           last_name?: string
+          message?: string
           phone?: string
-          project_details?: string
-          property_type?: string
+          project_address?: string | null
           updated_at?: string
         }
         Relationships: []
