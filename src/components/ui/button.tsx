@@ -18,7 +18,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-primary text-primary-foreground hover:bg-primary-light shadow-elegant hover:shadow-glow transition-all duration-300",
+        hero: "bg-gradient-primary text-primary-foreground hover:bg-primary-light shadow-elegant hover:shadow-glow transition-all duration-300 border-2 border-white",
         "outline-hero": "border-2 border-primary-glow bg-transparent text-primary hover:bg-primary-glow hover:text-primary-foreground shadow-elegant hover:shadow-glow transition-all duration-300",
         // HekaHoods-inspired minimal outlined buttons
         "heka": "border border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background transition-all duration-300 font-light tracking-wider text-xs uppercase",
