@@ -7,25 +7,34 @@ interface AustraliaIconProps {
 const AustraliaIcon: React.FC<AustraliaIconProps> = ({ className = "w-8 h-8" }) => {
   return (
     <svg
-      viewBox="0 0 100 80"
+      viewBox="0 0 120 80"
       className={className}
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Main Australia landmass */}
-      <path d="M15 45c3-8 8-12 15-15 6-2 12-3 18-2 5 1 10 2 15 4 4 2 8 3 12 6 3 2 6 5 9 8 2 2 4 5 6 8 1 3 2 6 3 9 1 4 1 8 0 12-1 3-3 6-5 8-2 3-5 5-8 7-4 2-8 3-12 4-5 1-10 1-15 0-4-1-8-3-12-5-3-2-6-5-9-8-2-2-4-5-5-8-2-4-3-8-3-12-1-5 0-10 2-15 1-3 3-6 4-9z"/>
-      
-      {/* Western Australia bump */}
-      <path d="M12 35c2-3 5-5 8-6 2-1 5-1 7 0 2 1 3 3 4 5 1 3 1 6 0 9-1 2-3 4-5 5-2 1-5 1-7 0-3-1-5-3-6-6-1-2-1-5-1-7z"/>
-      
-      {/* Northern Territory/Queensland coastline */}
-      <path d="M35 15c3-2 6-3 9-3 4 0 8 1 11 3 3 2 5 5 7 8 1 2 2 4 2 6 0 3-1 6-3 8-2 2-5 3-8 3-3 0-6-1-8-3-2-2-3-5-3-8 0-2 1-4 2-6 1-3 3-5 5-8z"/>
+      {/* Main Australian continent */}
+      <path d="M10 35
+               C8 32 10 28 15 25
+               C20 22 30 20 40 22
+               C45 20 50 18 55 18
+               C60 18 65 20 70 22
+               C75 20 80 18 85 20
+               C90 22 95 25 100 30
+               C105 35 108 40 110 45
+               C108 50 105 55 100 58
+               C95 60 90 62 85 63
+               C80 65 75 66 70 65
+               C65 67 60 68 55 67
+               C50 68 45 67 40 65
+               C35 63 30 60 25 57
+               C20 54 15 50 12 45
+               C10 42 9 38 10 35 Z"/>
       
       {/* Tasmania */}
-      <ellipse cx="70" cy="65" rx="4" ry="3"/>
+      <ellipse cx="75" cy="70" rx="6" ry="4"/>
       
       {/* Cape York Peninsula */}
-      <path d="M55 10c1-1 2-1 3-1 1 0 2 0 3 1 1 1 1 2 1 3 0 2-1 3-2 4-1 1-2 1-3 1-1 0-2-1-3-2 0-1-1-2 0-3 0-1 1-2 1-3z"/>
+      <path d="M65 15 C67 12 70 12 72 15 C70 18 67 20 65 18 Z"/>
     </svg>
   );
 };
