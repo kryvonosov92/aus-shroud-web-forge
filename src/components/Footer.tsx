@@ -7,7 +7,7 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Service Areas</h3>
             <p className="text-primary-foreground/80 mb-3">We offer Australia-wide delivery, including all states and territories:</p>
             
-            <p className="text-primary-foreground/80 text-sm mb-3">
+            <p className="text-primary-foreground/80 text-sm">
               New South Wales (Sydney, Newcastle, Wollongong) • Victoria (Melbourne, Geelong, Ballarat) • Queensland (Brisbane, Gold Coast, Sunshine Coast) • Western Australia (Perth, Bunbury)
             </p>
             
