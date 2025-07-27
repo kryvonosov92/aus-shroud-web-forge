@@ -15,7 +15,7 @@ const Services = () => {
   }, {
     icon: Eye,
     title: "Privacy Control",
-    description: "Enhance privacy without compromising on natural light or architectural appeal.",
+    description: "Enhance privacy of your home*",
     features: ["Variable opacity", "Strategic placement", "Elegant design"]
   }];
   return <section id="services" className="py-20 bg-secondary/30">
