@@ -4,7 +4,7 @@ const About = () => {
   const stats = [{
     icon: CheckCircle,
     label: "Projects Completed",
-    value: "1,200+"
+    value: "Australian Product"
   }, {
     icon: Award,
     label: "Years Experience",
