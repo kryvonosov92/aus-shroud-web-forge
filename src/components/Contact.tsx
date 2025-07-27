@@ -197,7 +197,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="font-semibold">Address</div>
-                    <div className="text-muted-foreground">1/10 Clarissa St, Campbellfield VIC 3061</div>
+                    <div className="text-muted-foreground">1/10 Clarissa St, Campbellfield VIC 3061 (by appointment only)</div>
                   </div>
                 </div>
 
