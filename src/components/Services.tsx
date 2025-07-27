@@ -11,7 +11,7 @@ const Services = () => {
     icon: Sun,
     title: "Thermal Efficiency",
     description: "Increase your home's thermal performance with our window shading products.",
-    features: ["Assist NatHERS 7-Star", "Assist BASIX", "Reduce glare", "Reduce solar heat gain", "Reduce cooling load"]
+    features: ["Assist NatHERS 7-Star", "Assist BASIX", "Reduce solar heat gain", "Reduce cooling load"]
   }, {
     icon: Eye,
     title: "Privacy Control",
