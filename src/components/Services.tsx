@@ -29,7 +29,7 @@ const Services = () => {
     features: ["Site assessment", "Expert fitting", "Quality guarantee"]
   }, {
     icon: Palette,
-    title: "Design Consultation",
+    title: "Design Appeal",
     description: "Work with our design experts to create shrouds that complement your architecture.",
     features: ["Color matching", "Style guidance", "3D visualization"]
   }];
