@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Globe, Award, MapPin, Clock } from "lucide-react";
+import { Globe, HardHat, MapPin, Clock } from "lucide-react";
 const About = () => {
   const stats = [{
     icon: Globe,
     label: "",
     value: "Australian Product"
   }, {
-    icon: Award,
+    icon: HardHat,
     label: "",
     value: "Residential and Commercial"
   }, {
