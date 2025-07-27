@@ -5,7 +5,7 @@ const Services = () => {
   const services = [{
     icon: Palette,
     title: "Design Appeal",
-    description: "Work with our design experts to create shrouds that complement your architecture.",
+    description: "Window shrouds are fast becoming a staple in contemporary architectural design. Enhance your project's visual appeal with our Aluminium Shrouds.",
     features: ["Color matching", "Style guidance", "3D visualization"]
   }, {
     icon: Sun,
