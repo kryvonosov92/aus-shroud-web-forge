@@ -35,17 +35,8 @@ const About = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">Who we are</h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Australia's leading provider of premium window shrouds, combining 
-            exceptional craftsmanship with innovative design to transform properties 
-            across the continent.
-          </p>
-          <p className="text-lg text-foreground">
-            Founded in 2008, we've grown from a small Brisbane-based operation to 
-            Australia's most trusted window shroud specialist. Our commitment to 
-            quality, innovation, and customer satisfaction has made us the preferred 
-            choice for homeowners, architects, and commercial developers.
-          </p>
+          <p className="text-xl text-muted-foreground mb-8">Australia's leading provider of premium window shading products, combining exceptional craftsmanship with innovative design to suit any client's needs</p>
+          <p className="text-lg text-foreground">Founded in 2022, we've fast grown from a small Melbourne-based operation to Australia's most trusted window shroud specialists. Our commitment to quality, innovation, and a focus on strong partner relationships has made us the preferred choice for builders, architects and homeowners. All our products are proudly Australian-owned, designed and manufactured. </p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
