@@ -15,8 +15,8 @@ const About = () => {
     value: "Nation-wide Delivery"
   }, {
     icon: Clock,
-    label: "Customer Satisfaction",
-    value: "98%"
+    label: "",
+    value: "Fast Turnaround"
   }];
   const values = [{
     title: "Australian Made",
