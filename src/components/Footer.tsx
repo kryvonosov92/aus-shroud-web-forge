@@ -2,28 +2,18 @@ import { Phone, Mail, MapPin, Instagram } from "lucide-react";
 const Footer = () => {
   return <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <div className="flex space-x-4">
-              <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
-                <Instagram className="w-5 h-5 text-primary-foreground/60 hover:text-primary-foreground cursor-pointer transition-colors" />
-              </a>
-            </div>
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg font-semibold mb-4">Service Areas</h3>
             <p className="text-primary-foreground/80 mb-3">We offer Australia-wide delivery, including all states and territories:</p>
-            <ul className="space-y-1 text-primary-foreground/80 text-sm">
-              <li>New South Wales (Sydney, Newcastle, Wollongong)</li>
-              <li>Victoria (Melbourne, Geelong, Ballarat)</li>
-              <li>Queensland (Brisbane, Gold Coast, Sunshine Coast)</li>
-              <li>Western Australia (Perth, Bunbury)</li>
-              <li>South Australia (Adelaide)</li>
-              <li>Tasmania (Hobart, Launceston)</li>
-              <li>Australian Capital Territory (Canberra)</li>
-              <li>Northern Territory (Darwin, Alice Springs)</li>
-            </ul>
+            
+            <p className="text-primary-foreground/80 text-sm mb-3">
+              New South Wales (Sydney, Newcastle, Wollongong) • Victoria (Melbourne, Geelong, Ballarat) • Queensland (Brisbane, Gold Coast, Sunshine Coast) • Western Australia (Perth, Bunbury)
+            </p>
+            
+            <p className="text-primary-foreground/80 text-sm">
+              South Australia (Adelaide) • Tasmania (Hobart, Launceston) • Australian Capital Territory (Canberra) • Northern Territory (Darwin, Alice Springs)
+            </p>
           </div>
 
           <div>
