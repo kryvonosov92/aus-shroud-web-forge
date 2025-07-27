@@ -10,7 +10,7 @@ const Services = () => {
   }, {
     icon: Sun,
     title: "Thermal Efficiency",
-    description: "Manage heat transfer and energy consumption while maintaining comfort.",
+    description: "Increase your home's thermal performance with our window shading products.",
     features: ["Heat reduction", "Energy savings", "Climate control"]
   }, {
     icon: Eye,
