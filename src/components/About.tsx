@@ -7,8 +7,8 @@ const About = () => {
     value: "Australian Product"
   }, {
     icon: Award,
-    label: "Years Experience",
-    value: "15+"
+    label: "",
+    value: "Residential and Commercial"
   }, {
     icon: MapPin,
     label: "",
