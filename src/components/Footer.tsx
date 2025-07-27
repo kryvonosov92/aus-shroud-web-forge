@@ -8,7 +8,7 @@ const Footer = () => {
             <p className="text-primary-foreground/80 mb-3">We offer Australia-wide delivery, including all states and territories:</p>
             
             <p className="text-primary-foreground/80 text-sm">
-              New South Wales (Sydney, Newcastle, Wollongong) • Victoria (Melbourne, Geelong, Ballarat, Bendigo) • Queensland (Brisbane, Gold Coast, Sunshine Coast) • Western Australia (Perth, Bunbury)
+              New South Wales (Sydney, Newcastle, Wollongong, Byron Bay) • Victoria (Melbourne, Geelong, Ballarat, Bendigo) • Queensland (Brisbane, Gold Coast, Sunshine Coast) • Western Australia (Perth, Bunbury)
             </p>
             
             <p className="text-primary-foreground/80 text-sm">
