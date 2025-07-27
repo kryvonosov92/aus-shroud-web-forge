@@ -2,29 +2,14 @@ import { Phone, Mail, MapPin, Instagram } from "lucide-react";
 const Footer = () => {
   return <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="text-2xl font-bold mb-4">AusWindowShrouds</div>
-            <p className="text-primary-foreground/80 mb-4">
-              Australia's premier window shroud specialists, delivering quality 
-              architectural solutions since 2008.
-            </p>
             <div className="flex space-x-4">
               <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
                 <Instagram className="w-5 h-5 text-primary-foreground/60 hover:text-primary-foreground cursor-pointer transition-colors" />
               </a>
             </div>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Services</h3>
-            <ul className="space-y-2 text-primary-foreground/80">
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">Residential Shrouds</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">Commercial Projects</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">Custom Installation</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">Design Consultation</a></li>
-              <li><a href="#" className="hover:text-primary-foreground transition-colors">Maintenance</a></li>
-            </ul>
           </div>
 
           <div>
