@@ -31,6 +31,12 @@ const Footer = () => {
                 <MapPin className="w-4 h-4 flex-shrink-0" />
                 <span>Servicing All Major Australian Cities</span>
               </div>
+              <div className="flex items-center space-x-2">
+                <Instagram className="w-4 h-4 flex-shrink-0" />
+                <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer" className="hover:text-primary-foreground transition-colors">
+                  @auswindowshrouds
+                </a>
+              </div>
             </div>
           </div>
         </div>
