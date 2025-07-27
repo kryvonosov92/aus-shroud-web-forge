@@ -11,8 +11,8 @@ const About = () => {
     value: "15+"
   }, {
     icon: MapPin,
-    label: "Cities Served",
-    value: "50+"
+    label: "",
+    value: "Nation-wide Delivery"
   }, {
     icon: Clock,
     label: "Customer Satisfaction",
