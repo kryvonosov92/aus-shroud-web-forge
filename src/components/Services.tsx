@@ -47,11 +47,6 @@ const Services = () => {
             </Card>)}
         </div>
 
-        <div className="text-center">
-          <Button variant="hero" size="lg" className="px-8">
-            Request Service Quote
-          </Button>
-        </div>
       </div>
     </section>;
 };
