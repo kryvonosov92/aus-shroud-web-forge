@@ -1,9 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, MapPin, Clock } from "lucide-react";
-import AustraliaIcon from "@/components/ui/australia-icon";
+import { Globe, Award, MapPin, Clock } from "lucide-react";
 const About = () => {
   const stats = [{
-    icon: AustraliaIcon,
+    icon: Globe,
     label: "",
     value: "Australian Product"
   }, {
