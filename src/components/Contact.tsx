@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Phone, Mail, MapPin, Clock, Upload, X } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Upload, X, Instagram } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
@@ -198,6 +198,16 @@ const Contact = () => {
                   <div>
                     <div className="font-semibold">Service Areas</div>
                     <div className="text-muted-foreground">Australia-Wide</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="bg-primary/10 p-3 rounded-lg">
+                    <Instagram className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">Instagram</div>
+                    <div className="text-muted-foreground">@auswindowshrouds</div>
                   </div>
                 </div>
 
