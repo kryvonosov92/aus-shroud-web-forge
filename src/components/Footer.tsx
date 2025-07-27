@@ -4,7 +4,6 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="text-2xl font-bold mb-4">AusWindowShrouds</div>
             <div className="flex space-x-4">
               <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
                 <Instagram className="w-5 h-5 text-primary-foreground/60 hover:text-primary-foreground cursor-pointer transition-colors" />
