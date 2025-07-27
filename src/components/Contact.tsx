@@ -2,8 +2,141 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Upload, X } from "lucide-react";
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/hooks/use-toast";
 const Contact = () => {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    propertyType: '',
+    projectDetails: ''
+  });
+  const [attachments, setAttachments] = useState<File[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const validFiles = files.filter(file => {
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      const allowedTypes = ['image/', 'application/pdf', 'text/', '.dwg', '.dxf'];
+      
+      if (file.size > maxSize) {
+        toast({
+          title: "File too large",
+          description: `${file.name} is larger than 10MB`,
+          variant: "destructive"
+        });
+        return false;
+      }
+      
+      const isValidType = allowedTypes.some(type => 
+        file.type.startsWith(type) || file.name.toLowerCase().endsWith(type)
+      );
+      
+      if (!isValidType) {
+        toast({
+          title: "Invalid file type",
+          description: `${file.name} is not a supported file type`,
+          variant: "destructive"
+        });
+        return false;
+      }
+      
+      return true;
+    });
+
+    setAttachments(prev => [...prev, ...validFiles]);
+  };
+
+  const removeAttachment = (index: number) => {
+    setAttachments(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const uploadFiles = async () => {
+    const uploadedUrls: string[] = [];
+    
+    for (const file of attachments) {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      
+      const { data, error } = await supabase.storage
+        .from('quote-attachments')
+        .upload(fileName, file);
+        
+      if (error) {
+        throw new Error(`Failed to upload ${file.name}: ${error.message}`);
+      }
+      
+      uploadedUrls.push(data.path);
+    }
+    
+    return uploadedUrls;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Upload files first
+      const attachmentUrls = await uploadFiles();
+      
+      // Insert quote request
+      const { error } = await supabase
+        .from('quote_requests')
+        .insert({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          property_type: formData.propertyType,
+          project_details: formData.projectDetails,
+          attachment_urls: attachmentUrls
+        });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      toast({
+        title: "Quote request submitted",
+        description: "We'll get back to you within 24 hours!",
+      });
+
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        propertyType: '',
+        projectDetails: ''
+      });
+      setAttachments([]);
+      
+    } catch (error: any) {
+      toast({
+        title: "Submission failed",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return <section id="contact" className="py-20 bg-secondary/20">
       <div className="container mx-auto px-4">
 
@@ -73,40 +206,135 @@ const Contact = () => {
                 <CardTitle className="text-2xl mb-4">Request a Quote</CardTitle>
               </CardHeader>
               <CardContent>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium mb-2 block">First Name</label>
-                      <Input placeholder="Enter your first name" />
+                      <Input 
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        placeholder="Enter your first name" 
+                        required
+                      />
                     </div>
                     <div>
                       <label className="text-sm font-medium mb-2 block">Last Name</label>
-                      <Input placeholder="Enter your last name" />
+                      <Input 
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        placeholder="Enter your last name" 
+                        required
+                      />
                     </div>
                   </div>
 
                   <div>
                     <label className="text-sm font-medium mb-2 block">Email</label>
-                    <Input type="email" placeholder="Enter your email address" />
+                    <Input 
+                      type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Enter your email address" 
+                      required
+                    />
                   </div>
 
                   <div>
                     <label className="text-sm font-medium mb-2 block">Phone</label>
-                    <Input type="tel" placeholder="Enter your phone number" />
+                    <Input 
+                      type="tel" 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Enter your phone number" 
+                      required
+                    />
                   </div>
 
                   <div>
                     <label className="text-sm font-medium mb-2 block">Property Type</label>
-                    <Input placeholder="e.g., Residential home, Commercial building" />
+                    <Input 
+                      name="propertyType"
+                      value={formData.propertyType}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Residential home, Commercial building" 
+                      required
+                    />
                   </div>
 
                   <div>
                     <label className="text-sm font-medium mb-2 block">Project Details</label>
-                    <Textarea placeholder="Tell us about your window shroud requirements, number of windows, preferred style, etc." rows={4} />
+                    <Textarea 
+                      name="projectDetails"
+                      value={formData.projectDetails}
+                      onChange={handleInputChange}
+                      placeholder="Tell us about your window shroud requirements, number of windows, preferred style, etc." 
+                      rows={4} 
+                      required
+                    />
                   </div>
 
-                  <Button variant="hero" size="lg" className="w-full">
-                    Send Quote Request
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Attachments (Optional)</label>
+                    <div className="space-y-2">
+                      <div className="relative">
+                        <Input
+                          type="file"
+                          multiple
+                          onChange={handleFileUpload}
+                          accept="image/*,.pdf,.txt,.doc,.docx,.dwg,.dxf"
+                          className="hidden"
+                          id="file-upload"
+                        />
+                        <label
+                          htmlFor="file-upload"
+                          className="flex items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:border-primary/50 transition-colors"
+                        >
+                          <div className="text-center">
+                            <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                            <p className="text-sm text-muted-foreground">
+                              Click to upload files or drag and drop
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Images, PDFs, plans, drawings (max 10MB each)
+                            </p>
+                          </div>
+                        </label>
+                      </div>
+                      
+                      {attachments.length > 0 && (
+                        <div className="space-y-2">
+                          <p className="text-sm font-medium">Attached files:</p>
+                          {attachments.map((file, index) => (
+                            <div key={index} className="flex items-center justify-between bg-secondary/20 p-2 rounded">
+                              <span className="text-sm truncate">{file.name}</span>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeAttachment(index)}
+                                className="h-6 w-6 p-0"
+                              >
+                                <X className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    variant="hero" 
+                    size="lg" 
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Send Quote Request"}
                   </Button>
                 </form>
               </CardContent>
