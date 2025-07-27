@@ -16,7 +16,6 @@ const Contact = () => {
     phone: '',
     companyName: '',
     projectAddress: '',
-    architectDesigner: '',
     message: '',
     howHeardAboutUs: ''
   });
@@ -115,7 +114,6 @@ const Contact = () => {
           phone: formData.phone,
           company_name: formData.companyName,
           project_address: formData.projectAddress,
-          architect_designer: formData.architectDesigner,
           message: formData.message,
           how_heard_about_us: formData.howHeardAboutUs,
           attachment_urls: attachmentUrls
@@ -138,7 +136,6 @@ const Contact = () => {
         phone: '',
         companyName: '',
         projectAddress: '',
-        architectDesigner: '',
         message: '',
         howHeardAboutUs: ''
       });
@@ -288,16 +285,6 @@ const Contact = () => {
                       value={formData.projectAddress}
                       onChange={handleInputChange}
                       placeholder="Enter the project address" 
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Architect / Designer</label>
-                    <Input 
-                      name="architectDesigner"
-                      value={formData.architectDesigner}
-                      onChange={handleInputChange}
-                      placeholder="Enter architect or designer name" 
                     />
                   </div>
 

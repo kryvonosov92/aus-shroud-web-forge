@@ -49,7 +49,6 @@ export type Database = {
       }
       quote_requests: {
         Row: {
-          architect_designer: string | null
           attachment_urls: string[] | null
           company_name: string | null
           created_at: string
@@ -64,7 +63,6 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          architect_designer?: string | null
           attachment_urls?: string[] | null
           company_name?: string | null
           created_at?: string
@@ -79,7 +77,6 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          architect_designer?: string | null
           attachment_urls?: string[] | null
           company_name?: string | null
           created_at?: string
