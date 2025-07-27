@@ -6,7 +6,7 @@ const Services = () => {
     icon: Palette,
     title: "Design Appeal",
     description: "Window shrouds are fast becoming a staple in contemporary architectural design. Enhance your project's visual appeal with our Aluminium Shrouds.",
-    features: ["Color matching", "Style guidance", "3D visualization"]
+    features: ["Contemporary Feature", "Clean lines", "Reduce visual bulk", "Add depth and articulation"]
   }, {
     icon: Sun,
     title: "Thermal Efficiency",
