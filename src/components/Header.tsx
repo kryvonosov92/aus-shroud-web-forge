@@ -24,7 +24,7 @@ const Header = () => {
               Products
             </Link>
             <a href="#services" className="text-foreground hover:text-primary transition-colors">
-              Services
+              Why AWS
             </a>
             <a href="#about" className="text-foreground hover:text-primary transition-colors">
               About
