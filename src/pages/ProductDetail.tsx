@@ -222,6 +222,180 @@ const ProductDetail = () => {
           {/* Standard Configurations Section */}
           <StandardConfigurations />
 
+          {/* Specification Details */}
+          <section className="py-16 bg-background">
+            <div className="container mx-auto px-4">
+              <div className="max-w-7xl mx-auto">
+                <h2 className="text-4xl font-bold text-center mb-12">Specification Details</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                  <div className="space-y-8">
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-semibold border-b pb-3">Overview</h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Product</span>
+                          <span className="text-muted-foreground">THERMACORE© Box Shroud</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Category</span>
+                          <span className="text-muted-foreground">Window Shroud</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Profile</span>
+                          <span className="text-muted-foreground">6.0mm</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Wind Rating</span>
+                          <span className="text-muted-foreground">15m</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Material</span>
+                          <span className="text-muted-foreground">Aluminium 5005 H34</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Profile Depth</span>
+                          <span className="text-muted-foreground">50mm - 850mm*</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Standard Profile Depth</span>
+                          <span className="text-muted-foreground">300mm / 550mm</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Fixing Flange</span>
+                          <span className="text-muted-foreground">Typ. 50mm / 100mm</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-semibold border-b pb-3">Product Applications</h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Usage</span>
+                          <span className="text-muted-foreground">Commercial & Residential</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Exterior</span>
+                          <span className="text-muted-foreground">Window Dressing, Solar Shading</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-8">
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-semibold border-b pb-3">Dimensions & Performance</h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Max Height</span>
+                          <span className="text-muted-foreground">6000mm*</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Max Width</span>
+                          <span className="text-muted-foreground">6000mm*</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Density</span>
+                          <span className="text-muted-foreground">2.71g/m³</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Material Weight</span>
+                          <span className="text-muted-foreground">16.26 kg/m</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">AS 1530.3</span>
+                          <span className="text-muted-foreground">Yes</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Curved Profiles</span>
+                          <span className="text-muted-foreground">Yes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-semibold border-b pb-3">Product Warranty</h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Term</span>
+                          <span className="text-muted-foreground">7 Years</span>
+                        </div>
+                        <div className="flex justify-between py-3 border-b border-muted">
+                          <span className="font-medium">Coverage</span>
+                          <span className="text-muted-foreground">Workmanship & Materials</span>
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground bg-muted/30 p-4 rounded-lg">
+                        To ensure you meet the eligibility requirements, make sure to disclose your project's location and the intended application at the time of placing your order.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Color Options */}
+          <section className="py-16 bg-muted/30">
+            <div className="container mx-auto px-4">
+              <div className="max-w-7xl mx-auto">
+                <h2 className="text-4xl font-bold text-center mb-12">Colour Options</h2>
+                <div className="space-y-8">
+                  <div className="space-y-6">
+                    <h3 className="text-2xl font-semibold border-b pb-3">Powder Coating</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      <div className="space-y-4 bg-background p-6 rounded-lg">
+                        <h4 className="text-lg font-medium text-primary">Dulux</h4>
+                        <ul className="space-y-2 text-muted-foreground">
+                          <li>• Charisma</li>
+                          <li>• Duralloy</li>
+                          <li>• Duratec</li>
+                          <li>• Fluroset</li>
+                        </ul>
+                      </div>
+                      <div className="space-y-4 bg-background p-6 rounded-lg">
+                        <h4 className="text-lg font-medium text-primary">Electro</h4>
+                        <ul className="space-y-2 text-muted-foreground">
+                          <li>• Standard Range</li>
+                          <li>• Premium Range</li>
+                        </ul>
+                      </div>
+                      <div className="space-y-4 bg-background p-6 rounded-lg">
+                        <h4 className="text-lg font-medium text-primary">Interpon</h4>
+                        <ul className="space-y-2 text-muted-foreground">
+                          <li>• D1000</li>
+                          <li>• D2525</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Selection Process</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <p className="text-muted-foreground">
+                        THERMACORE© products are available in a wide range of popular colours, to suit Residential and Commercial applications. 
+                        The available ranges will provide the option for a unique finish and extend the visual lifespan of the product.
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        The coating process provides an eco-friendly alternative to traditional liquid paints, emitting negligible volatile organic compounds (VOCs) and allowing for nearly 100% utilisation of materials.
+                      </p>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30">
+                    <CardHeader>
+                      <CardTitle className="text-blue-900 dark:text-blue-100">Powder Coating Warranty</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-blue-800 dark:text-blue-200">
+                        Warranty for powder coating can be provided upon request, contingent upon adherence to the supplier's specific application guidelines. 
+                        It is imperative to request this warranty at the time of placing your order to ensure eligibility.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* CTA Section */}
           <section className="py-16 bg-primary text-primary-foreground">
             <div className="container mx-auto px-4 text-center">
