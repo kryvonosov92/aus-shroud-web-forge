@@ -134,7 +134,7 @@ const StandardConfigurations = () => {
           </div>
 
           {/* CTA */}
-          <div className="text-center mt-12 mb-12">
+          <div className="text-center mt-8">
             <p className="text-muted-foreground">
               Can't find the perfect configuration? We offer custom solutions tailored to your specific requirements.
             </p>
