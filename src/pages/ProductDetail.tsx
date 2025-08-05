@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StandardConfigurations from "@/components/StandardConfigurations";
@@ -49,11 +50,11 @@ const ProductDetail = () => {
     fetchProduct();
   }, [slug]);
 
-  // Use the new configuration images for slideshow
+  // Use the new configuration images for slideshow - 4-sided first
   const images = [
-    "/lovable-uploads/848c1e08-584c-4e0c-ab39-002356c37ed9.png",
-    "/lovable-uploads/4cb0234c-1d34-4fb7-a15e-924eed836004.png", 
-    "/lovable-uploads/0882f186-7330-4efd-8a76-f642ee62118e.png"
+    "/lovable-uploads/0882f186-7330-4efd-8a76-f642ee62118e.png", // 4-sided frame
+    "/lovable-uploads/848c1e08-584c-4e0c-ab39-002356c37ed9.png", // Corner frame
+    "/lovable-uploads/4cb0234c-1d34-4fb7-a15e-924eed836004.png"  // 3-sided frame
   ];
 
   // Reset carousel index if images change
@@ -147,16 +148,18 @@ const ProductDetail = () => {
                           </div>
                         )}
                         {images.length > 1 && (
-                          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                            {images.map((_, idx) => (
-                              <button
-                                key={idx}
-                                className={`w-3 h-3 rounded-full border-2 ${activeIdx === idx ? 'bg-primary border-primary' : 'bg-white/70 border-white'}`}
-                                aria-label={`Show image ${idx + 1}`}
-                                onClick={() => { setActiveIdx(idx); setImgError(false); setImgLoading(true); }}
-                              />
-                            ))}
-                          </div>
+                          <button
+                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all duration-200 z-10"
+                            onClick={() => {
+                              const nextIdx = (activeIdx + 1) % images.length;
+                              setActiveIdx(nextIdx);
+                              setImgError(false);
+                              setImgLoading(true);
+                            }}
+                            aria-label="Next image"
+                          >
+                            <ChevronRight className="h-5 w-5 text-foreground" />
+                          </button>
                         )}
                       </>
                     )}
