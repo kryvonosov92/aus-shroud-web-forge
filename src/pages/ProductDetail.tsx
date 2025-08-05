@@ -439,22 +439,6 @@ const ProductDetail = () => {
             </div>
           </section>
 
-          {/* CTA Section */}
-          <section className="py-16 bg-primary text-primary-foreground">
-            <div className="container mx-auto px-4 text-center">
-              <div className="max-w-3xl mx-auto space-y-6">
-                <h2 className="text-4xl font-bold">ADAPTABLE THIN PROFILE</h2>
-                <p className="text-xl opacity-90">
-                  Design with confidence. Empowering Architects with multiple solutions.
-                </p>
-                <div className="pt-4">
-                  <Button variant="outline" size="lg" className="bg-white text-primary hover:bg-white/90">
-                    {product.price ? `Get Quote - From $${parseFloat(product.price as any).toLocaleString()}` : 'Get Quote'}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </section>
         </>
       )}
       <Footer />
