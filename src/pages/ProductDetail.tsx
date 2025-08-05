@@ -338,60 +338,102 @@ const ProductDetail = () => {
                   </TabsContent>
                   
                   <TabsContent value="colours">
-                    <div className="space-y-8">
-                      <div className="space-y-6">
-                        <h3 className="text-2xl font-semibold border-b pb-3">Powder Coating</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                          <div className="space-y-4 bg-background p-6 rounded-lg border">
-                            <h4 className="text-lg font-medium text-primary">Dulux</h4>
-                            <ul className="space-y-2 text-muted-foreground">
-                              <li>• Charisma</li>
-                              <li>• Duralloy</li>
-                              <li>• Duratec</li>
-                              <li>• Fluroset</li>
-                            </ul>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-semibold border-b pb-1">Powder Coating Systems</h3>
+                          <div className="space-y-1">
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Dulux - Charisma</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Dulux - Duralloy</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Dulux - Duratec</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Dulux - Fluroset</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Electro - Standard Range</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Electro - Premium Range</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Interpon - D1000</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
+                            <div className="flex justify-between py-1">
+                              <span className="font-medium text-xs">Interpon - D2525</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
                           </div>
-                          <div className="space-y-4 bg-background p-6 rounded-lg border">
-                            <h4 className="text-lg font-medium text-primary">Electro</h4>
-                            <ul className="space-y-2 text-muted-foreground">
-                              <li>• Standard Range</li>
-                              <li>• Premium Range</li>
-                            </ul>
-                          </div>
-                          <div className="space-y-4 bg-background p-6 rounded-lg border">
-                            <h4 className="text-lg font-medium text-primary">Interpon</h4>
-                            <ul className="space-y-2 text-muted-foreground">
-                              <li>• D1000</li>
-                              <li>• D2525</li>
-                            </ul>
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-semibold border-b pb-1">Coating Properties</h3>
+                          <div className="space-y-1">
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">VOC Emissions</span>
+                              <span className="text-muted-foreground text-xs">Negligible</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Material Utilisation</span>
+                              <span className="text-muted-foreground text-xs">Nearly 100%</span>
+                            </div>
+                            <div className="flex justify-between py-1">
+                              <span className="font-medium text-xs">Eco-Friendly</span>
+                              <span className="text-muted-foreground text-xs">Yes</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Selection Process</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <p className="text-muted-foreground">
-                            THERMACORE© products are available in a wide range of popular colours, to suit Residential and Commercial applications. 
-                            The available ranges will provide the option for a unique finish and extend the visual lifespan of the product.
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-semibold border-b pb-1">Application Suitability</h3>
+                          <div className="space-y-1">
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Residential</span>
+                              <span className="text-muted-foreground text-xs">Yes</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Commercial</span>
+                              <span className="text-muted-foreground text-xs">Yes</span>
+                            </div>
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Colour Range</span>
+                              <span className="text-muted-foreground text-xs">Wide Selection</span>
+                            </div>
+                            <div className="flex justify-between py-1">
+                              <span className="font-medium text-xs">Custom Finishes</span>
+                              <span className="text-muted-foreground text-xs">Available</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-semibold border-b pb-1">Coating Warranty</h3>
+                          <div className="space-y-1">
+                            <div className="flex justify-between py-1 border-b border-muted/30">
+                              <span className="font-medium text-xs">Availability</span>
+                              <span className="text-muted-foreground text-xs">Upon Request</span>
+                            </div>
+                            <div className="flex justify-between py-1">
+                              <span className="font-medium text-xs">Requirements</span>
+                              <span className="text-muted-foreground text-xs">Application Guidelines</span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-muted-foreground bg-muted/20 p-2 rounded text-[10px] leading-tight">
+                            Warranty must be requested at time of order. Coverage contingent upon adherence to supplier application guidelines.
                           </p>
-                          <p className="text-sm text-muted-foreground">
-                            The coating process provides an eco-friendly alternative to traditional liquid paints, emitting negligible volatile organic compounds (VOCs) and allowing for nearly 100% utilisation of materials.
-                          </p>
-                        </CardContent>
-                      </Card>
-                      <Card className="border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30">
-                        <CardHeader>
-                          <CardTitle className="text-blue-900 dark:text-blue-100">Powder Coating Warranty</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-sm text-blue-800 dark:text-blue-200">
-                            Warranty for powder coating can be provided upon request, contingent upon adherence to the supplier's specific application guidelines. 
-                            It is imperative to request this warranty at the time of placing your order to ensure eligibility.
-                          </p>
-                        </CardContent>
-                      </Card>
+                        </div>
+                      </div>
                     </div>
                   </TabsContent>
                 </Tabs>
