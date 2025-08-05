@@ -111,7 +111,7 @@ const ProductDetail = () => {
                         Thin Profile
                       </span>
                       <span className="bg-foreground text-background px-3 py-1 text-sm font-medium">
-                        Curved Options
+                        Various Depths
                       </span>
                       <span className="bg-foreground text-background px-3 py-1 text-sm font-medium">
                         Highly Customisable
