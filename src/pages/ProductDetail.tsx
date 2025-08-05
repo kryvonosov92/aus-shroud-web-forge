@@ -120,7 +120,7 @@ const ProductDetail = () => {
 
                 {/* Right Content - Product Image */}
                 <div className="lg:order-last">
-                  <div className="relative bg-muted rounded-lg aspect-square max-w-md mx-auto">
+                  <div className="relative bg-muted rounded-lg aspect-square max-w-lg mx-auto">
                     {images.length === 0 || imgError ? (
                       <img
                         src={PLACEHOLDER}
