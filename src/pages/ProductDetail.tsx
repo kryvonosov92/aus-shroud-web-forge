@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 function slugify(name: string) {
   return name.toLowerCase().replace(/\s+/g, '-');
@@ -121,84 +120,42 @@ const ProductDetail = () => {
 
                 {/* Right Content - Product Image */}
                 <div className="lg:order-last">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <div className="relative bg-muted rounded-lg aspect-square max-w-md mx-auto cursor-zoom-in hover:scale-105 transition-transform duration-300">
-                        {images.length === 0 || imgError ? (
-                          <img
-                            src={PLACEHOLDER}
-                            alt="No product image"
-                            className="object-cover w-full h-full rounded-lg"
-                          />
-                        ) : (
-                          <>
-                            <img
-                              src={images[activeIdx]}
-                              alt={product.name}
-                              className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
-                              onLoad={handleImgLoad}
-                              onError={handleImgError}
-                            />
-                            {imgLoading && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-muted animate-pulse rounded-lg">
-                                <span className="text-muted-foreground">Loading image...</span>
-                              </div>
-                            )}
-                            {images.length > 1 && (
-                              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                                {images.map((_, idx) => (
-                                  <button
-                                    key={idx}
-                                    className={`w-3 h-3 rounded-full border-2 ${activeIdx === idx ? 'bg-primary border-primary' : 'bg-white/70 border-white'}`}
-                                    aria-label={`Show image ${idx + 1}`}
-                                    onClick={(e) => { 
-                                      e.stopPropagation(); 
-                                      setActiveIdx(idx); 
-                                      setImgError(false); 
-                                      setImgLoading(true); 
-                                    }}
-                                  />
-                                ))}
-                              </div>
-                            )}
-                            {/* Zoom indicator */}
-                            <div className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                              <span className="text-sm">🔍</span>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-4xl w-full p-0 bg-black/95">
-                      <div className="relative w-full h-[80vh] flex items-center justify-center">
-                        {images.length === 0 || imgError ? (
-                          <img
-                            src={PLACEHOLDER}
-                            alt="No product image"
-                            className="max-w-full max-h-full object-contain"
-                          />
-                        ) : (
-                          <img
-                            src={images[activeIdx]}
-                            alt={product.name}
-                            className="max-w-full max-h-full object-contain"
-                          />
+                  <div className="relative bg-muted rounded-lg aspect-square max-w-md mx-auto">
+                    {images.length === 0 || imgError ? (
+                      <img
+                        src={PLACEHOLDER}
+                        alt="No product image"
+                        className="object-cover w-full h-full rounded-lg"
+                      />
+                    ) : (
+                      <>
+                        <img
+                          src={images[activeIdx]}
+                          alt={product.name}
+                          className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
+                          onLoad={handleImgLoad}
+                          onError={handleImgError}
+                        />
+                        {imgLoading && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-muted animate-pulse rounded-lg">
+                            <span className="text-muted-foreground">Loading image...</span>
+                          </div>
                         )}
                         {images.length > 1 && (
                           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
                             {images.map((_, idx) => (
                               <button
                                 key={idx}
-                                className={`w-3 h-3 rounded-full border-2 ${activeIdx === idx ? 'bg-white border-white' : 'bg-white/50 border-white/50'}`}
+                                className={`w-3 h-3 rounded-full border-2 ${activeIdx === idx ? 'bg-primary border-primary' : 'bg-white/70 border-white'}`}
                                 aria-label={`Show image ${idx + 1}`}
                                 onClick={() => { setActiveIdx(idx); setImgError(false); setImgLoading(true); }}
                               />
                             ))}
                           </div>
                         )}
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
