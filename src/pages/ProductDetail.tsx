@@ -250,7 +250,7 @@ const ProductDetail = () => {
                         </div>
                         <div className="flex justify-between py-1.5 border-b border-muted/50">
                           <span className="font-medium text-sm">Material</span>
-                          <span className="text-muted-foreground text-sm">5083 Marine-Grade</span>
+                          <span className="text-muted-foreground text-sm">Aluminium 5083 Marine-Grade</span>
                         </div>
                         <div className="flex justify-between py-1.5 border-b border-muted/50">
                           <span className="font-medium text-sm">Profile Depth</span>
