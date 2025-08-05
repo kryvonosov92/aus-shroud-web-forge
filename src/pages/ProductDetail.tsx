@@ -223,106 +223,106 @@ const ProductDetail = () => {
           <StandardConfigurations />
 
           {/* Specification Details */}
-          <section className="py-12 bg-background">
+          <section className="py-8 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-7xl mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-8">Specification Details</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <div className="space-y-3">
-                      <h3 className="text-xl font-semibold border-b pb-2">Overview</h3>
-                      <div className="space-y-2">
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Product</span>
-                          <span className="text-muted-foreground text-sm">THERMACORE© Box Shroud</span>
+                <h2 className="text-2xl font-bold text-center mb-6">Specification Details</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold border-b pb-1">Overview</h3>
+                      <div className="space-y-1">
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Product</span>
+                          <span className="text-muted-foreground text-xs">THERMACORE© Box Shroud</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Category</span>
-                          <span className="text-muted-foreground text-sm">Window Shroud</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Category</span>
+                          <span className="text-muted-foreground text-xs">Window Shroud</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Profile</span>
-                          <span className="text-muted-foreground text-sm">6.0mm</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Profile</span>
+                          <span className="text-muted-foreground text-xs">6.0mm</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Wind Rating</span>
-                          <span className="text-muted-foreground text-sm">15m</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Wind Rating</span>
+                          <span className="text-muted-foreground text-xs">15m</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Material</span>
-                          <span className="text-muted-foreground text-sm">Aluminium 5083 H32 Marine-Grade</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Material</span>
+                          <span className="text-muted-foreground text-xs">Aluminium 5083 H32 Marine-Grade</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Profile Depth</span>
-                          <span className="text-muted-foreground text-sm">50mm - 850mm*</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Profile Depth</span>
+                          <span className="text-muted-foreground text-xs">50mm - 850mm*</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Standard Profile Depth</span>
-                          <span className="text-muted-foreground text-sm">300mm / 450mm / 600mm</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Standard Profile Depth</span>
+                          <span className="text-muted-foreground text-xs">300mm / 450mm / 600mm</span>
                         </div>
-                        <div className="flex justify-between py-1.5">
-                          <span className="font-medium text-sm">Fixing Flange</span>
-                          <span className="text-muted-foreground text-sm">Typ. 50mm / 100mm</span>
+                        <div className="flex justify-between py-1">
+                          <span className="font-medium text-xs">Fixing Flange</span>
+                          <span className="text-muted-foreground text-xs">Typ. 50mm / 100mm</span>
                         </div>
                       </div>
                     </div>
-                    <div className="space-y-3">
-                      <h3 className="text-xl font-semibold border-b pb-2">Product Applications</h3>
-                      <div className="space-y-2">
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Usage</span>
-                          <span className="text-muted-foreground text-sm">Commercial & Residential</span>
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold border-b pb-1">Product Applications</h3>
+                      <div className="space-y-1">
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Usage</span>
+                          <span className="text-muted-foreground text-xs">Commercial & Residential</span>
                         </div>
-                        <div className="flex justify-between py-1.5">
-                          <span className="font-medium text-sm">Exterior</span>
-                          <span className="text-muted-foreground text-sm">Window Dressing, Solar Shading</span>
+                        <div className="flex justify-between py-1">
+                          <span className="font-medium text-xs">Exterior</span>
+                          <span className="text-muted-foreground text-xs">Window Dressing, Solar Shading</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="space-y-6">
-                    <div className="space-y-3">
-                      <h3 className="text-xl font-semibold border-b pb-2">Dimensions & Performance</h3>
-                      <div className="space-y-2">
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Max Height</span>
-                          <span className="text-muted-foreground text-sm">6000mm*</span>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold border-b pb-1">Dimensions & Performance</h3>
+                      <div className="space-y-1">
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Max Height</span>
+                          <span className="text-muted-foreground text-xs">6000mm*</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Max Width</span>
-                          <span className="text-muted-foreground text-sm">6000mm*</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Max Width</span>
+                          <span className="text-muted-foreground text-xs">6000mm*</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Density</span>
-                          <span className="text-muted-foreground text-sm">2.65g/m³</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Density</span>
+                          <span className="text-muted-foreground text-xs">2.65g/m³</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Material Weight</span>
-                          <span className="text-muted-foreground text-sm">15.9 kg/m²</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Material Weight</span>
+                          <span className="text-muted-foreground text-xs">15.9 kg/m²</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">AS 1530.3</span>
-                          <span className="text-muted-foreground text-sm">Yes</span>
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">AS 1530.3</span>
+                          <span className="text-muted-foreground text-xs">Yes</span>
                         </div>
-                        <div className="flex justify-between py-1.5">
-                          <span className="font-medium text-sm">Curved Profiles</span>
-                          <span className="text-muted-foreground text-sm">Yes</span>
+                        <div className="flex justify-between py-1">
+                          <span className="font-medium text-xs">Curved Profiles</span>
+                          <span className="text-muted-foreground text-xs">Yes</span>
                         </div>
                       </div>
                     </div>
-                    <div className="space-y-3">
-                      <h3 className="text-xl font-semibold border-b pb-2">Product Warranty</h3>
-                      <div className="space-y-2">
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Term</span>
-                          <span className="text-muted-foreground text-sm">7 Years</span>
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold border-b pb-1">Product Warranty</h3>
+                      <div className="space-y-1">
+                        <div className="flex justify-between py-1 border-b border-muted/30">
+                          <span className="font-medium text-xs">Term</span>
+                          <span className="text-muted-foreground text-xs">7 Years</span>
                         </div>
-                        <div className="flex justify-between py-1.5 border-b border-muted/50">
-                          <span className="font-medium text-sm">Coverage</span>
-                          <span className="text-muted-foreground text-sm">Workmanship & Materials</span>
+                        <div className="flex justify-between py-1">
+                          <span className="font-medium text-xs">Coverage</span>
+                          <span className="text-muted-foreground text-xs">Workmanship & Materials</span>
                         </div>
                       </div>
-                      <p className="text-xs text-muted-foreground bg-muted/30 p-3 rounded">
+                      <p className="text-xs text-muted-foreground bg-muted/20 p-2 rounded text-[10px] leading-tight">
                         To ensure you meet the eligibility requirements, make sure to disclose your project's location and the intended application at the time of placing your order.
                       </p>
                     </div>
