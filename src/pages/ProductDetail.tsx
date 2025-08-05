@@ -298,7 +298,7 @@ const ProductDetail = () => {
                         </div>
                         <div className="flex justify-between py-1.5 border-b border-muted/50">
                           <span className="font-medium text-sm">Material Weight</span>
-                          <span className="text-muted-foreground text-sm">16.26 kg/m</span>
+                          <span className="text-muted-foreground text-sm">15.9 kg/m²</span>
                         </div>
                         <div className="flex justify-between py-1.5 border-b border-muted/50">
                           <span className="font-medium text-sm">AS 1530.3</span>
