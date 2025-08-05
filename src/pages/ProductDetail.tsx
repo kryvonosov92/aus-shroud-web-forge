@@ -128,7 +128,15 @@ const ProductDetail = () => {
                       <Button 
                         variant="outline" 
                         className="font-medium"
-                        onClick={() => window.location.href = '/#contact'}
+                        onClick={() => {
+                          window.location.href = '/#contact';
+                          setTimeout(() => {
+                            const element = document.getElementById('contact');
+                            if (element) {
+                              element.scrollIntoView({ behavior: 'smooth' });
+                            }
+                          }, 100);
+                        }}
                       >
                         Get Quote →
                       </Button>
