@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StandardConfigurations from "@/components/StandardConfigurations";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -197,6 +198,9 @@ const ProductDetail = () => {
               </div>
             </div>
           </section>
+
+          {/* Standard Configurations Section */}
+          <StandardConfigurations />
 
           {/* CTA Section */}
           <section className="py-16 bg-primary text-primary-foreground">
