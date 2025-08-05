@@ -18,6 +18,7 @@ const Products = () => {
       const { data, error } = await supabase
         .from('products')
         .select('*')
+        .eq('name', 'ThermaCore© Box Shroud')
         .order('created_at', { ascending: true });
       if (!error) {
         setProducts(data || []);
