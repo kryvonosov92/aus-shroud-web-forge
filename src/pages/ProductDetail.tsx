@@ -387,10 +387,14 @@ const ProductDetail = () => {
                               <span className="font-medium text-xs">Interpon - D1000</span>
                               <span className="text-muted-foreground text-xs">Available</span>
                             </div>
-                            <div className="flex justify-between py-1">
-                              <span className="font-medium text-xs">Interpon - D2525</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
+                             <div className="flex justify-between py-1 border-b border-muted/30">
+                               <span className="font-medium text-xs">Interpon - D2525</span>
+                               <span className="text-muted-foreground text-xs">Available</span>
+                             </div>
+                             <div className="flex justify-between py-1">
+                               <span className="font-medium text-xs">Interpon - Textura</span>
+                               <span className="text-muted-foreground text-xs">Available</span>
+                             </div>
                           </div>
                         </div>
                       </div>
