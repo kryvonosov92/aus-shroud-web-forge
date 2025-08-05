@@ -131,7 +131,14 @@ const ProductDetail = () => {
                       <Button variant="outline" className="font-medium">
                         Project Enquiry →
                       </Button>
-                      <Button variant="outline" className="font-medium">
+                      <Button 
+                        variant="outline" 
+                        className="font-medium"
+                        onClick={() => {
+                          const element = document.getElementById('specification-details');
+                          element?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
                         Specification Guide →
                       </Button>
                     </div>
@@ -224,7 +231,7 @@ const ProductDetail = () => {
           <StandardConfigurations />
 
           {/* Specification Details & Colour Options Tabs */}
-          <section className="py-8 bg-background">
+          <section id="specification-details" className="py-8 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-7xl mx-auto">
                 <Tabs defaultValue="specifications" className="w-full">
