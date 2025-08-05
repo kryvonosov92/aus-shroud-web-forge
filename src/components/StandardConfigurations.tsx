@@ -13,60 +13,25 @@ type Configuration = {
 
 const configurations: Configuration[] = [
   {
-    id: "single-blade",
-    title: "SINGLE BLADE",
-    modelCode: "TC-1T",
-    image: "/lovable-uploads/343f3cb9-d1c4-4136-96d5-13942a24619d.png",
-    description: "Clean, minimalist single blade design"
+    id: "corner-frame",
+    title: "CORNER FRAME",
+    modelCode: "TC-CF",
+    image: "/lovable-uploads/461cad04-cd76-4184-ba29-563a2948784c.png",
+    description: "L-shaped corner configuration for optimal corner installation"
   },
   {
-    id: "top-bottom",
-    title: "TOP & BOTTOM",
-    modelCode: "TC-2TB",
-    image: "/lovable-uploads/3ce8917c-cb8f-4f4d-a942-4c3f850d1c47.png",
-    description: "Dual blade configuration for enhanced coverage"
+    id: "three-sided",
+    title: "THREE SIDED",
+    modelCode: "TC-3S",
+    image: "/lovable-uploads/826fdb26-c44d-42b8-bed5-3c37320feb97.png",
+    description: "U-shaped three-sided shroud for enhanced protection"
   },
   {
-    id: "angle-left",
-    title: "ANGLE LEFT",
-    modelCode: "TC-2AL",
-    image: "/lovable-uploads/492e0bbf-6590-4f46-b1ac-2e1d032d1224.png",
-    description: "Angled configuration for optimal left-side shading"
-  },
-  {
-    id: "angle-right",
-    title: "ANGLE RIGHT",
-    modelCode: "TC-2AR",
-    image: "/lovable-uploads/4d301aec-a0b4-475c-8de9-dbb4fa42adf0.png",
-    description: "Angled configuration for optimal right-side shading"
-  },
-  {
-    id: "open-side-right",
-    title: "OPEN SIDE RIGHT",
-    modelCode: "TC-3OSR",
-    image: "/lovable-uploads/6e9df5ed-0dcb-49b9-87b2-7ff3d65c9a3c.png",
-    description: "Three-sided coverage with right side open"
-  },
-  {
-    id: "open-side-left",
-    title: "OPEN SIDE LEFT",
-    modelCode: "TC-3OSL",
-    image: "/lovable-uploads/70ed9857-9c7c-463c-a206-4b2cd32c8fbf.png",
-    description: "Three-sided coverage with left side open"
-  },
-  {
-    id: "open-base",
-    title: "OPEN BASE",
-    modelCode: "TC-3OB",
-    image: "/lovable-uploads/9593b4b6-fe53-493a-9ed2-125e78f06c67.png",
-    description: "Three-sided coverage with base open"
-  },
-  {
-    id: "standard",
-    title: "STANDARD",
-    modelCode: "TC-4S",
-    image: "/lovable-uploads/a296ce98-9e42-4bd8-ad52-b5c23e16640d.png",
-    description: "Complete four-sided shroud coverage"
+    id: "standard-frame",
+    title: "STANDARD FRAME",
+    modelCode: "TC-SF",
+    image: "/lovable-uploads/389db33d-03a1-4b44-ba6f-943a0600e477.png",
+    description: "Complete four-sided frame for maximum coverage"
   }
 ];
 
