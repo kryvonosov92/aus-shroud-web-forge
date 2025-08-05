@@ -140,9 +140,6 @@ const ProductDetail = () => {
                       >
                         Get Quote →
                       </Button>
-                      <Button variant="outline" className="font-medium">
-                        Project Enquiry →
-                      </Button>
                       <Button 
                         variant="outline" 
                         className="font-medium"
