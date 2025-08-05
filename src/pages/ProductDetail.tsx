@@ -196,28 +196,28 @@ const ProductDetail = () => {
               <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                   <div className="text-center space-y-3">
-                    <div className="bg-primary/10 p-3 rounded-lg w-fit mx-auto">
+                    <div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
                       <Star className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="font-semibold">Commercial Grade</h3>
                   </div>
                   
                   <div className="text-center space-y-3">
-                    <div className="bg-primary/10 p-3 rounded-lg w-fit mx-auto">
+                    <div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
                       <Ruler className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="font-semibold">Made to Order</h3>
                   </div>
                   
                   <div className="text-center space-y-3">
-                    <div className="bg-primary/10 p-3 rounded-lg w-fit mx-auto">
+                    <div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
                       <Globe className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="font-semibold">Australian Product</h3>
                   </div>
                   
                   <div className="text-center space-y-3">
-                    <div className="bg-primary/10 p-3 rounded-lg w-fit mx-auto">
+                    <div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
                       <Wrench className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="font-semibold">Easy Installation</h3>
