@@ -85,7 +85,6 @@ const StandardConfigurations = () => {
                     </div>
                     <div className="text-center space-y-2">
                       <h3 className="font-bold text-lg">{config.title}</h3>
-                      <p className="text-sm font-mono text-primary">{config.modelCode}</p>
                       {config.description && (
                         <p className="text-sm text-muted-foreground">{config.description}</p>
                       )}
