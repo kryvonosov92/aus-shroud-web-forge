@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { ChevronRight, Star, Wrench, Globe, CheckCircle } from "lucide-react";
+import { ChevronRight, Star, Wrench, Globe, CheckCircle, Ruler } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StandardConfigurations from "@/components/StandardConfigurations";
@@ -196,7 +196,7 @@ const ProductDetail = () => {
                   
                   <div className="text-center space-y-3">
                     <div className="bg-primary/10 p-3 rounded-lg w-fit mx-auto">
-                      <Wrench className="w-6 h-6 text-primary" />
+                      <Ruler className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="font-semibold">Made to Order</h3>
                   </div>
@@ -210,9 +210,9 @@ const ProductDetail = () => {
                   
                   <div className="text-center space-y-3">
                     <div className="bg-primary/10 p-3 rounded-lg w-fit mx-auto">
-                      <CheckCircle className="w-6 h-6 text-primary" />
+                      <Wrench className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="font-semibold">Specification Ready</h3>
+                    <h3 className="font-semibold">Easy Installation</h3>
                   </div>
                 </div>
               </div>
