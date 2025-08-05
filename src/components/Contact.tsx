@@ -151,16 +151,16 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   };
-  return <section id="contact" className="py-20 bg-secondary/20">
+  return <section id="contact" className="py-24 lg:py-32 bg-secondary/20">
       <div className="container mx-auto px-4">
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 max-w-7xl mx-auto">
           <div>
             <Card className="border-border">
-              <CardHeader>
-                <CardTitle className="text-2xl mb-4">Contact Information</CardTitle>
+              <CardHeader className="pb-8">
+                <CardTitle className="text-2xl lg:text-3xl mb-6">Contact Information</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-8">
                 <div className="flex items-center space-x-4">
                   <div className="bg-primary/10 p-3 rounded-lg">
                     <Phone className="w-6 h-6 text-primary" />
@@ -226,8 +226,8 @@ const Contact = () => {
 
           <div>
             <Card className="border-border">
-              <CardHeader>
-                <CardTitle className="text-2xl mb-4">Request a Quote</CardTitle>
+              <CardHeader className="pb-8">
+                <CardTitle className="text-2xl lg:text-3xl mb-6">Request a Quote</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">

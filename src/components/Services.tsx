@@ -18,28 +18,28 @@ const Services = () => {
     description: "Enhance privacy of your home without compromising on natural light or architectural appeal.",
     features: ["Achieve 25% transparency", "Reduce glare", "Maintain sunlight", "Avoid obscure glass"]
   }];
-  return <section id="services" className="py-20 bg-secondary/30">
+  return <section id="services" className="py-24 lg:py-32 bg-secondary/30">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">Why use our products?</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Comprehensive range of window shading and privacy systems designed to cater to any project, big or small. </p>
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-foreground">Why use our products?</h2>
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">Comprehensive range of window shading and privacy systems designed to cater to any project, big or small. </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {services.map((service, index) => <Card key={index} className="border-border hover:shadow-elegant transition-all duration-300 group">
-              <CardHeader>
-                <div className="bg-primary/10 p-3 rounded-lg w-fit mb-4 group-hover:bg-primary/20 transition-colors">
+              <CardHeader className="pb-6">
+                <div className="bg-primary/10 p-3 rounded-lg w-fit mb-6 group-hover:bg-primary/20 transition-colors">
                   <service.icon className="w-8 h-8 text-primary" />
                 </div>
-                <CardTitle className="text-2xl font-bold mb-2 bg-gradient-primary bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">{service.title}</CardTitle>
-                <CardDescription className="text-base">
+                <CardTitle className="text-2xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">{service.title}</CardTitle>
+                <CardDescription className="text-base leading-relaxed">
                   {service.description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
+                <ul className="space-y-3">
                   {service.features.map((feature, featureIndex) => <li key={featureIndex} className="flex items-center text-sm text-muted-foreground">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full mr-3" />
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full mr-3 flex-shrink-0" />
                       {feature}
                     </li>)}
                 </ul>
