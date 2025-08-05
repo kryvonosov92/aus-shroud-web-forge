@@ -64,6 +64,19 @@ const ProductDetail = () => {
     setImgLoading(true);
   }, [product]);
 
+  // Auto-advance slideshow
+  useEffect(() => {
+    if (images.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setActiveIdx((prev) => (prev + 1) % images.length);
+      setImgError(false);
+      setImgLoading(true);
+    }, 4000); // Change every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   const handleImgError = () => setImgError(true);
   const handleImgLoad = () => setImgLoading(false);
 
