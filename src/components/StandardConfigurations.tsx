@@ -134,8 +134,8 @@ const StandardConfigurations = () => {
           </div>
 
           {/* CTA */}
-          <div className="flex items-center justify-center py-8">
-            <p className="text-muted-foreground text-lg max-w-2xl text-center leading-relaxed">
+          <div className="text-center mt-12">
+            <p className="text-muted-foreground">
               Can't find the perfect configuration? We offer custom solutions tailored to your specific requirements.
             </p>
           </div>
