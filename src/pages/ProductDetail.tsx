@@ -258,7 +258,7 @@ const ProductDetail = () => {
                         </div>
                         <div className="flex justify-between py-1.5 border-b border-muted/50">
                           <span className="font-medium text-sm">Standard Profile Depth</span>
-                          <span className="text-muted-foreground text-sm">300mm / 550mm</span>
+                          <span className="text-muted-foreground text-sm">300mm / 450mm / 600mm</span>
                         </div>
                         <div className="flex justify-between py-1.5">
                           <span className="font-medium text-sm">Fixing Flange</span>
