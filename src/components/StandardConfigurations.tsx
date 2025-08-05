@@ -14,21 +14,21 @@ type Configuration = {
 const configurations: Configuration[] = [
   {
     id: "corner-frame",
-    title: "CORNER FRAME",
+    title: "THERMACORE© BOX SHROUD 2-sided",
     modelCode: "TC-CF",
     image: "/lovable-uploads/461cad04-cd76-4184-ba29-563a2948784c.png",
     description: "L-shaped corner configuration for optimal corner installation"
   },
   {
     id: "three-sided",
-    title: "THREE SIDED",
+    title: "THERMACORE© BOX SHROUD 3-sided",
     modelCode: "TC-3S",
     image: "/lovable-uploads/826fdb26-c44d-42b8-bed5-3c37320feb97.png",
     description: "U-shaped three-sided shroud for enhanced protection"
   },
   {
     id: "standard-frame",
-    title: "STANDARD FRAME",
+    title: "THERMACORE© BOX SHROUD 4-sided",
     modelCode: "TC-SF",
     image: "/lovable-uploads/389db33d-03a1-4b44-ba6f-943a0600e477.png",
     description: "Complete four-sided frame for maximum coverage"
