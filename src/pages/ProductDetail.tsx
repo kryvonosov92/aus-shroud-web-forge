@@ -123,7 +123,7 @@ const ProductDetail = () => {
                 <div className="lg:order-last">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <div className="relative bg-muted rounded-lg aspect-square max-w-md mx-auto cursor-zoom-in hover:scale-105 transition-transform duration-300">
+                      <div className="relative bg-muted rounded-lg aspect-square max-w-xl mx-auto cursor-zoom-in hover:scale-105 transition-transform duration-300">
                         {images.length === 0 || imgError ? (
                           <img
                             src={PLACEHOLDER}
