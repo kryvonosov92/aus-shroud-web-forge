@@ -125,8 +125,12 @@ const ProductDetail = () => {
 
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-4">
-                      <Button variant="outline" className="font-medium">
-                        Order Forms →
+                      <Button 
+                        variant="outline" 
+                        className="font-medium"
+                        onClick={() => window.location.href = '/#contact'}
+                      >
+                        Get Quote →
                       </Button>
                       <Button variant="outline" className="font-medium">
                         Project Enquiry →
