@@ -126,7 +126,7 @@ const ProductDetail = () => {
 
                 {/* Right Content - Product Image */}
                 <div className="lg:order-last">
-                  <div className="relative bg-muted rounded-lg aspect-square max-w-lg mx-auto">
+                  <div className="relative bg-muted rounded-lg aspect-square max-w-md mx-auto">
                     {images.length === 0 || imgError ? (
                       <img
                         src={PLACEHOLDER}
@@ -138,7 +138,7 @@ const ProductDetail = () => {
                         <img
                           src={images[activeIdx]}
                           alt={product.name}
-                          className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
+                          className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 scale-125 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
                           onLoad={handleImgLoad}
                           onError={handleImgError}
                         />
