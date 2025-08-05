@@ -51,12 +51,8 @@ const ProductDetail = () => {
     fetchProduct();
   }, [slug]);
 
-  // Use the new configuration images for slideshow - 4-sided first
-  const images = [
-    "/lovable-uploads/0882f186-7330-4efd-8a76-f642ee62118e.png", // 4-sided frame
-    "/lovable-uploads/848c1e08-584c-4e0c-ab39-002356c37ed9.png", // Corner frame
-    "/lovable-uploads/4cb0234c-1d34-4fb7-a15e-924eed836004.png"  // 3-sided frame
-  ];
+  // Use the product's own image instead of hardcoded slideshow
+  const images = [product?.image_url].filter(Boolean);
 
   // Reset carousel index if images change
   useEffect(() => {
