@@ -377,6 +377,8 @@ const ProductDetail = () => {
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div className="space-y-4">
                         <div className="space-y-2">
                           <h3 className="text-lg font-semibold border-b pb-1">Coating Properties</h3>
                           <div className="space-y-1">
@@ -388,23 +390,16 @@ const ProductDetail = () => {
                               <span className="font-medium text-xs">Material Utilisation</span>
                               <span className="text-muted-foreground text-xs">Nearly 100%</span>
                             </div>
-                            <div className="flex justify-between py-1">
+                            <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Eco-Friendly</span>
                               <span className="text-muted-foreground text-xs">Yes</span>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold border-b pb-1">Application Suitability</h3>
-                          <div className="space-y-1">
                             <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Residential</span>
+                              <span className="font-medium text-xs">Residential Use</span>
                               <span className="text-muted-foreground text-xs">Yes</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Commercial</span>
+                              <span className="font-medium text-xs">Commercial Use</span>
                               <span className="text-muted-foreground text-xs">Yes</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
@@ -416,22 +411,6 @@ const ProductDetail = () => {
                               <span className="text-muted-foreground text-xs">Available</span>
                             </div>
                           </div>
-                        </div>
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold border-b pb-1">Coating Warranty</h3>
-                          <div className="space-y-1">
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Availability</span>
-                              <span className="text-muted-foreground text-xs">Upon Request</span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                              <span className="font-medium text-xs">Requirements</span>
-                              <span className="text-muted-foreground text-xs">Application Guidelines</span>
-                            </div>
-                          </div>
-                          <p className="text-xs text-muted-foreground bg-muted/20 p-2 rounded text-[10px] leading-tight">
-                            Warranty must be requested at time of order. Coverage contingent upon adherence to supplier application guidelines.
-                          </p>
                         </div>
                       </div>
                     </div>
