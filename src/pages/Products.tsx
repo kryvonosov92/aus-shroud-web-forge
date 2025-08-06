@@ -90,10 +90,10 @@ const Products = () => {
                 <Card key={product.id} className="overflow-hidden hover-scale">
                   <Link to={`/products/${encodeURIComponent(product.name.toLowerCase().replace(/\s+/g, '-'))}`} className="block">
                      <div className="relative">
-                       <img 
-                         src={product.image_url} 
-                         alt={product.name}
-                         className="w-full h-80 object-cover"
+                        <img 
+                          src={product.image_url} 
+                          alt={product.name}
+                          className="w-full h-72 object-contain bg-muted/30"
                          onError={(e) => {
                            console.error(`Failed to load image for ${product.name}:`, product.image_url);
                            e.currentTarget.src = "/placeholder.svg";
