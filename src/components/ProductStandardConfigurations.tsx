@@ -21,6 +21,11 @@ const configurations: Configuration[] = [
     id: "2-sided",
     title: "THERMACORE© Box Shroud 2-sided",
     image: "/lovable-uploads/16fba105-5a55-4b35-baf4-715f4d5c09c4.png"
+  },
+  {
+    id: "curved",
+    title: "THERMACORE© Curved Shroud",
+    image: "/lovable-uploads/2f444e15-d193-4501-bdfc-6255b8afdccb.png"
   }
 ];
 
