@@ -261,7 +261,7 @@ const ProductDetail = () => {
                           <div className="space-y-1">
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Product</span>
-                              <span className="text-muted-foreground text-xs">THERMACORE© Corner Shroud</span>
+                              <span className="text-muted-foreground text-xs">{product.name}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Category</span>
