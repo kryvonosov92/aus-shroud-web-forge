@@ -312,10 +312,6 @@ const ProductDetail = () => {
                           <h3 className="text-lg font-semibold border-b pb-1">Dimensions & Performance</h3>
                           <div className="space-y-1">
                             <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Max Height</span>
-                              <span className="text-muted-foreground text-xs">6000mm*</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Max Width</span>
                               <span className="text-muted-foreground text-xs">6000mm*</span>
                             </div>
