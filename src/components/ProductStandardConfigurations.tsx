@@ -6,7 +6,11 @@ type Configuration = {
   image: string;
 };
 
-const configurations: Configuration[] = [
+type ProductStandardConfigurationsProps = {
+  productType?: "box" | "curved";
+};
+
+const boxConfigurations: Configuration[] = [
   {
     id: "4-sided",
     title: "THERMACORE© Box Shroud 4-sided",
@@ -24,7 +28,23 @@ const configurations: Configuration[] = [
   }
 ];
 
-const ProductStandardConfigurations = () => {
+const curvedConfigurations: Configuration[] = [
+  {
+    id: "curved-half",
+    title: "THERMACORE© Curved Half",
+    image: "/lovable-uploads/48d299ce-0ca2-4cd6-98d0-717c56bd5559.png"
+  },
+  {
+    id: "curved-full",
+    title: "THERMACORE© Curved Full",
+    image: "/lovable-uploads/c86ee74d-7166-4406-aaed-74a622328222.png"
+  }
+];
+
+const ProductStandardConfigurations = ({ productType = "box" }: ProductStandardConfigurationsProps) => {
+  const configurations = productType === "curved" ? curvedConfigurations : boxConfigurations;
+  const gridCols = productType === "curved" ? "md:grid-cols-2" : "md:grid-cols-3";
+
   return (
     <section className="py-16 bg-muted/20">
       <div className="container mx-auto px-4">
@@ -40,7 +60,7 @@ const ProductStandardConfigurations = () => {
           </div>
 
           {/* Configuration Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className={`grid grid-cols-1 ${gridCols} gap-8 mb-12 ${productType === "curved" ? "max-w-4xl mx-auto" : ""}`}>
             {configurations.map((config) => (
               <div key={config.id} className="group">
                 <div className="aspect-[5/4] bg-muted rounded-lg mb-6 overflow-hidden p-4">

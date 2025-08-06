@@ -265,9 +265,11 @@ const ProductDetail = () => {
             </div>
           </section>
 
-          {/* Standard Configurations - Only for Box Shroud */}
-          {product.name.toLowerCase().includes('box') && (
-            <ProductStandardConfigurations />
+          {/* Standard Configurations */}
+          {(product.name.toLowerCase().includes('box') || product.name.toLowerCase().includes('curved')) && (
+            <ProductStandardConfigurations 
+              productType={product.name.toLowerCase().includes('curved') ? 'curved' : 'box'} 
+            />
           )}
 
           {/* Specification Details & Colour Options Tabs */}
