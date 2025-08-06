@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import ProductStandardConfigurations from "@/components/ProductStandardConfigurations";
 
 function slugify(name: string) {
   return name.toLowerCase().replace(/\s+/g, '-');
@@ -255,6 +256,11 @@ const ProductDetail = () => {
               </div>
             </div>
           </section>
+
+          {/* Standard Configurations - Only for Box Shroud */}
+          {product.name.toLowerCase().includes('box') && (
+            <ProductStandardConfigurations />
+          )}
 
           {/* Specification Details & Colour Options Tabs */}
           <section id="specification-details" className="py-8 bg-background">
