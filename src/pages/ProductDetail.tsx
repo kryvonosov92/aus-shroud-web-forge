@@ -44,7 +44,9 @@ const ProductDetail = () => {
         .select('*')
         .order('created_at', { ascending: true });
       if (!error && data) {
-        const found = data.find((p: Product) => slugify(p.name) === slug);
+        // Decode the URL slug to handle encoded characters like %C2%A9
+        const decodedSlug = decodeURIComponent(slug || '');
+        const found = data.find((p: Product) => slugify(p.name) === decodedSlug || slugify(p.name) === slug);
         setProduct(found || null);
       }
       setLoading(false);
