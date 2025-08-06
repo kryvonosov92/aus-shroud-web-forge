@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { ChevronRight, Star, Wrench, Globe, CheckCircle, Ruler } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import StandardConfigurations from "@/components/StandardConfigurations";
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -231,9 +231,6 @@ const ProductDetail = () => {
               </div>
             </div>
           </section>
-
-          {/* Standard Configurations Section */}
-          <StandardConfigurations />
 
           {/* Specification Details & Colour Options Tabs */}
           <section id="specification-details" className="py-8 bg-background">
