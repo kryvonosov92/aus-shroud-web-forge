@@ -4,27 +4,23 @@ type Configuration = {
   id: string;
   title: string;
   image: string;
-  features: string[];
 };
 
 const configurations: Configuration[] = [
   {
     id: "4-sided",
     title: "THERMACORE© Box Shroud 4-sided",
-    image: "/lovable-uploads/e96318a6-ab01-49c0-9e67-bf5092788161.png",
-    features: ["Complete enclosure", "Maximum weather protection", "Optimal thermal performance", "Architectural symmetry"]
+    image: "/lovable-uploads/e96318a6-ab01-49c0-9e67-bf5092788161.png"
   },
   {
     id: "3-sided",
     title: "THERMACORE© Box Shroud 3-sided",
-    image: "/lovable-uploads/768020d3-4afb-4044-ad5e-f1a1487a00c0.png",
-    features: ["Partial enclosure", "Enhanced ventilation", "Reduced material cost", "Easy maintenance access"]
+    image: "/lovable-uploads/768020d3-4afb-4044-ad5e-f1a1487a00c0.png"
   },
   {
     id: "2-sided",
     title: "THERMACORE© Box Shroud 2-sided",
-    image: "/lovable-uploads/16fba105-5a55-4b35-baf4-715f4d5c09c4.png",
-    features: ["Corner protection", "Minimal footprint", "Cost effective", "Flexible installation"]
+    image: "/lovable-uploads/16fba105-5a55-4b35-baf4-715f4d5c09c4.png"
   }
 ];
 
@@ -58,21 +54,8 @@ const ProductStandardConfigurations = () => {
                       }}
                     />
                   </div>
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-bold text-xl mb-4">{config.title}</h3>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-sm">Key Features:</h4>
-                      <ul className="space-y-1">
-                        {config.features.map((feature, index) => (
-                          <li key={index} className="text-xs text-muted-foreground flex items-center">
-                            <span className="w-1 h-1 bg-primary rounded-full mr-2 flex-shrink-0"></span>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div className="text-center">
+                    <h3 className="font-bold text-xl">{config.title}</h3>
                   </div>
                 </CardContent>
               </Card>
