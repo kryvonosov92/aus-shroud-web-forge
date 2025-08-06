@@ -85,7 +85,7 @@ const Products = () => {
           {loading ? (
             <div className="text-center text-lg">Loading products...</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
               {products.map((product) => (
                 <Card key={product.id} className="overflow-hidden hover-scale">
                   <Link to={`/products/${encodeURIComponent(product.name.toLowerCase().replace(/\s+/g, '-'))}`} className="block">
@@ -93,7 +93,7 @@ const Products = () => {
                         <img 
                           src={product.image_url} 
                           alt={product.name}
-                          className="w-full h-96 object-contain bg-muted/30"
+                          className="w-full h-64 object-contain bg-muted/30"
                          onError={(e) => {
                            console.error(`Failed to load image for ${product.name}:`, product.image_url);
                            e.currentTarget.src = "/placeholder.svg";
