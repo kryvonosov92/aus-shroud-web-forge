@@ -136,7 +136,7 @@ const ProductDetail = () => {
                     {/* Feature Tags */}
                     <div className="flex flex-wrap gap-2 mb-6">
                       <span className="bg-foreground text-background px-3 py-1 text-sm font-medium">
-                        Thin Profile
+                        {product.name.toLowerCase().includes('boxed') ? 'Thick Profile' : 'Thin Profile'}
                       </span>
                       <span className="bg-foreground text-background px-3 py-1 text-sm font-medium">
                         Various Depths
