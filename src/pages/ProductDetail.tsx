@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 function slugify(name: string) {
@@ -255,6 +256,100 @@ const ProductDetail = () => {
               </div>
             </div>
           </section>
+
+          {/* Standard Configurations Section - Only for Box Shroud */}
+          {product?.name.toLowerCase().includes('box') && (
+            <section className="py-16 bg-muted/30">
+              <div className="container mx-auto px-4">
+                <div className="max-w-7xl mx-auto">
+                  <h2 className="text-3xl font-bold text-center mb-12">Standard Configurations</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <Card className="text-center">
+                      <CardHeader>
+                        <CardTitle className="text-xl">Shallow Profile</CardTitle>
+                        <CardDescription>300mm Depth</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          <div className="text-sm text-muted-foreground">
+                            <div className="flex justify-between">
+                              <span>Width:</span>
+                              <span>Up to 6000mm</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Height:</span>
+                              <span>Up to 6000mm</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Application:</span>
+                              <span>Window Screening</span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="text-center border-primary/50">
+                      <CardHeader>
+                        <CardTitle className="text-xl">Standard Profile</CardTitle>
+                        <CardDescription>450mm Depth</CardDescription>
+                        <Badge variant="secondary" className="w-fit mx-auto">Most Popular</Badge>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          <div className="text-sm text-muted-foreground">
+                            <div className="flex justify-between">
+                              <span>Width:</span>
+                              <span>Up to 6000mm</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Height:</span>
+                              <span>Up to 6000mm</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Application:</span>
+                              <span>Solar Shading</span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="text-center">
+                      <CardHeader>
+                        <CardTitle className="text-xl">Deep Profile</CardTitle>
+                        <CardDescription>600mm Depth</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          <div className="text-sm text-muted-foreground">
+                            <div className="flex justify-between">
+                              <span>Width:</span>
+                              <span>Up to 6000mm</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Height:</span>
+                              <span>Up to 6000mm</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Application:</span>
+                              <span>Maximum Coverage</span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  
+                  <div className="text-center mt-8">
+                    <p className="text-sm text-muted-foreground">
+                      * Custom dimensions available upon request. All configurations include marine-grade aluminium construction.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
 
           {/* Specification Details & Colour Options Tabs */}
           <section id="specification-details" className="py-8 bg-background">
