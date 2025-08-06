@@ -109,10 +109,7 @@ const Products = () => {
                     </CardHeader>
                     <CardContent>
                       {/* Features and popular fields are omitted as they are not in the DB */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-primary">
-                          {product.price ? `From $${parseFloat(product.price).toLocaleString()}` : ''}
-                        </span>
+                      <div className="flex items-center justify-end">
                         <Button variant="outline">Get Quote</Button>
                       </div>
                     </CardContent>
