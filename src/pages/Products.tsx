@@ -110,7 +110,7 @@ const Products = () => {
                     <CardContent>
                       {/* Features and popular fields are omitted as they are not in the DB */}
                       <div className="flex items-center justify-end">
-                        <Button variant="outline">Get Quote</Button>
+                        <Button variant="outline">View System</Button>
                       </div>
                     </CardContent>
                   </Link>
