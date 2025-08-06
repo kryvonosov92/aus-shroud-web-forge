@@ -105,7 +105,6 @@ const Products = () => {
                      </div>
                     <CardHeader>
                       <CardTitle className="text-xl">{product.name}</CardTitle>
-                      <CardDescription>{product.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
                       {/* Features and popular fields are omitted as they are not in the DB */}
