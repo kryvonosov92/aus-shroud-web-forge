@@ -264,7 +264,7 @@ const ProductDetail = () => {
           </section>
 
           {/* Standard Configurations */}
-          {(product.name.toLowerCase().includes('box') || product.name.toLowerCase().includes('curved')) && (
+          {((product.name.toLowerCase().includes('box') && !product.name.toLowerCase().includes('boxed')) || product.name.toLowerCase().includes('curved')) && (
             <ProductStandardConfigurations 
               productType={product.name.toLowerCase().includes('curved') ? 'curved' : 'box'} 
             />
