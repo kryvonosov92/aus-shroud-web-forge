@@ -43,7 +43,7 @@ const ProductStandardConfigurations = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {configurations.map((config) => (
               <div key={config.id} className="group">
-                <div className="aspect-[4/3] bg-muted rounded-lg mb-6 overflow-hidden p-8">
+                <div className="aspect-[5/4] bg-muted rounded-lg mb-6 overflow-hidden p-4">
                   <img
                     src={config.image}
                     alt={config.title}
