@@ -293,10 +293,14 @@ const ProductDetail = () => {
                               <span className="font-medium text-xs">Standard Profile Depth</span>
                               <span className="text-muted-foreground text-xs">300mm / 450mm / 600mm</span>
                             </div>
-                            <div className="flex justify-between py-1">
-                              <span className="font-medium text-xs">Fixing Flange</span>
-                              <span className="text-muted-foreground text-xs">Typ. 50mm / 100mm</span>
-                            </div>
+                             <div className="flex justify-between py-1 border-b border-muted/30">
+                               <span className="font-medium text-xs">Profile Slope</span>
+                               <span className="text-muted-foreground text-xs">3° (5%)</span>
+                             </div>
+                             <div className="flex justify-between py-1">
+                               <span className="font-medium text-xs">Fixing Flange</span>
+                               <span className="text-muted-foreground text-xs">Typ. 50mm / 100mm</span>
+                             </div>
                           </div>
                         </div>
                         <div className="space-y-2">
@@ -339,10 +343,6 @@ const ProductDetail = () => {
                               <span className="font-medium text-xs">AS 1530.3</span>
                               <span className="text-muted-foreground text-xs">Yes</span>
                             </div>
-                             <div className="flex justify-between py-1 border-b border-muted/30">
-                               <span className="font-medium text-xs">Profile Slope</span>
-                               <span className="text-muted-foreground text-xs">3° (5%)</span>
-                             </div>
                              <div className="flex justify-between py-1">
                                <span className="font-medium text-xs">Curved Profiles</span>
                                <span className="text-muted-foreground text-xs">Yes</span>
