@@ -3,9 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 type Configuration = {
   id: string;
   title: string;
-  modelCode: string;
   image: string;
-  description: string;
   features: string[];
 };
 
@@ -13,25 +11,19 @@ const configurations: Configuration[] = [
   {
     id: "4-sided",
     title: "THERMACORE© Box Shroud 4-sided",
-    modelCode: "TC-4S",
     image: "/lovable-uploads/e96318a6-ab01-49c0-9e67-bf5092788161.png",
-    description: "Complete four-sided frame for maximum coverage and protection",
     features: ["Complete enclosure", "Maximum weather protection", "Optimal thermal performance", "Architectural symmetry"]
   },
   {
     id: "3-sided",
     title: "THERMACORE© Box Shroud 3-sided",
-    modelCode: "TC-3S",
     image: "/lovable-uploads/768020d3-4afb-4044-ad5e-f1a1487a00c0.png",
-    description: "U-shaped three-sided shroud for enhanced protection without full enclosure",
     features: ["Partial enclosure", "Enhanced ventilation", "Reduced material cost", "Easy maintenance access"]
   },
   {
     id: "2-sided",
     title: "THERMACORE© Box Shroud 2-sided",
-    modelCode: "TC-2S",
     image: "/lovable-uploads/16fba105-5a55-4b35-baf4-715f4d5c09c4.png",
-    description: "L-shaped corner configuration for optimal corner installations",
     features: ["Corner protection", "Minimal footprint", "Cost effective", "Flexible installation"]
   }
 ];
@@ -68,13 +60,7 @@ const ProductStandardConfigurations = () => {
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <h3 className="font-bold text-xl mb-2">{config.title}</h3>
-                      <p className="text-sm text-muted-foreground font-medium mb-2">
-                        Model: {config.modelCode}
-                      </p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {config.description}
-                      </p>
+                      <h3 className="font-bold text-xl mb-4">{config.title}</h3>
                     </div>
                     <div className="space-y-2">
                       <h4 className="font-semibold text-sm">Key Features:</h4>
