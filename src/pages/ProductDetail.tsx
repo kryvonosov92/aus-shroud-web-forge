@@ -133,12 +133,7 @@ const ProductDetail = () => {
                     </div>
 
                     <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                      {product.name.toLowerCase().includes('louvered') 
-                        ? "The ThermaCore© Louvered Shroud features horizontal slats designed to achieve 25% transparency, providing a visually appealing alternative to frosted glass and maintaining airflow."
-                        : product.name.toLowerCase().includes('tapered')
-                        ? "The ThermaCore© Tapered Shroud boasts a visually striking design, intentionally developed to focus on light control whilst minimising visual bulk. This series is a beachside favourite."
-                        : (product.description || "The ThermaCore© Shroud boasts a highly adaptable and meticulously engineered design, intentionally developed to support the broadest range of architectural projects. This series is tailor-made for architects who require a full array of customisation.")
-                      }
+                      {product.description || "The ThermaCore© Shroud boasts a highly adaptable and meticulously engineered design, intentionally developed to support the broadest range of architectural projects. This series is tailor-made for architects who require a full array of customisation."}
                     </p>
 
                     {/* Action Buttons */}
