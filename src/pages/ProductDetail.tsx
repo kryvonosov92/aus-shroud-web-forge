@@ -51,8 +51,19 @@ const ProductDetail = () => {
     fetchProduct();
   }, [slug]);
 
-  // Use the product's own image instead of hardcoded slideshow
-  const images = [product?.image_url].filter(Boolean);
+  // Hood product slideshow images
+  const getProductImages = () => {
+    if (product?.name.toLowerCase().includes('hood')) {
+      return [
+        product?.image_url,
+        '/lovable-uploads/374f902e-c5f0-4b98-a587-4bd95ced4b1e.png'
+      ].filter(Boolean);
+    }
+    // For other products, use their own image
+    return [product?.image_url].filter(Boolean);
+  };
+  
+  const images = getProductImages();
 
   // Reset carousel index if images change
   useEffect(() => {
