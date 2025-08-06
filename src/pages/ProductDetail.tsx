@@ -59,6 +59,13 @@ const ProductDetail = () => {
         '/lovable-uploads/374f902e-c5f0-4b98-a587-4bd95ced4b1e.png'
       ].filter(Boolean);
     }
+    if (product?.name.toLowerCase().includes('box')) {
+      return [
+        product?.image_url,
+        '/lovable-uploads/12482805-d3c2-4952-a33d-61e1f2077b49.png',
+        '/lovable-uploads/abb7647d-a926-4d24-b76b-5a55693c07f6.png'
+      ].filter(Boolean);
+    }
     if (product?.name.toLowerCase().includes('modular')) {
       return [
         product?.image_url,
