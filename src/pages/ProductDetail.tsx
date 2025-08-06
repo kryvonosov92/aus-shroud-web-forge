@@ -164,7 +164,7 @@ const ProductDetail = () => {
                         <img
                           src={images[activeIdx]}
                           alt={product.name}
-                          className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 scale-125 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
+                          className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 scale-110 object-left ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
                           onLoad={handleImgLoad}
                           onError={handleImgError}
                         />
