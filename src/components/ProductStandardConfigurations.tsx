@@ -42,23 +42,21 @@ const ProductStandardConfigurations = () => {
           {/* Configuration Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {configurations.map((config) => (
-              <Card key={config.id} className="group hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="aspect-square bg-background rounded-lg mb-6 overflow-hidden border">
-                    <img
-                      src={config.image}
-                      alt={config.title}
-                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.currentTarget.src = "/placeholder.svg";
-                      }}
-                    />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="font-bold text-xl">{config.title}</h3>
-                  </div>
-                </CardContent>
-              </Card>
+              <div key={config.id} className="group">
+                <div className="aspect-[4/3] bg-muted rounded-lg mb-6 overflow-hidden p-8">
+                  <img
+                    src={config.image}
+                    alt={config.title}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.currentTarget.src = "/placeholder.svg";
+                    }}
+                  />
+                </div>
+                <div className="text-center">
+                  <h3 className="font-bold text-xl">{config.title}</h3>
+                </div>
+              </div>
             ))}
           </div>
 
