@@ -51,12 +51,18 @@ const ProductDetail = () => {
     fetchProduct();
   }, [slug]);
 
-  // Hood product slideshow images
+  // Product-specific slideshow images
   const getProductImages = () => {
     if (product?.name.toLowerCase().includes('hood')) {
       return [
         product?.image_url,
         '/lovable-uploads/374f902e-c5f0-4b98-a587-4bd95ced4b1e.png'
+      ].filter(Boolean);
+    }
+    if (product?.name.toLowerCase().includes('modular')) {
+      return [
+        product?.image_url,
+        '/lovable-uploads/f9bf38ef-3416-4804-aaff-7da75317a5f9.png'
       ].filter(Boolean);
     }
     // For other products, use their own image
