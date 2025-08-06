@@ -25,7 +25,7 @@ const configurations: Configuration[] = [
   {
     id: "curved",
     title: "THERMACORE© Curved Shroud",
-    image: "/lovable-uploads/2f444e15-d193-4501-bdfc-6255b8afdccb.png"
+    image: "/lovable-uploads/efc1f634-6843-41f1-94f1-c59430a1a97a.png"
   }
 ];
 
