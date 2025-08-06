@@ -71,7 +71,6 @@ const ProductDetail = () => {
     }
     if (product?.name.toLowerCase().includes('curved')) {
       return [
-        product?.image_url,
         '/lovable-uploads/1aae726f-762a-4c16-b289-5dcdf8e70726.png',
         '/lovable-uploads/8ff514c2-1291-4b59-88e7-438067d54937.png'
       ].filter(Boolean);
