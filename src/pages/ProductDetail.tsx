@@ -296,7 +296,9 @@ const ProductDetail = () => {
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Profile</span>
-                              <span className="text-muted-foreground text-xs">6.0mm</span>
+                              <span className="text-muted-foreground text-xs">
+                                {product.name.toLowerCase().includes('boxed') ? '50mm hollow' : '6.0mm'}
+                              </span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Wind Rating</span>
@@ -312,7 +314,9 @@ const ProductDetail = () => {
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Standard Profile Depth</span>
-                              <span className="text-muted-foreground text-xs">300mm / 450mm / 600mm</span>
+                              <span className="text-muted-foreground text-xs">
+                                {product.name.toLowerCase().includes('boxed') ? '300mm only' : '300mm / 450mm / 600mm'}
+                              </span>
                             </div>
                              <div className="flex justify-between py-1 border-b border-muted/30">
                                <span className="font-medium text-xs">Profile Slope</span>
