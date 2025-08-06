@@ -62,11 +62,8 @@ const ProductStandardConfigurations = () => {
 
           {/* Custom Note */}
           <div className="text-center">
-            <p className="text-muted-foreground mb-2">
-              All configurations available in custom dimensions up to 6000mm x 6000mm*
-            </p>
-            <p className="text-xs text-muted-foreground">
-              *Subject to engineering requirements and structural limitations
+            <p className="text-muted-foreground">
+              Not the right combination? Contact us for a custom request.
             </p>
           </div>
         </div>
