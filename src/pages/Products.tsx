@@ -18,7 +18,7 @@ const Products = () => {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .in('name', ['ThermaCore© Box Shroud', 'ThermaCore© Corner Shroud', 'ThermaCore© Hood', 'ThermaCore© Tapered Shroud', 'ThermaCore© Louvered Shroud', 'ThermaCore© Modular Shroud', 'THERMACORE© Curved Shroud'])
+        .in('name', ['ThermaCore© Box Shroud', 'ThermaCore© Corner Shroud', 'ThermaCore© Hood', 'ThermaCore© Tapered Shroud', 'ThermaCore© Louvered Shroud', 'ThermaCore© Modular Shroud', 'THERMACORE© Curved Shroud', 'THERMACORE© Boxed Shroud'])
         .order('created_at', { ascending: true });
       if (!error) {
         setProducts(data || []);
