@@ -363,7 +363,7 @@ const ProductDetail = () => {
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Density</span>
                               <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('boxed') ? '2700 kg/m³' : '2.65g/m³'}
+                                {product.name.toLowerCase().includes('boxed') ? '2700 kg/m³' : '2650 kg/m³'}
                               </span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
