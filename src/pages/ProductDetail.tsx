@@ -306,7 +306,9 @@ const ProductDetail = () => {
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Material</span>
-                              <span className="text-muted-foreground text-xs">Aluminium 5083 H32 Marine-Grade</span>
+                              <span className="text-muted-foreground text-xs">
+                                {product.name.toLowerCase().includes('boxed') ? 'Aluminium 6106 T6' : 'Aluminium 5083 H32 Marine-Grade'}
+                              </span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Profile Depth</span>
