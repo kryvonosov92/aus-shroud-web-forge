@@ -79,6 +79,9 @@ const ProductDetail = () => {
         '/lovable-uploads/f9bf38ef-3416-4804-aaff-7da75317a5f9.png'
       ].filter(Boolean);
     }
+    if (product?.name.toLowerCase().includes('battenshield')) {
+      return [product?.image_url].filter(Boolean);
+    }
     // For other products, use their own image
     return [product?.image_url].filter(Boolean);
   };
