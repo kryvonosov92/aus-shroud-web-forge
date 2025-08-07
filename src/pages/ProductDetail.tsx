@@ -88,6 +88,9 @@ const ProductDetail = () => {
         '/lovable-uploads/c4917f5c-bc26-4310-9e62-ae3067ea6083.png'
       ].filter(Boolean);
     }
+    if (product?.name.toLowerCase().includes('perfashield')) {
+      return [product?.image_url].filter(Boolean);
+    }
     // For other products, use their own image
     return [product?.image_url].filter(Boolean);
   };
@@ -138,7 +141,7 @@ const ProductDetail = () => {
                 <div className="space-y-8">
                   <div>
                     <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-                      {product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') ? (
+                      {product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') || product.name.toLowerCase().includes('perfashield') ? (
                         <span className="text-primary">{product.name.toUpperCase()}</span>
                       ) : (
                         <>
@@ -211,7 +214,7 @@ const ProductDetail = () => {
                           src={images[activeIdx]}
                           alt={product.name}
                           className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 ${
-                            product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield')
+                            product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') || product.name.toLowerCase().includes('perfashield')
                               ? 'object-center scale-100' 
                               : 'scale-125 object-left'
                           } ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
