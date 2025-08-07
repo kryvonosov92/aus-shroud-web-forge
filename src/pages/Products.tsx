@@ -72,8 +72,7 @@ const Products = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-foreground">
-              Our Window Shroud
-              <span className="block text-primary">Products</span>
+              <span className="text-primary">Product Range</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
               Discover our comprehensive range of window shrouds and screening solutions designed for Australian homes and commercial properties.
@@ -84,7 +83,6 @@ const Products = () => {
       {/* Products Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Product Range</h2>
           {loading ? (
             <div className="text-center text-lg">Loading products...</div>
           ) : (
