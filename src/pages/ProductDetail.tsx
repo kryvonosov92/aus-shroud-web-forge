@@ -314,16 +314,19 @@ const ProductDetail = () => {
                               <span className="font-medium text-xs">Product</span>
                               <span className="text-muted-foreground text-xs">{product.name}</span>
                             </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Category</span>
-                              <span className="text-muted-foreground text-xs">Window Shroud</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Profile</span>
-                              <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('boxed') ? '50mm hollow' : '6.0mm'}
-                              </span>
-                            </div>
+                             <div className="flex justify-between py-1 border-b border-muted/30">
+                               <span className="font-medium text-xs">Category</span>
+                               <span className="text-muted-foreground text-xs">
+                                 {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? 'Window Awning' : 'Window Shroud'}
+                               </span>
+                             </div>
+                             <div className="flex justify-between py-1 border-b border-muted/30">
+                               <span className="font-medium text-xs">Profile</span>
+                               <span className="text-muted-foreground text-xs">
+                                 {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? '50mm' :
+                                  product.name.toLowerCase().includes('boxed') ? '50mm hollow' : '6.0mm'}
+                               </span>
+                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Wind Rating</span>
                               <span className="text-muted-foreground text-xs">15m</span>
@@ -375,12 +378,13 @@ const ProductDetail = () => {
                         <div className="space-y-2">
                           <h3 className="text-lg font-semibold border-b pb-1">Dimensions & Performance</h3>
                           <div className="space-y-1">
-                            {!product?.name.toLowerCase().includes('hood') && (
-                              <div className="flex justify-between py-1 border-b border-muted/30">
-                                <span className="font-medium text-xs">Max Height</span>
-                                <span className="text-muted-foreground text-xs">6000mm*</span>
-                              </div>
-                            )}
+                             {!product?.name.toLowerCase().includes('hood') && 
+                              !(product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning')) && (
+                               <div className="flex justify-between py-1 border-b border-muted/30">
+                                 <span className="font-medium text-xs">Max Height</span>
+                                 <span className="text-muted-foreground text-xs">6000mm*</span>
+                               </div>
+                             )}
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Max Width</span>
                               <span className="text-muted-foreground text-xs">6000mm*</span>
