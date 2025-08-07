@@ -19,8 +19,12 @@ const Products = () => {
         .from('products')
         .select('*')
         .in('name', ['ThermaCore© Box Shroud', 'ThermaCore© Corner Shroud', 'ThermaCore© Hood', 'ThermaCore© Tapered Shroud', 'ThermaCore© Louvered Shroud', 'ThermaCore© Modular Shroud', 'ThermaCore© Curved Shroud', 'ThermaCore© Boxed Shroud', 'LouvreShield© Awning', 'BattenShield© Screen', 'PerfaShield© Screen', 'LouvreShield© Screen']);
-      if (!error) {
-        setProducts(data || []);
+      
+      if (!error && data) {
+        // Sort products according to our desired order
+        const desiredOrder = ['ThermaCore© Box Shroud', 'ThermaCore© Corner Shroud', 'ThermaCore© Hood', 'ThermaCore© Tapered Shroud', 'ThermaCore© Louvered Shroud', 'ThermaCore© Modular Shroud', 'ThermaCore© Curved Shroud', 'ThermaCore© Boxed Shroud', 'LouvreShield© Awning', 'BattenShield© Screen', 'PerfaShield© Screen', 'LouvreShield© Screen'];
+        const sortedProducts = desiredOrder.map(name => data.find(product => product.name === name)).filter(Boolean);
+        setProducts(sortedProducts);
       }
       setLoading(false);
     };
