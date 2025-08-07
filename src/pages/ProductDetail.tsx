@@ -310,12 +310,14 @@ const ProductDetail = () => {
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Profile Depth</span>
-                              <span className="text-muted-foreground text-xs">50mm - 850mm*</span>
+                              <span className="text-muted-foreground text-xs">
+                                {product.name.toLowerCase().includes('boxed') ? '100mm - 300mm' : '50mm - 850mm*'}
+                              </span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Standard Profile Depth</span>
                               <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('boxed') ? '300mm only' : '300mm / 450mm / 600mm'}
+                                {product.name.toLowerCase().includes('boxed') ? '200mm / 250mm / 300mm' : '300mm / 450mm / 600mm'}
                               </span>
                             </div>
                              <div className="flex justify-between py-1 border-b border-muted/30">
