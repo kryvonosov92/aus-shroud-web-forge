@@ -337,6 +337,7 @@ const ProductDetail = () => {
                               <span className="font-medium text-xs">Material</span>
                               <span className="text-muted-foreground text-xs">
                                 {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? 'Mild Steel Frame and Aluminium Louvers' : 
+                                 product.name.toLowerCase().includes('screen') ? 'Mild Steel Frame and Aluminium Screen' :
                                  product.name.toLowerCase().includes('boxed') ? 'Aluminium 6106 T6' : 'Aluminium 5083 H32 Marine-Grade'}
                               </span>
                             </div>
