@@ -82,6 +82,12 @@ const ProductDetail = () => {
     if (product?.name.toLowerCase().includes('battenshield')) {
       return [product?.image_url].filter(Boolean);
     }
+    if (product?.name.toLowerCase().includes('louvreshield')) {
+      return [
+        '/lovable-uploads/2c5a155d-b368-417d-b3ab-1fe76e0d6a58.png',
+        '/lovable-uploads/c4917f5c-bc26-4310-9e62-ae3067ea6083.png'
+      ].filter(Boolean);
+    }
     // For other products, use their own image
     return [product?.image_url].filter(Boolean);
   };
@@ -132,7 +138,7 @@ const ProductDetail = () => {
                 <div className="space-y-8">
                   <div>
                     <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-                      {product.name.toLowerCase().includes('battenshield') ? (
+                      {product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') ? (
                         <span className="text-primary">{product.name.toUpperCase()}</span>
                       ) : (
                         <>
