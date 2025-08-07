@@ -211,8 +211,8 @@ const ProductDetail = () => {
                           src={images[activeIdx]}
                           alt={product.name}
                           className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 ${
-                            product.name.toLowerCase().includes('battenshield') 
-                              ? 'object-center' 
+                            product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield')
+                              ? 'object-center scale-90' 
                               : 'scale-125 object-left'
                           } ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
                           onLoad={handleImgLoad}
