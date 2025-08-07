@@ -317,13 +317,15 @@ const ProductDetail = () => {
                              <div className="flex justify-between py-1 border-b border-muted/30">
                                <span className="font-medium text-xs">Category</span>
                                <span className="text-muted-foreground text-xs">
-                                 {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? 'Window Awning' : 'Window Shroud'}
+                                 {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? 'Window Awning' : 
+                                  product.name.toLowerCase().includes('screen') ? 'Window Screen' : 'Window Shroud'}
                                </span>
                              </div>
                              <div className="flex justify-between py-1 border-b border-muted/30">
                                <span className="font-medium text-xs">Profile</span>
                                <span className="text-muted-foreground text-xs">
                                  {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? '50mm' :
+                                  product.name.toLowerCase().includes('screen') ? '50mm' :
                                   product.name.toLowerCase().includes('boxed') ? '50mm hollow' : '6.0mm'}
                                </span>
                              </div>
