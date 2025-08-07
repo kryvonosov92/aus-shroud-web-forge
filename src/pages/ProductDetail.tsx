@@ -64,9 +64,9 @@ const ProductDetail = () => {
     }
     if (product?.name.toLowerCase().includes('box')) {
       return [
-        '/lovable-uploads/3980fa6d-f692-4814-919d-9a9f208f2d35.png',
+        '/lovable-uploads/805cff57-1b84-4482-8c5f-bf88359782f6.png',
         '/lovable-uploads/804ea699-e27b-4f45-aebd-48866cf7fab0.png',
-        '/lovable-uploads/805cff57-1b84-4482-8c5f-bf88359782f6.png'
+        '/lovable-uploads/3980fa6d-f692-4814-919d-9a9f208f2d35.png'
       ].filter(Boolean);
     }
     if (product?.name.toLowerCase().includes('curved')) {
