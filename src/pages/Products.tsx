@@ -120,7 +120,7 @@ const Products = () => {
                                 : product.image_url
                           }
                           alt={`${product.name} - product image`}
-                          className="w-full h-64 object-contain bg-muted/30"
+                          className={`w-full ${product.name?.toLowerCase().includes('curved shroud') ? 'h-80 md:h-96' : 'h-64'} object-contain bg-muted/30`}
                           loading="lazy"
                           decoding="async"
                           onError={(e) => {
