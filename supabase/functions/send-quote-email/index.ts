@@ -63,7 +63,7 @@ serve(async (req) => {
 
     const attachmentsForResend = attachments.map((a) => ({
       filename: a.filename,
-      content: base64ToUint8Array(a.base64),
+      content: a.base64, // Resend expects Base64 string for local files
     }));
 
     const html = `
