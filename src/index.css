@@ -59,6 +59,9 @@ All colors MUST be HSL.
     --input: 220 13% 91%;
     --ring: 220 30% 15%;
 
+    /* CTA hover color from reference image */
+    --cta-hover: 0 0% 26%;
+
     /* Custom brand colors */
     --sandstone: 36 22% 69%;
 
@@ -117,6 +120,9 @@ All colors MUST be HSL.
     --border: 220 25% 15%;
     --input: 220 25% 15%;
     --ring: 220 15% 85%;
+
+    /* CTA hover color from reference image */
+    --cta-hover: 0 0% 26%;
 
     /* Custom brand colors */
     --sandstone: 36 22% 69%;
