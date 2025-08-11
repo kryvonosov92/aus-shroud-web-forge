@@ -363,7 +363,11 @@ const ProductDetail = () => {
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Standard Profile Depth</span>
                               <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('boxed') ? '200mm / 250mm / 300mm' : '300mm / 450mm / 600mm'}
+                                {product.name.toLowerCase().includes('screen')
+                                  ? '150mm / 200mm'
+                                  : product.name.toLowerCase().includes('boxed')
+                                    ? '200mm / 250mm / 300mm'
+                                    : '300mm / 450mm / 600mm'}
                               </span>
                             </div>
                              <div className="flex justify-between py-1 border-b border-muted/30">
@@ -372,7 +376,7 @@ const ProductDetail = () => {
                              </div>
                              <div className="flex justify-between py-1">
                                <span className="font-medium text-xs">Fixing Flange</span>
-                               <span className="text-muted-foreground text-xs">Typ. 50mm / 100mm</span>
+                               <span className="text-muted-foreground text-xs">{product.name.toLowerCase().includes('screen') ? '50mm' : 'Typ. 50mm / 100mm'}</span>
                              </div>
                           </div>
                         </div>
