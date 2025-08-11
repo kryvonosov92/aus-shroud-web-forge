@@ -55,7 +55,7 @@ const Products = () => {
     {
       icon: Wrench,
       title: "Easy Installation",
-      description: "Professional installation with minimal disruption"
+      description: "User-friendly installation that most carpenters handle with ease"
     },
     {
       icon: Star,
