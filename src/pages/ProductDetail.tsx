@@ -370,10 +370,12 @@ const ProductDetail = () => {
                                     : '300mm / 450mm / 600mm'}
                               </span>
                             </div>
-                             <div className="flex justify-between py-1 border-b border-muted/30">
-                               <span className="font-medium text-xs">Profile Slope</span>
-                               <span className="text-muted-foreground text-xs">3° (5%)</span>
-                             </div>
+                             {!product.name.toLowerCase().includes('screen') && (
+                              <div className="flex justify-between py-1 border-b border-muted/30">
+                                <span className="font-medium text-xs">Profile Slope</span>
+                                <span className="text-muted-foreground text-xs">3° (5%)</span>
+                              </div>
+                             )}
                              <div className="flex justify-between py-1">
                                <span className="font-medium text-xs">Fixing Flange</span>
                                <span className="text-muted-foreground text-xs">{product.name.toLowerCase().includes('screen') ? '50mm' : 'Typ. 50mm / 100mm'}</span>
