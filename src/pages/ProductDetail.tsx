@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { ChevronRight, Star, Wrench, Globe, CheckCircle, Ruler } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
+import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -98,6 +98,17 @@ const ProductDetail = () => {
   };
   
   const images = getProductImages();
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const productSchema = product ? {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: images && images.length ? images.map((src) => (src?.startsWith('http') ? src : `${origin}${src}`)) : undefined,
+    description: product.description || undefined,
+    brand: { "@type": "Organization", name: "AusWindowShrouds" },
+    url: origin && slug ? `${origin}/products/${slug}` : undefined,
+    category: product.category || undefined
+  } : undefined;
 
   // Reset carousel index if images change
   useEffect(() => {
@@ -124,6 +135,13 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={`${product?.name || 'Product'} | AusWindowShrouds`}
+        description={product?.description || 'Premium window shrouds, screens and awnings engineered for Australian conditions.'}
+        canonicalPath={`/products/${slug}`}
+        image={product?.image_url}
+        structuredData={productSchema}
+      />
       <Header />
       {loading ? (
         <div className="container mx-auto px-4 py-16">

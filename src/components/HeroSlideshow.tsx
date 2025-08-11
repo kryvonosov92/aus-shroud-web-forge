@@ -91,6 +91,8 @@ const HeroSlideshow = () => {
                     slide.id === 3 ? 'object-[center_40%]' : 
                     'object-center'
                   }`}
+                  loading={slide.id === 1 ? 'eager' : 'lazy'}
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-black/40" />
               </div>

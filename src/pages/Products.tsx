@@ -7,6 +7,7 @@ import { Shield, Eye, Sun, Wind, Wrench, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -30,6 +31,19 @@ const Products = () => {
     };
     fetchProducts();
   }, []);
+
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const toSlug = (name: string) => encodeURIComponent(name.toLowerCase().replace(/\s+/g, '-'));
+  const itemListSchema = products && products.length ? {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: products.map((p: any, idx: number) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      url: `${origin}/products/${toSlug(p.name)}`,
+      name: p.name
+    }))
+  } : undefined;
 
   const features = [
     {
@@ -66,6 +80,12 @@ const Products = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Window Shrouds & Screens | Product Range"
+        description="Explore our range of aluminium window shrouds, screens and awnings designed for Australian conditions."
+        canonicalPath="/products"
+        structuredData={itemListSchema}
+      />
       <Header />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary/10 to-primary-glow/5 py-16">
@@ -93,17 +113,19 @@ const Products = () => {
                      <div className="relative">
                         <img 
                           src={product.image_url} 
-                          alt={product.name}
+                          alt={`${product.name} - product image`}
                           className="w-full h-64 object-contain bg-muted/30"
-                         onError={(e) => {
-                           console.error(`Failed to load image for ${product.name}:`, product.image_url);
-                           e.currentTarget.src = "/placeholder.svg";
-                         }}
-                         onLoad={() => {
-                           console.log(`Successfully loaded image for ${product.name}:`, product.image_url);
-                         }}
-                       />
-                     </div>
+                          loading="lazy"
+                          decoding="async"
+                          onError={(e) => {
+                            console.error(`Failed to load image for ${product.name}:`, product.image_url);
+                            e.currentTarget.src = "/placeholder.svg";
+                          }}
+                          onLoad={() => {
+                            console.log(`Successfully loaded image for ${product.name}:`, product.image_url);
+                          }}
+                        />
+                      </div>
                     <CardHeader>
                       <CardTitle className="text-xl">{product.name}</CardTitle>
                     </CardHeader>
