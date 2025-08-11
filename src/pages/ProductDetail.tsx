@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { ChevronRight, Star, Wrench, Globe, CheckCircle, Ruler } from "lucide-react";
@@ -175,17 +175,9 @@ const ProductDetail = () => {
                       <Button 
                         variant="outline" 
                         className="font-medium"
-                        onClick={() => {
-                          window.location.href = '/#contact';
-                          setTimeout(() => {
-                            const element = document.getElementById('contact');
-                            if (element) {
-                              element.scrollIntoView({ behavior: 'smooth' });
-                            }
-                          }, 100);
-                        }}
+                        asChild
                       >
-                        Get Quote →
+                        <Link to="/#contact">Get Quote →</Link>
                       </Button>
                       <Button 
                         variant="outline" 
