@@ -82,16 +82,19 @@ const ProductDetail = () => {
       ].filter(Boolean);
     }
     if (product?.name.toLowerCase().includes('battenshield')) {
-      return [product?.image_url].filter(Boolean);
+      return ['/lovable-uploads/9b88b6f4-645a-47e6-91e7-7aa2b3bcd4f3.png'].filter(Boolean)
     }
     if (product?.name.toLowerCase().includes('louvreshield')) {
+      if (product?.name.toLowerCase().includes('screen')) {
+        return ['/lovable-uploads/042681d7-6ab0-42e2-bb2e-54271f8b5abe.png'].filter(Boolean)
+      }
       return [
         '/lovable-uploads/2c5a155d-b368-417d-b3ab-1fe76e0d6a58.png',
         '/lovable-uploads/c4917f5c-bc26-4310-9e62-ae3067ea6083.png'
-      ].filter(Boolean);
+      ].filter(Boolean)
     }
     if (product?.name.toLowerCase().includes('perfashield')) {
-      return [product?.image_url].filter(Boolean);
+      return ['/lovable-uploads/71343b55-70fd-41c4-815e-8ad2477b75d4.png'].filter(Boolean)
     }
     // For other products, use their own image
     return [product?.image_url].filter(Boolean);
