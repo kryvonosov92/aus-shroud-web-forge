@@ -7,7 +7,7 @@ const Hero = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center text-primary-foreground">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl mb-8 lg:mb-12 leading-tight font-bold">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl mb-8 lg:mb-12 leading-tight font-bold uppercase">
             Window Shading
             <span className="block text-sandstone">Designed</span>
             for Australian Homes
