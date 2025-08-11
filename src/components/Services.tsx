@@ -27,18 +27,18 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {services.map((service, index) => <Card key={index} className="border-border hover:shadow-elegant transition-all duration-300 group">
-              <CardHeader className="pb-6">
+              <CardHeader className="pb-6 text-center">
                 <div className="bg-primary/10 rounded-full w-14 h-14 mb-6 mx-auto flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <service.icon className="w-8 h-8 text-primary" />
                 </div>
-                <CardTitle className="text-2xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">{service.title}</CardTitle>
-                <CardDescription className="text-base leading-relaxed">
+                <CardTitle className="text-2xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300 text-center">{service.title}</CardTitle>
+                <CardDescription className="text-base leading-relaxed text-center">
                   {service.description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-3">
-                  {service.features.map((feature, featureIndex) => <li key={featureIndex} className="flex items-center text-sm text-muted-foreground">
+                <ul className="space-y-3 text-center">
+                  {service.features.map((feature, featureIndex) => <li key={featureIndex} className="flex items-center justify-center text-sm text-muted-foreground">
                       <div className="w-1.5 h-1.5 bg-primary rounded-full mr-3 flex-shrink-0" />
                       {feature}
                     </li>)}
