@@ -140,9 +140,9 @@ const Products = () => {
       {/* CTA Section */}
       <section className="py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Property?</h2>
+          <h2 className="text-3xl font-bold mb-4">Need something custom?</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Contact us today for a free consultation and custom quote for your window shroud project.
+            Contact us today to discuss your project.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="px-8">
