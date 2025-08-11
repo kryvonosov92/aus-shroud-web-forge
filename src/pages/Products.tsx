@@ -112,7 +112,13 @@ const Products = () => {
                   <Link to={`/products/${encodeURIComponent(product.name.toLowerCase().replace(/\s+/g, '-'))}`} className="block">
                      <div className="relative">
                         <img 
-                          src={product.name?.toLowerCase().includes('boxed shroud') ? '/lovable-uploads/32eca584-21c8-44c9-966f-12f3c3143e2f.png' : product.image_url}
+                          src={
+                            product.name?.toLowerCase().includes('curved shroud')
+                              ? '/lovable-uploads/582943a2-b1aa-4218-a139-d17f92185af1.png'
+                              : product.name?.toLowerCase().includes('boxed shroud')
+                                ? '/lovable-uploads/32eca584-21c8-44c9-966f-12f3c3143e2f.png'
+                                : product.image_url
+                          }
                           alt={`${product.name} - product image`}
                           className="w-full h-64 object-contain bg-muted/30"
                           loading="lazy"
