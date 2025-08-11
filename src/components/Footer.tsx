@@ -1,7 +1,7 @@
 import { Phone, Mail, MapPin, Instagram } from "lucide-react";
 const Footer = () => {
   return <footer className="bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg font-semibold mb-4">Service Areas</h3>
@@ -39,7 +39,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-primary-foreground/60">
+        <div className="border-t border-primary-foreground/20 mt-6 pt-6 text-center text-primary-foreground/60">
           <p>© 2025 Aus Window Shrouds Pty Ltd all rights reserved | ABN: 22 665 547 375</p>
         </div>
       </div>
