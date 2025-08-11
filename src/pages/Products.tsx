@@ -144,12 +144,9 @@ const Products = () => {
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Contact us today to discuss your project.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="px-8">
-              Get Free Quote
-            </Button>
-            <Button variant="outline" size="lg" className="px-8">
-              Download Brochure
+          <div className="flex justify-center">
+            <Button size="lg" className="px-8" asChild>
+              <Link to="/#contact">Get In Touch</Link>
             </Button>
           </div>
         </div>
