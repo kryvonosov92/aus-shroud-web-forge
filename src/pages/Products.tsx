@@ -110,7 +110,7 @@ const Products = () => {
               {products.map((product) => (
                 <Card key={product.id} className="overflow-hidden hover-scale">
                   <Link to={`/products/${encodeURIComponent(product.name.toLowerCase().replace(/\s+/g, '-'))}`} className="block">
-                     <div className="relative">
+                     <div className="relative h-64 bg-muted/30 flex items-center justify-center overflow-hidden">
                         <img 
                           src={
                             product.name?.toLowerCase().includes('curved shroud')
@@ -120,12 +120,12 @@ const Products = () => {
                                 : product.image_url
                           }
                           alt={`${product.name} - product image`}
-                          className="w-full h-64 object-contain bg-muted/30"
+                          className={`w-full h-full object-contain ${product.name?.toLowerCase().includes('curved shroud') ? 'scale-125' : ''}`}
                           loading="lazy"
                           decoding="async"
                           onError={(e) => {
                             console.error(`Failed to load image for ${product.name}:`, product.image_url);
-                            e.currentTarget.src = "/placeholder.svg";
+                            (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
                           }}
                           onLoad={() => {
                             console.log(`Successfully loaded image for ${product.name}:`, product.image_url);
