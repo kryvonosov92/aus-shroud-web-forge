@@ -203,7 +203,7 @@ const Contact = () => {
               </CardHeader>
               <CardContent className="space-y-8">
                 <div className="flex items-center space-x-4">
-                  <div className="bg-primary/10 p-3 rounded-lg">
+                  <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
                     <Phone className="w-6 h-6 text-primary" />
                   </div>
                   <div>
@@ -213,7 +213,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="bg-primary/10 p-3 rounded-lg">
+                  <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
                     <Mail className="w-6 h-6 text-primary" />
                   </div>
                   <div>
@@ -223,7 +223,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="bg-primary/10 p-3 rounded-lg">
+                  <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
                     <Instagram className="w-6 h-6 text-primary" />
                   </div>
                   <div>
@@ -233,7 +233,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="bg-primary/10 p-3 rounded-lg">
+                  <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
@@ -243,7 +243,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="bg-primary/10 p-3 rounded-lg">
+                  <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
@@ -253,7 +253,7 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="bg-primary/10 p-3 rounded-lg">
+                  <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
                     <Clock className="w-6 h-6 text-primary" />
                   </div>
                   <div>
