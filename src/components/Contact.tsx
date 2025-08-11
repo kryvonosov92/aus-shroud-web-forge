@@ -103,7 +103,28 @@ const Contact = () => {
     try {
       // Upload files first
       const attachmentUrls = await uploadFiles();
-      
+
+      // Prepare attachments as base64 for emailing via Edge Function
+      const readFileAsBase64 = (file: File) =>
+        new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const result = reader.result as string;
+            const base64 = result.split(',')[1] || '';
+            resolve(base64);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+
+      const attachmentsPayload = await Promise.all(
+        attachments.map(async (file) => ({
+          filename: file.name,
+          contentType: file.type || 'application/octet-stream',
+          base64: await readFileAsBase64(file),
+        }))
+      );
+
       // Insert quote request
       const { error } = await supabase
         .from('quote_requests')
@@ -116,11 +137,31 @@ const Contact = () => {
           project_address: formData.projectAddress,
           message: formData.message,
           how_heard_about_us: formData.howHeardAboutUs,
-          attachment_urls: attachmentUrls
+          attachment_urls: attachmentUrls,
         });
 
       if (error) {
         throw new Error(error.message);
+      }
+
+      // Fire email via Supabase Edge Function (non-blocking for UX)
+      try {
+        await supabase.functions.invoke('send-quote-email', {
+          body: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            companyName: formData.companyName,
+            projectAddress: formData.projectAddress,
+            message: formData.message,
+            howHeardAboutUs: formData.howHeardAboutUs,
+            attachmentUrls,
+            attachments: attachmentsPayload,
+          },
+        });
+      } catch (emailErr) {
+        console.warn('Email send failed:', emailErr);
       }
 
       toast({
@@ -140,12 +181,12 @@ const Contact = () => {
         howHeardAboutUs: ''
       });
       setAttachments([]);
-      
+
     } catch (error: any) {
       toast({
         title: "Submission failed",
         description: error.message,
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);

@@ -1,0 +1,4 @@
+project_id = "nlxdrbqstjodlkrsisbd"
+
+[functions.send-quote-email]
+verify_jwt = false
