@@ -60,7 +60,7 @@ const Products = () => {
     {
       icon: Star,
       title: "Premium Quality",
-      description: "High-grade materials with extended warranties"
+      description: "High-grade materials from Australian suppliers with extended warranties"
     }
   ];
 
