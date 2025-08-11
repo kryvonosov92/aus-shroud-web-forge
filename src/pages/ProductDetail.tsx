@@ -64,8 +64,10 @@ const ProductDetail = () => {
     }
     if (product?.name.toLowerCase().includes('box')) {
       return [
-        '/lovable-uploads/32eca584-21c8-44c9-966f-12f3c3143e2f.png'
-      ].filter(Boolean);
+        '/lovable-uploads/70d9baa7-695b-4e77-9b4b-b942f82ea9c9.png',
+        '/lovable-uploads/03df05e3-281f-4ed1-bb99-dcf72a7d59ae.png',
+        '/lovable-uploads/06d6240f-5c5e-4597-9160-bc673eaf8c6b.png',
+      ].filter(Boolean)
     }
     if (product?.name.toLowerCase().includes('curved')) {
       return [
