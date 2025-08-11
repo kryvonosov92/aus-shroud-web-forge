@@ -432,15 +432,17 @@ const Contact = () => {
                     </div>
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    variant="hero" 
-                    size="lg" 
-                    className="w-full"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Submitting..." : "Send Quote Request"}
-                  </Button>
+                  <div className="bg-card rounded-md p-1 shadow-card">
+                    <Button 
+                      type="submit" 
+                      variant="outline-hero" 
+                      size="lg" 
+                      className="w-full"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Submitting..." : "Send Quote Request"}
+                    </Button>
+                  </div>
                 </form>
               </CardContent>
             </Card>
