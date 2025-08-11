@@ -46,6 +46,8 @@ All colors MUST be HSL.
     --shadow-card: 0 10px 25px -5px hsl(220 30% 15% / 0.1);
     --shadow-button: 0 4px 15px hsl(220 30% 15% / 0.2);
 
+    --radius: 0.75rem;
+
     /* Glass morphism effect */
     --glass-bg: hsl(0 0% 100% / 0.8);
     --glass-border: hsl(220 20% 85% / 0.3);
@@ -104,6 +106,8 @@ All colors MUST be HSL.
     --shadow-card: 0 10px 25px -5px hsl(220 30% 0% / 0.3);
     --shadow-button: 0 4px 15px hsl(220 30% 0% / 0.4);
 
+    --radius: 0.75rem;
+
     --glass-bg: hsl(220 25% 5% / 0.8);
     --glass-border: hsl(220 15% 85% / 0.1);
 
@@ -134,7 +138,14 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased tracking-tight;
+  }
+
+  h1, h2, h3 {
+    @apply font-display tracking-tight leading-tight;
+  }
+  h4, h5, h6 {
+    @apply font-display leading-snug;
   }
 
   /* Smooth scrolling */
