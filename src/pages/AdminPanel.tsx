@@ -4,6 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import BlogManager from "@/components/BlogManager";
 import SEO from "@/components/SEO";
 
 // Product type
@@ -186,6 +188,14 @@ const AdminPanel = () => {
           <h1 className="text-3xl font-bold">Admin Panel</h1>
           <Button onClick={handleLogout}>Logout</Button>
         </div>
+        
+        <Tabs defaultValue="products" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="products">Products</TabsTrigger>
+            <TabsTrigger value="blog">Blog Posts</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="products" className="space-y-6">
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>{editingId ? "Edit Product" : "Add Product"}</CardTitle>
@@ -265,6 +275,12 @@ const AdminPanel = () => {
             )}
           </CardContent>
         </Card>
+          </TabsContent>
+          
+          <TabsContent value="blog">
+            <BlogManager userId={user.id} />
+          </TabsContent>
+        </Tabs>
       </main>
       <Footer />
     </div>
