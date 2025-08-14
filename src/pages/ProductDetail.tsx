@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProductStandardConfigurations from "@/components/ProductStandardConfigurations";
 
-function slugify(name: string) {
+function createProductSlug(name: string) {
   return name.toLowerCase().replace(/\s+/g, '-');
 }
 
@@ -46,7 +46,7 @@ const ProductDetail = () => {
       if (!error && data) {
         // Decode the URL slug to handle encoded characters like %C2%A9
         const decodedSlug = decodeURIComponent(slug || '');
-        const found = data.find((p: Product) => slugify(p.name) === decodedSlug || slugify(p.name) === slug);
+        const found = data.find((p: Product) => createProductSlug(p.name) === decodedSlug || createProductSlug(p.name) === slug);
         setProduct(found || null);
       }
       setLoading(false);
