@@ -165,7 +165,18 @@ const ProductDetail = () => {
                   <div>
                     <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-4">
                       {product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') || product.name.toLowerCase().includes('perfashield') ? (
-                        <span className="text-primary">{product.name.toUpperCase()}</span>
+                        <>
+                          <span className="text-black">
+                            {product.name.includes('BattenShield') ? 'BATTENSHIELD©' :
+                             product.name.includes('LouvreShield') ? 'LOUVRESHIELD©' :
+                             product.name.includes('PerfaShield') ? 'PERFASHIELD©' : product.name.toUpperCase()}
+                          </span>
+                          <br />
+                          <span className="text-primary">
+                            {product.name.toLowerCase().includes('screen') ? 'SCREEN' :
+                             product.name.toLowerCase().includes('awning') ? 'AWNING' : ''}
+                          </span>
+                        </>
                       ) : (
                         <>
                           THERMACORE©<br />
