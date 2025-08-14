@@ -167,9 +167,9 @@ const ProductDetail = () => {
                       {product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') || product.name.toLowerCase().includes('perfashield') ? (
                         <>
                           <span className="text-black">
-                            {product.name.includes('BattenShield') ? 'BATTENSHIELD©' :
-                             product.name.includes('LouvreShield') ? 'LOUVRESHIELD©' :
-                             product.name.includes('PerfaShield') ? 'PERFASHIELD©' : product.name.toUpperCase()}
+                            {product.name.toLowerCase().includes('battenshield') ? 'BATTENSHIELD©' :
+                             product.name.toLowerCase().includes('louvreshield') ? 'LOUVRESHIELD©' :
+                             product.name.toLowerCase().includes('perfashield') ? 'PERFASHIELD©' : product.name.toUpperCase()}
                           </span>
                           <br />
                           <span className="text-primary">
