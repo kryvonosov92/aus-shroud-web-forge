@@ -33,14 +33,14 @@ const Products = () => {
   }, []);
 
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const toSlug = (name: string) => encodeURIComponent(name.toLowerCase().replace(/\s+/g, '-'));
+  const toSlug = (slug: string) => encodeURIComponent(slug);
   const itemListSchema = products && products.length ? {
     "@context": "https://schema.org",
     "@type": "ItemList",
     itemListElement: products.map((p: any, idx: number) => ({
       "@type": "ListItem",
       position: idx + 1,
-      url: `${origin}/products/${toSlug(p.name)}`,
+      url: `${origin}/products/${toSlug((p as any).slug || p.name.toLowerCase().replace(/\s+/g, '-'))}`,
       name: p.name
     }))
   } : undefined;
@@ -109,7 +109,7 @@ const Products = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
               {products.map((product) => (
                 <Card key={product.id} className="overflow-hidden hover-scale">
-                  <Link to={`/products/${encodeURIComponent(product.name.toLowerCase().replace(/\s+/g, '-'))}`} className="block">
+                  <Link to={`/products/${encodeURIComponent((product as any).slug || product.name.toLowerCase().replace(/\s+/g, '-'))}`} className="block">
                      <div className="relative h-64 bg-muted/30 flex items-center justify-center overflow-hidden">
                         <img 
                           src={

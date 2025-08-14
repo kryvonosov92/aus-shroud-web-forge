@@ -20,7 +20,11 @@ type Product = {
   description: string;
   price: number;
   image_url: string;
-  additional_images?: string[];
+  slug: string;
+  additional_images: string[];
+  feature_tags: string[];
+  specifications: any | null;
+  colour_options: any | null;
   category?: string;
   created_at?: string;
   updated_at?: string;
@@ -39,15 +43,14 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
+      const targetSlug = decodeURIComponent(slug || '');
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .order('created_at', { ascending: true });
-      if (!error && data) {
-        // Decode the URL slug to handle encoded characters like %C2%A9
-        const decodedSlug = decodeURIComponent(slug || '');
-        const found = data.find((p: Product) => createProductSlug(p.name) === decodedSlug || createProductSlug(p.name) === slug);
-        setProduct(found || null);
+        .eq('slug', targetSlug)
+        .maybeSingle();
+      if (!error) {
+        setProduct((data as any) || null);
       }
       setLoading(false);
     };
@@ -56,48 +59,12 @@ const ProductDetail = () => {
 
   // Product-specific slideshow images
   const getProductImages = () => {
-    if (product?.name.toLowerCase().includes('hood')) {
-      return [
-        product?.image_url,
-        '/lovable-uploads/374f902e-c5f0-4b98-a587-4bd95ced4b1e.png'
-      ].filter(Boolean);
+    const list: string[] = [];
+    if (product?.image_url) list.push(product.image_url);
+    if (Array.isArray(product?.additional_images) && product!.additional_images.length > 0) {
+      list.push(...product!.additional_images.filter(Boolean));
     }
-    if (product?.name.toLowerCase().includes('box')) {
-      return [
-        '/lovable-uploads/70d9baa7-695b-4e77-9b4b-b942f82ea9c9.png',
-        '/lovable-uploads/03df05e3-281f-4ed1-bb99-dcf72a7d59ae.png',
-        '/lovable-uploads/06d6240f-5c5e-4597-9160-bc673eaf8c6b.png',
-      ].filter(Boolean)
-    }
-    if (product?.name.toLowerCase().includes('curved')) {
-      return [
-        '/lovable-uploads/1aae726f-762a-4c16-b289-5dcdf8e70726.png',
-        '/lovable-uploads/8ff514c2-1291-4b59-88e7-438067d54937.png'
-      ].filter(Boolean);
-    }
-    if (product?.name.toLowerCase().includes('modular')) {
-      return [
-        product?.image_url,
-        '/lovable-uploads/f9bf38ef-3416-4804-aaff-7da75317a5f9.png'
-      ].filter(Boolean);
-    }
-    if (product?.name.toLowerCase().includes('battenshield')) {
-      return ['/lovable-uploads/9b88b6f4-645a-47e6-91e7-7aa2b3bcd4f3.png'].filter(Boolean)
-    }
-    if (product?.name.toLowerCase().includes('louvreshield')) {
-      if (product?.name.toLowerCase().includes('screen')) {
-        return ['/lovable-uploads/042681d7-6ab0-42e2-bb2e-54271f8b5abe.png'].filter(Boolean)
-      }
-      return [
-        '/lovable-uploads/2c5a155d-b368-417d-b3ab-1fe76e0d6a58.png',
-        '/lovable-uploads/c4917f5c-bc26-4310-9e62-ae3067ea6083.png'
-      ].filter(Boolean)
-    }
-    if (product?.name.toLowerCase().includes('perfashield')) {
-      return ['/lovable-uploads/71343b55-70fd-41c4-815e-8ad2477b75d4.png'].filter(Boolean)
-    }
-    // For other products, use their own image
-    return [product?.image_url].filter(Boolean);
+    return list;
   };
   
   const images = getProductImages();
@@ -187,15 +154,9 @@ const ProductDetail = () => {
                     
                     {/* Feature Tags */}
                     <div className="flex flex-wrap gap-2 mb-6">
-                      <span className="bg-foreground text-background px-3 py-1 text-sm font-medium">
-                        {product.name.toLowerCase().includes('boxed') ? 'Thick Profile' : 'Thin Profile'}
-                      </span>
-                      <span className="bg-foreground text-background px-3 py-1 text-sm font-medium">
-                        Various Depths
-                      </span>
-                      <span className="bg-foreground text-background px-3 py-1 text-sm font-medium">
-                        Highly Customisable
-                      </span>
+                      {(product.feature_tags || []).map((tag) => (
+                        <span key={tag} className="bg-foreground text-background px-3 py-1 text-sm font-medium">{tag}</span>
+                      ))}
                     </div>
 
                     <p className="text-lg text-muted-foreground leading-relaxed mb-8">
@@ -328,7 +289,7 @@ const ProductDetail = () => {
                     <TabsTrigger value="colours">Colour Options</TabsTrigger>
                   </TabsList>
                   
-                  <TabsContent value="specifications">
+                   <TabsContent value="specifications">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
                         <div className="space-y-2">
@@ -340,56 +301,37 @@ const ProductDetail = () => {
                             </div>
                              <div className="flex justify-between py-1 border-b border-muted/30">
                                <span className="font-medium text-xs">Category</span>
-                               <span className="text-muted-foreground text-xs">
-                                 {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? 'Window Awning' : 
-                                  product.name.toLowerCase().includes('screen') ? 'Window Screen' : 'Window Shroud'}
-                               </span>
+                               <span className="text-muted-foreground text-xs">{product.specifications?.overview?.category || product.category || 'Window Shroud'}</span>
                              </div>
                              <div className="flex justify-between py-1 border-b border-muted/30">
                                <span className="font-medium text-xs">Profile</span>
-                               <span className="text-muted-foreground text-xs">
-                                 {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? '50mm' :
-                                  product.name.toLowerCase().includes('screen') ? '50mm' :
-                                  product.name.toLowerCase().includes('boxed') ? '50mm hollow' : '6.0mm'}
-                               </span>
+                               <span className="text-muted-foreground text-xs">{product.specifications?.overview?.profile || '6.0mm'}</span>
                              </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Wind Rating</span>
-                              <span className="text-muted-foreground text-xs">15m</span>
+                              <span className="text-muted-foreground text-xs">{product.specifications?.overview?.windRating || '15m'}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Material</span>
-                              <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning') ? 'Mild Steel Frame and Aluminium Louvers' : 
-                                 product.name.toLowerCase().includes('screen') ? 'Mild Steel Frame and Aluminium Screen' :
-                                 product.name.toLowerCase().includes('boxed') ? 'Aluminium 6106 T6' : 'Aluminium 5083 H32 Marine-Grade'}
-                              </span>
+                              <span className="text-muted-foreground text-xs">{product.specifications?.overview?.material || 'Aluminium 5083 H32 Marine-Grade'}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Profile Depth</span>
-                              <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('boxed') ? '100mm - 300mm' : '50mm - 850mm*'}
-                              </span>
+                              <span className="text-muted-foreground text-xs">{product.specifications?.overview?.profileDepth || '50mm - 850mm*'}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Standard Profile Depth</span>
-                              <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('screen')
-                                  ? '150mm / 200mm'
-                                  : product.name.toLowerCase().includes('boxed')
-                                    ? '200mm / 250mm / 300mm'
-                                    : '300mm / 450mm / 600mm'}
-                              </span>
+                              <span className="text-muted-foreground text-xs">{product.specifications?.overview?.standardProfileDepth || '300mm / 450mm / 600mm'}</span>
                             </div>
-                             {!product.name.toLowerCase().includes('screen') && (
+                             {product.specifications?.overview?.profileSlope && (
                               <div className="flex justify-between py-1 border-b border-muted/30">
                                 <span className="font-medium text-xs">Profile Slope</span>
-                                <span className="text-muted-foreground text-xs">3° (5%)</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications.overview.profileSlope}</span>
                               </div>
                              )}
                              <div className="flex justify-between py-1">
                                <span className="font-medium text-xs">Fixing Flange</span>
-                               <span className="text-muted-foreground text-xs">{product.name.toLowerCase().includes('screen') ? '50mm' : 'Typ. 50mm / 100mm'}</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.overview?.fixingFlange || 'Typ. 50mm / 100mm'}</span>
                              </div>
                           </div>
                         </div>
@@ -398,11 +340,11 @@ const ProductDetail = () => {
                           <div className="space-y-1">
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Usage</span>
-                              <span className="text-muted-foreground text-xs">Commercial & Residential</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.applications?.usage || 'Commercial & Residential'}</span>
                             </div>
                             <div className="flex justify-between py-1">
                               <span className="font-medium text-xs">Exterior</span>
-                              <span className="text-muted-foreground text-xs">Window Dressing, Solar Shading</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.applications?.exterior || 'Window Dressing, Solar Shading'}</span>
                             </div>
                           </div>
                         </div>
@@ -411,37 +353,32 @@ const ProductDetail = () => {
                         <div className="space-y-2">
                           <h3 className="text-lg font-semibold border-b pb-1">Dimensions & Performance</h3>
                           <div className="space-y-1">
-                             {!product?.name.toLowerCase().includes('hood') && 
-                              !(product.name.toLowerCase().includes('louvreshield') && product.name.toLowerCase().includes('awning')) && (
-                               <div className="flex justify-between py-1 border-b border-muted/30">
-                                 <span className="font-medium text-xs">Max Height</span>
-                                 <span className="text-muted-foreground text-xs">6000mm*</span>
-                               </div>
-                             )}
+                              {product.specifications?.dimensions?.maxHeight && (
+                                <div className="flex justify-between py-1 border-b border-muted/30">
+                                  <span className="font-medium text-xs">Max Height</span>
+                                  <span className="text-muted-foreground text-xs">{product.specifications.dimensions.maxHeight}</span>
+                                </div>
+                              )}
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Max Width</span>
-                              <span className="text-muted-foreground text-xs">6000mm*</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.maxWidth || '6000mm*'}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Density</span>
-                              <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('boxed') ? '2700 kg/m³' : '2650 kg/m³'}
-                              </span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.density || '2650 kg/m³'}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Material Weight</span>
-                              <span className="text-muted-foreground text-xs">
-                                {product.name.toLowerCase().includes('boxed') ? '18.6 kg/m²' : '15.9 kg/m²'}
-                              </span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.materialWeight || '15.9 kg/m²'}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">AS 1530.3</span>
-                              <span className="text-muted-foreground text-xs">Yes</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.AS1530_3 || 'Yes'}</span>
                             </div>
-                             <div className="flex justify-between py-1">
-                               <span className="font-medium text-xs">Curved Profiles</span>
-                               <span className="text-muted-foreground text-xs">Yes</span>
-                             </div>
+                              <div className="flex justify-between py-1">
+                                <span className="font-medium text-xs">Curved Profiles</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.curvedProfiles || 'Yes'}</span>
+                              </div>
                           </div>
                         </div>
                         <div className="space-y-2">
@@ -449,11 +386,11 @@ const ProductDetail = () => {
                           <div className="space-y-1">
                             <div className="flex justify-between py-1 border-b border-muted/30">
                               <span className="font-medium text-xs">Term</span>
-                              <span className="text-muted-foreground text-xs">7 Years</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.warranty?.term || '7 Years'}</span>
                             </div>
                             <div className="flex justify-between py-1">
                               <span className="font-medium text-xs">Coverage</span>
-                              <span className="text-muted-foreground text-xs">Workmanship & Materials</span>
+                                <span className="text-muted-foreground text-xs">{product.specifications?.warranty?.coverage || 'Workmanship & Materials'}</span>
                             </div>
                           </div>
                           <p className="text-xs text-muted-foreground bg-muted/20 p-2 rounded text-[10px] leading-tight">
@@ -464,48 +401,18 @@ const ProductDetail = () => {
                     </div>
                   </TabsContent>
                   
-                  <TabsContent value="colours">
+                   <TabsContent value="colours">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
                         <div className="space-y-2">
                           <h3 className="text-lg font-semibold border-b pb-1">Powder Coating Systems</h3>
                           <div className="space-y-1">
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Dulux - Charisma</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Dulux - Duralloy</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Dulux - Duratec</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Dulux - Fluroset</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Electro - Standard Range</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Electro - Premium Range</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Interpon - D1000</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
-                             <div className="flex justify-between py-1 border-b border-muted/30">
-                               <span className="font-medium text-xs">Interpon - D2525</span>
-                               <span className="text-muted-foreground text-xs">Available</span>
-                             </div>
-                             <div className="flex justify-between py-1">
-                               <span className="font-medium text-xs">Interpon - Textura</span>
-                               <span className="text-muted-foreground text-xs">Available</span>
-                             </div>
+                              {(product.colour_options?.systems || []).map((sys: string) => (
+                                <div key={sys} className="flex justify-between py-1 border-b border-muted/30">
+                                  <span className="font-medium text-xs">{sys}</span>
+                                  <span className="text-muted-foreground text-xs">Available</span>
+                                </div>
+                              ))}
                           </div>
                         </div>
                       </div>
@@ -513,34 +420,16 @@ const ProductDetail = () => {
                         <div className="space-y-2">
                           <h3 className="text-lg font-semibold border-b pb-1">Coating Properties</h3>
                           <div className="space-y-1">
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">VOC Emissions</span>
-                              <span className="text-muted-foreground text-xs">Negligible</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Material Utilisation</span>
-                              <span className="text-muted-foreground text-xs">Nearly 100%</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Eco-Friendly</span>
-                              <span className="text-muted-foreground text-xs">Yes</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Residential Use</span>
-                              <span className="text-muted-foreground text-xs">Yes</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Commercial Use</span>
-                              <span className="text-muted-foreground text-xs">Yes</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Colour Range</span>
-                              <span className="text-muted-foreground text-xs">Wide Selection</span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                              <span className="font-medium text-xs">Custom Finishes</span>
-                              <span className="text-muted-foreground text-xs">Available</span>
-                            </div>
+                              {product.colour_options?.properties && (
+                                <>
+                                  {Object.entries(product.colour_options.properties).map(([key, val]: any) => (
+                                    <div key={key} className="flex justify-between py-1 border-b border-muted/30">
+                                      <span className="font-medium text-xs">{key.replace(/([A-Z])/g,' $1').replace(/^./, (c)=>c.toUpperCase())}</span>
+                                      <span className="text-muted-foreground text-xs">{String(val)}</span>
+                                    </div>
+                                  ))}
+                                </>
+                              )}
                           </div>
                         </div>
                       </div>

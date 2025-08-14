@@ -25,7 +25,7 @@ const AdminPanel = () => {
   const [user, setUser] = useState<any>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState<Partial<Product>>({});
+  const [form, setForm] = useState<any>({ feature_tags: [], specifications: null, colour_options: null });
   const [editingId, setEditingId] = useState<string | null>(null);
   // Removed local email/password auth; errors now managed via toasts where needed
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
@@ -66,7 +66,34 @@ const AdminPanel = () => {
 
   // CRUD handlers
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+    if (name === 'name') {
+      const slug = (value || '').toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-');
+      setForm((prev: any) => ({ ...prev, slug }));
+    }
+  };
+  const handleFeatureTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    const tags = raw.split(',').map(t => t.trim()).filter(Boolean);
+    setForm({ ...form, feature_tags: tags });
+  };
+  const handleSpecificationsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    try {
+      const parsed = e.target.value ? JSON.parse(e.target.value) : null;
+      setForm({ ...form, specifications: parsed });
+    } catch {
+      // ignore parse errors while typing
+      setForm({ ...form, specifications: e.target.value });
+    }
+  };
+  const handleColourOptionsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    try {
+      const parsed = e.target.value ? JSON.parse(e.target.value) : null;
+      setForm({ ...form, colour_options: parsed });
+    } catch {
+      setForm({ ...form, colour_options: e.target.value });
+    }
   };
   const handleMainImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -94,6 +121,15 @@ const AdminPanel = () => {
     e.preventDefault();
     let image_url = form.image_url || "";
     let additional_images: string[] = form.additional_images || [];
+    // Ensure JSON fields are objects, not raw strings
+    let specifications = form.specifications;
+    let colour_options = form.colour_options;
+    if (typeof specifications === 'string') {
+      try { specifications = JSON.parse(specifications); } catch { specifications = null; }
+    }
+    if (typeof colour_options === 'string') {
+      try { colour_options = JSON.parse(colour_options); } catch { colour_options = null; }
+    }
     // Upload main image if selected
     if (mainImageFile) {
       const fileExt = mainImageFile.name.split('.').pop();
@@ -173,9 +209,19 @@ const AdminPanel = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input name="name" value={form.name || ""} onChange={handleChange} placeholder="Name" className="border p-2 rounded" required />
+              <input name="slug" value={form.slug || ""} onChange={handleChange} placeholder="Slug" className="border p-2 rounded" required />
               <input name="price" value={form.price || ""} onChange={handleChange} placeholder="Price" type="number" min="0" step="0.01" className="border p-2 rounded" required />
               <input name="category" value={form.category || ""} onChange={handleChange} placeholder="Category" className="border p-2 rounded" />
               <textarea name="description" value={form.description || ""} onChange={handleChange} placeholder="Description" className="border p-2 rounded col-span-1 md:col-span-2" required />
+              <input name="feature_tags_input" value={(form.feature_tags || []).join(', ')} onChange={handleFeatureTagsChange} placeholder="Feature tags (comma-separated)" className="border p-2 rounded col-span-1 md:col-span-2" />
+              <div className="col-span-1 md:col-span-2">
+                <label className="block mb-1">Specifications (JSON)</label>
+                <textarea name="specifications" value={typeof form.specifications === 'string' ? form.specifications : JSON.stringify(form.specifications || {}, null, 2)} onChange={handleSpecificationsChange} className="border p-2 rounded w-full h-40 font-mono text-sm" />
+              </div>
+              <div className="col-span-1 md:col-span-2">
+                <label className="block mb-1">Colour Options (JSON)</label>
+                <textarea name="colour_options" value={typeof form.colour_options === 'string' ? form.colour_options : JSON.stringify(form.colour_options || {}, null, 2)} onChange={handleColourOptionsChange} className="border p-2 rounded w-full h-40 font-mono text-sm" />
+              </div>
               <div className="col-span-1 md:col-span-2">
                 <label className="block mb-1">Main Featured Image</label>
                 <input type="file" accept="image/*" onChange={handleMainImageChange} />

@@ -61,30 +61,45 @@ export type Database = {
           category: string | null
           created_at: string | null
           description: string | null
+          slug: string
           id: string
           image_url: string | null
           name: string
           price: number
+          additional_images: string[]
+          feature_tags: string[]
+          specifications: Json | null
+          colour_options: Json | null
           updated_at: string | null
         }
         Insert: {
           category?: string | null
           created_at?: string | null
           description?: string | null
+          slug: string
           id?: string
           image_url?: string | null
           name: string
           price: number
+          additional_images?: string[]
+          feature_tags?: string[]
+          specifications?: Json | null
+          colour_options?: Json | null
           updated_at?: string | null
         }
         Update: {
           category?: string | null
           created_at?: string | null
           description?: string | null
+          slug?: string
           id?: string
           image_url?: string | null
           name?: string
           price?: number
+          additional_images?: string[]
+          feature_tags?: string[]
+          specifications?: Json | null
+          colour_options?: Json | null
           updated_at?: string | null
         }
         Relationships: []
