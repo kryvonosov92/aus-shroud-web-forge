@@ -165,7 +165,7 @@ const ProductDetail = () => {
                   <div>
                     <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-4">
                       {product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') || product.name.toLowerCase().includes('perfashield') ? (
-                        <span className="text-primary">{product.name.toUpperCase()}</span>
+                        <span className="text-foreground">{product.name.toUpperCase()}</span>
                       ) : (
                         <>
                           THERMACORE©<br />
