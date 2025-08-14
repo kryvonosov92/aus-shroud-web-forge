@@ -18,11 +18,11 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 8%;
 
-    /* Primary - Deep sophisticated navy */
-    --primary: 220 30% 15%;
+    /* Primary - User's dark grey */
+    --primary: 0 0% 26%;
     --primary-foreground: 0 0% 98%;
-    --primary-light: 220 25% 25%;
-    --primary-glow: 220 20% 85%;
+    --primary-light: 0 0% 38%;
+    --primary-glow: 0 0% 80%;
 
     /* Secondary - Elegant charcoal */
     --secondary: 220 15% 92%;
@@ -35,8 +35,8 @@ All colors MUST be HSL.
     --accent-foreground: 220 30% 15%;
 
     /* Premium gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(220 30% 15%), hsl(220 25% 25%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 30% 15% / 0.95), hsl(220 20% 25% / 0.9));
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 26%), hsl(0 0% 38%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 26% / 0.95), hsl(0 0% 38% / 0.9));
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 20% 98%));
     --gradient-accent: linear-gradient(135deg, hsl(220 20% 88%), hsl(220 15% 92%));
 
@@ -143,14 +143,6 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  /* Homepage theme override: swap navy for user-provided dark gray */
-  .home-theme {
-    --primary: 0 0% 26%;
-    --primary-light: 0 0% 38%;
-    --primary-glow: 0 0% 80%;
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.95), hsl(var(--primary-light) / 0.9));
-  }
 
   body {
     @apply bg-background text-foreground font-sans antialiased tracking-tight;

@@ -8,7 +8,7 @@ import SEO from "@/components/SEO";
 
 const Index = () => {
   return (
-    <div className="min-h-screen home-theme">
+    <div className="min-h-screen">
       <SEO
         title="Window Shrouds Australia | AusWindowShrouds"
         description="Premium aluminium window shrouds and screens. Design appeal, privacy and thermal efficiency. Request a fast quote."
