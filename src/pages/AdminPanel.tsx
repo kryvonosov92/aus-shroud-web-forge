@@ -13,7 +13,6 @@ interface Product {
   id: string;
   name: string;
   description: string;
-  price: number;
   image_url: string;
   additional_images?: string[];
   category?: string;
@@ -158,7 +157,7 @@ const AdminPanel = () => {
       // Update
       const { data, error } = await supabase
         .from("products")
-        .update({ ...form, image_url, additional_images, price: Number(form.price) })
+        .update({ ...form, image_url, additional_images })
         .eq("id", editingId)
         .select();
       if (!error && data) {
@@ -172,7 +171,7 @@ const AdminPanel = () => {
       // Create
       const { data, error } = await supabase
         .from("products")
-        .insert([{ ...form, image_url, additional_images, price: Number(form.price) }])
+        .insert([{ ...form, image_url, additional_images }])
         .select();
       if (!error && data) {
         setProducts([...products, data[0]]);
@@ -210,7 +209,7 @@ const AdminPanel = () => {
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input name="name" value={form.name || ""} onChange={handleChange} placeholder="Name" className="border p-2 rounded" required />
               <input name="slug" value={form.slug || ""} onChange={handleChange} placeholder="Slug" className="border p-2 rounded" required />
-              <input name="price" value={form.price || ""} onChange={handleChange} placeholder="Price" type="number" min="0" step="0.01" className="border p-2 rounded" required />
+              
               <input name="category" value={form.category || ""} onChange={handleChange} placeholder="Category" className="border p-2 rounded" />
               <textarea name="description" value={form.description || ""} onChange={handleChange} placeholder="Description" className="border p-2 rounded col-span-1 md:col-span-2" required />
               <input name="feature_tags_input" value={(form.feature_tags || []).join(', ')} onChange={handleFeatureTagsChange} placeholder="Feature tags (comma-separated)" className="border p-2 rounded col-span-1 md:col-span-2" />
@@ -259,7 +258,7 @@ const AdminPanel = () => {
                 <thead>
                   <tr className="bg-muted">
                     <th className="p-2 border">Name</th>
-                    <th className="p-2 border">Price</th>
+                    
                     <th className="p-2 border">Category</th>
                     <th className="p-2 border">Image</th>
                     <th className="p-2 border">Additional Images</th>
@@ -270,7 +269,7 @@ const AdminPanel = () => {
                   {products.map((product) => (
                     <tr key={product.id}>
                       <td className="p-2 border">{product.name}</td>
-                      <td className="p-2 border">${parseFloat(product.price as any).toLocaleString()}</td>
+                      
                       <td className="p-2 border">{product.category}</td>
                       <td className="p-2 border"><img src={product.image_url} alt={product.name} className="h-12 w-12 object-cover" /></td>
                       <td className="p-2 border">
