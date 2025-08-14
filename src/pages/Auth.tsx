@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import SEO from "@/components/SEO";
 
 const Auth = () => {
   const navigate = useNavigate();
+    const location = useLocation();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +18,10 @@ const Auth = () => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate("/admin");
+        const urlParams = new URLSearchParams(location.search);
+        const redirect = urlParams.get("redirect");
+        const to = redirect || (location.state as any)?.from?.pathname || "/admin";
+        navigate(to, { replace: true });
       }
     };
     checkAuth();
@@ -26,21 +30,26 @@ const Auth = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (session) {
-          navigate("/admin");
+          const urlParams = new URLSearchParams(location.search);
+          const redirect = urlParams.get("redirect");
+          const to = redirect || (location.state as any)?.from?.pathname || "/admin";
+          navigate(to, { replace: true });
         }
       }
     );
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, location]);
 
   const signInWithLinkedIn = async () => {
     try {
       setLoading(true);
+      const urlParams = new URLSearchParams(location.search);
+      const redirect = urlParams.get("redirect");
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'linkedin_oidc',
         options: {
-          redirectTo: `${window.location.origin}/admin`
+          redirectTo: `${window.location.origin}/auth${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`
         }
       });
 

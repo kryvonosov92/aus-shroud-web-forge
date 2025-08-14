@@ -14,6 +14,7 @@ import BlogPost from "./pages/BlogPost";
 import Auth from "./pages/Auth";
 import AdminPanel from "./pages/AdminPanel";
 import ScrollToTop from "./components/ScrollToTop";
+import RequireAuth from "./components/RequireAuth";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -31,7 +32,14 @@ const App = () => (
             <Route path="/latest" element={<Blog />} />
             <Route path="/latest/:slug" element={<BlogPost />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/admin" element={<AdminPanel />} />
+            <Route
+              path="/admin"
+              element={
+                <RequireAuth>
+                  <AdminPanel />
+                </RequireAuth>
+              }
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

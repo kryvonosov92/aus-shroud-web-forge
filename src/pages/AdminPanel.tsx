@@ -27,7 +27,7 @@ const AdminPanel = () => {
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState<Partial<Product>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // Removed local email/password auth; errors now managed via toasts where needed
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
   const [additionalImageFiles, setAdditionalImageFiles] = useState<File[]>([]);
 
@@ -59,14 +59,6 @@ const AdminPanel = () => {
   }, [user]);
 
   // Auth handlers
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    const email = (e.target as any).email.value;
-    const password = (e.target as any).password.value;
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) setError(error.message);
-  };
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setUser(null);
@@ -155,29 +147,7 @@ const AdminPanel = () => {
     }
   };
 
-  if (!user) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <Card className="max-w-md w-full mx-auto">
-            <CardHeader>
-              <CardTitle>Admin Login</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleLogin} className="space-y-4">
-                <input name="email" type="email" placeholder="Email" className="w-full border p-2 rounded" required />
-                <input name="password" type="password" placeholder="Password" className="w-full border p-2 rounded" required />
-                {error && <div className="text-red-500 text-sm">{error}</div>}
-                <Button type="submit" className="w-full">Login</Button>
-              </form>
-            </CardContent>
-          </Card>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  if (!user) return null;
 
   return (
     <div className="min-h-screen flex flex-col">
