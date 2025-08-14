@@ -23,15 +23,15 @@ const Header = () => {
             <Link to="/products" className="text-foreground hover:text-primary transition-colors">
               Products
             </Link>
-            <a href="#services" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/#services" className="text-foreground hover:text-primary transition-colors">
               Why AWS
-            </a>
-            <a href="#about" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/#about" className="text-foreground hover:text-primary transition-colors">
               About
-            </a>
-            <a href="#contact" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/#contact" className="text-foreground hover:text-primary transition-colors">
               Contact
-            </a>
+            </Link>
           </nav>
 
           <div className="flex items-center space-x-3">
