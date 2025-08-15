@@ -15,8 +15,7 @@ interface Product {
   id: string;
   name: string;
   description: string;
-  image_url: string;
-  additional_images?: string[];
+  images?: string[];
   category?: string;
   sort_order?: number;
   created_at?: string;
@@ -31,9 +30,6 @@ const AdminPanel = () => {
   const [initialForm, setInitialForm] = useState<any>(null);
   const [dirty, setDirty] = useState<Record<string, boolean>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
-  // Removed local email/password auth; errors now managed via toasts where needed
-  const [mainImageFile, setMainImageFile] = useState<File | null>(null);
-  const [additionalImageFiles, setAdditionalImageFiles] = useState<File[]>([]);
 
   // Auth state
   useEffect(() => {
@@ -104,16 +100,6 @@ const AdminPanel = () => {
       setForm({ ...form, colour_options: e.target.value });
     }
   };
-  const handleMainImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setMainImageFile(e.target.files[0]);
-    }
-  };
-  const handleAdditionalImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setAdditionalImageFiles(Array.from(e.target.files));
-    }
-  };
   const handleEdit = (product: Product) => {
     setEditingId(product.id);
     const base = { ...product } as any;
@@ -135,6 +121,7 @@ const AdminPanel = () => {
       setForm({});
     }
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Build partial update based on dirty fields
@@ -142,6 +129,7 @@ const AdminPanel = () => {
     Object.keys(dirty).forEach((key) => {
       if (dirty[key]) updatePayload[key] = (form as any)[key];
     });
+    
     // Ensure JSON fields are objects, not raw strings
     let specifications = updatePayload.specifications;
     let colour_options = updatePayload.colour_options;
@@ -151,8 +139,9 @@ const AdminPanel = () => {
     if (typeof colour_options === 'string') {
       try { colour_options = JSON.parse(colour_options); } catch { colour_options = null; }
     }
-    // Handle images via images array (drag/drop changes + uploads)
-    // Upload any pending files set by ProductImagesManager and merge into updatePayload.images
+    updatePayload.specifications = specifications;
+    updatePayload.colour_options = colour_options;
+    // images handled via ProductImagesManager
     if (editingId) {
       // Update
       const { data, error } = await supabase
@@ -164,8 +153,7 @@ const AdminPanel = () => {
         setProducts(products.map((p) => (p.id === editingId ? data[0] : p)));
         setEditingId(null);
         setForm({});
-        setMainImageFile(null);
-        setAdditionalImageFiles([]);
+        
       }
     } else {
       // Create
@@ -176,8 +164,7 @@ const AdminPanel = () => {
       if (!error && data) {
         setProducts([...products, data[0]]);
         setForm({});
-        setMainImageFile(null);
-        setAdditionalImageFiles([]);
+        
       }
     }
   };
@@ -191,7 +178,9 @@ const AdminPanel = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Admin Panel</h1>
-          <Button onClick={handleLogout}>Logout</Button>
+          <div className="flex gap-2">
+            <Button onClick={handleLogout}>Logout</Button>
+          </div>
         </div>
         
         <Tabs defaultValue="products" className="space-y-6">
@@ -206,6 +195,7 @@ const AdminPanel = () => {
             <CardTitle>{editingId ? "Edit Product" : "Add Product"}</CardTitle>
           </CardHeader>
           <CardContent>
+            
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input name="name" value={form.name || ""} onChange={handleChange} placeholder="Name" className="border p-2 rounded" required />
               <input name="slug" value={form.slug || ""} onChange={handleChange} placeholder="Slug" className="border p-2 rounded" required />
@@ -231,24 +221,21 @@ const AdminPanel = () => {
                     const urls: string[] = [];
                     for (const file of files) {
                       const ext = file.name.split('.').pop();
-                      const filePath = `products/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-                      const { error: uploadError } = await supabase.storage.from('aws-media').upload(filePath, file, { upsert: true });
+                      const key = `img-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+                      const { error: uploadError } = await supabase.storage.from('aws-media').upload(key, file, { upsert: false, contentType: file.type || undefined });
                       if (!uploadError) {
-                        const { data: pub } = supabase.storage.from('aws-media').getPublicUrl(filePath);
+                        const { data: pub } = supabase.storage.from('aws-media').getPublicUrl(key);
                         urls.push(pub.publicUrl);
                       }
                     }
                     return urls;
                   }}
-                  onDeleteImage={async (_url) => {
-                    // optional: could also remove from storage if needed
-                    return;
-                  }}
+                  onDeleteImage={async (_url) => { return; }}
                 />
               </div>
               <div className="col-span-1 md:col-span-2 flex gap-2">
                 <Button type="submit">{editingId ? "Update" : "Add"} Product</Button>
-                {editingId && <Button type="button" variant="outline" onClick={() => { setEditingId(null); setForm({}); setMainImageFile(null); setAdditionalImageFiles([]); }}>Cancel</Button>}
+                {editingId && <Button type="button" variant="outline" onClick={() => { setEditingId(null); setForm({}); }}>Cancel</Button>}
               </div>
             </form>
           </CardContent>
@@ -267,8 +254,7 @@ const AdminPanel = () => {
                     <th className="p-2 border">Name</th>
                     
                     <th className="p-2 border">Category</th>
-                    <th className="p-2 border">Image</th>
-                    <th className="p-2 border">Additional Images</th>
+                    <th className="p-2 border">Images</th>
                     <th className="p-2 border">Actions</th>
                   </tr>
                 </thead>
@@ -278,12 +264,14 @@ const AdminPanel = () => {
                       <td className="p-2 border">{product.name}</td>
                       
                       <td className="p-2 border">{product.category}</td>
-                      <td className="p-2 border"><img src={product.image_url} alt={product.name} className="h-12 w-12 object-cover" /></td>
                       <td className="p-2 border">
-                        <div className="flex gap-1">
-                          {product.additional_images && product.additional_images.map((url, idx) => (
-                            <img key={idx} src={url} alt={product.name + " additional"} className="h-8 w-8 object-cover" />
-                          ))}
+                        <div className="flex items-center gap-2">
+                          {product.images && product.images.length > 0 && (
+                            <img src={product.images[0]} alt={product.name} className="h-12 w-12 object-cover" />
+                          )}
+                          {product.images && product.images.length > 1 && (
+                            <span className="text-xs text-muted-foreground">+{product.images.length - 1}</span>
+                          )}
                         </div>
                       </td>
                       <td className="p-2 border">

@@ -82,19 +82,11 @@ const Products = () => {
                 <Card key={product.id} className="overflow-hidden hover-scale">
                   <Link to={`/products/${slugToURL((product as any).slug || createSlug(product.name))}`} className="block">
                      <div className="relative h-64 bg-muted/30 flex items-center justify-center overflow-hidden">
-                        <img 
+                        <img
                           src={
-                            product.name?.toLowerCase().includes('curved shroud')
-                              ? '/lovable-uploads/582943a2-b1aa-4218-a139-d17f92185af1.png'
-                              : product.name?.toLowerCase().includes('boxed shroud')
-                                ? '/lovable-uploads/32eca584-21c8-44c9-966f-12f3c3143e2f.png'
-                                : product.name?.toLowerCase().includes('perfashield')
-                                  ? '/lovable-uploads/71343b55-70fd-41c4-815e-8ad2477b75d4.png'
-                                  : (product.name?.toLowerCase().includes('louvreshield') && product.name?.toLowerCase().includes('screen'))
-                                    ? '/lovable-uploads/042681d7-6ab0-42e2-bb2e-54271f8b5abe.png'
-                                    : product.name?.toLowerCase().includes('battenshield')
-                                      ? '/lovable-uploads/9b88b6f4-645a-47e6-91e7-7aa2b3bcd4f3.png'
-                                      : product.image_url
+                            ((product as any).images && (product as any).images.length > 0)
+                              ? (product as any).images[0]
+                              : product.image_url
                           }
                           alt={`${product.name} - product image`}
                           className={`w-full h-full object-contain ${product.name?.toLowerCase().includes('curved shroud') || product.name?.toLowerCase().includes('tapered shroud') ? 'scale-125' : ''}`}
