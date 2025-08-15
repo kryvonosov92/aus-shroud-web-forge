@@ -9,7 +9,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-24">
           <div className="flex items-center space-x-2">
             <img 
-              src="/lovable-uploads/df654ff6-def4-4349-8292-8713634579f4.png" 
+              src="https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/df654ff6-def4-4349-8292-8713634579f4.png" 
               alt="AusWindowShrouds Logo" 
               className="h-28 w-auto"
               style={{ clipPath: 'inset(15% 0 15% 0)' }}
