@@ -30,7 +30,7 @@ const AdminPanel = () => {
   const [user, setUser] = useState<any>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState<any>({ feature_tags: [], specifications: null, colour_options: null, sort_order: undefined, images: [] });
+  const [form, setForm] = useState<any>({ feature_tags: [], sort_order: undefined, images: [] });
   const [initialForm, setInitialForm] = useState<any>(null);
   const [dirty, setDirty] = useState<Record<string, boolean>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -86,25 +86,7 @@ const AdminPanel = () => {
     setForm({ ...form, feature_tags: tags });
     setDirty((d) => ({ ...d, feature_tags: true }));
   };
-  const handleSpecificationsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    try {
-      const parsed = e.target.value ? JSON.parse(e.target.value) : null;
-      setForm({ ...form, specifications: parsed });
-      setDirty((d) => ({ ...d, specifications: true }));
-    } catch {
-      // ignore parse errors while typing
-      setForm({ ...form, specifications: e.target.value });
-    }
-  };
-  const handleColourOptionsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    try {
-      const parsed = e.target.value ? JSON.parse(e.target.value) : null;
-      setForm({ ...form, colour_options: parsed });
-      setDirty((d) => ({ ...d, colour_options: true }));
-    } catch {
-      setForm({ ...form, colour_options: e.target.value });
-    }
-  };
+  
   const handleEdit = (product: Product) => {
     setEditingId(product.id);
     const base = { ...product } as any;
@@ -175,21 +157,13 @@ const AdminPanel = () => {
     });
     
     // Ensure JSON fields are objects, not raw strings
-    let specifications = updatePayload.specifications;
-    let colour_options = updatePayload.colour_options;
     let tabbed_content = updatePayload.tabbed_content;
-    if (typeof specifications === 'string') {
-      try { specifications = JSON.parse(specifications); } catch { specifications = null; }
-    }
-    if (typeof colour_options === 'string') {
-      try { colour_options = JSON.parse(colour_options); } catch { colour_options = null; }
-    }
     if (typeof tabbed_content === 'string') {
       try { tabbed_content = JSON.parse(tabbed_content); } catch { tabbed_content = null; }
     }
-    updatePayload.specifications = specifications;
-    updatePayload.colour_options = colour_options;
     updatePayload.tabbed_content = tabbed_content;
+    delete updatePayload.specifications;
+    delete updatePayload.colour_options;
     // images handled via ProductImagesManager
     if (editingId) {
       // Update

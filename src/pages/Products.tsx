@@ -86,18 +86,18 @@ const Products = () => {
                           src={
                             ((product as any).images && (product as any).images.length > 0)
                               ? (product as any).images[0]
-                              : product.image_url
+                              : "/placeholder.svg"
                           }
                           alt={`${product.name} - product image`}
                           className={`w-full h-full object-contain ${product.name?.toLowerCase().includes('curved shroud') || product.name?.toLowerCase().includes('tapered shroud') ? 'scale-125' : ''}`}
                           loading="lazy"
                           decoding="async"
                           onError={(e) => {
-                            console.error(`Failed to load image for ${product.name}:`, product.image_url);
+                            console.error(`Failed to load image for ${product.name}`);
                             (e.currentTarget as HTMLImageElement).src = "/placeholder.svg";
                           }}
                           onLoad={() => {
-                            console.log(`Successfully loaded image for ${product.name}:`, product.image_url);
+                            console.log(`Successfully loaded image for ${product.name}`);
                           }}
                         />
                       </div>

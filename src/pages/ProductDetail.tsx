@@ -55,12 +55,7 @@ const ProductDetail = () => {
   const getProductImages = () => {
     const dbImages = (product as any)?.images as string[] | undefined;
     if (Array.isArray(dbImages) && dbImages.length > 0) return dbImages.filter(Boolean);
-    const list: string[] = [];
-    if (product?.image_url) list.push(product.image_url);
-    if (Array.isArray(product?.additional_images) && product!.additional_images.length > 0) {
-      list.push(...product!.additional_images.filter(Boolean));
-    }
-    return list;
+    return [];
   };
   
   const images = getProductImages();

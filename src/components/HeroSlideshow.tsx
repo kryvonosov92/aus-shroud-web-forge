@@ -7,39 +7,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { type CarouselApi } from "@/components/ui/carousel";
+import siteContent from "@/config/site-content.json";
 
-const slides = [
-  {
-    id: 1,
-    image: "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/a3dfe94a-179a-4c2c-b164-a5875b958caa.png",
-    alt: "Modern grey vertical cladding with dark window shrouds and trim details"
-  },
-  {
-    id: 2,
-    image: "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/ac7d710d-dfad-4ca8-862e-faca579d2447.png",
-    alt: "Curved modern architecture with timber screening and window shrouds"
-  },
-  {
-    id: 3,
-    image: "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/e9471843-6a3a-4c47-a0f4-28ed932348a4.png",
-    alt: "Modern brick and metal cladding house with stylish window features"
-  },
-  {
-    id: 4,
-    image: "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/492e0bbf-6590-4f46-b1ac-2e1d032d1224.png",
-    alt: "Contemporary home with angular window shroud projecting from vertical cladding"
-  },
-  {
-    id: 5,
-    image: "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/3ce8917c-cb8f-4f4d-a942-4c3f850d1c47.png",
-    alt: "Detailed view of modern window framing with stone accent wall"
-  },
-  {
-    id: 6,
-    image: "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/343f3cb9-d1c4-4136-96d5-13942a24619d.png",
-    alt: "Contemporary home with prominent upper window feature and vertical screening elements"
-  }
-];
+const slides = ((siteContent as any).heroSlides || []) as { image: string; alt: string }[];
 
 const HeroSlideshow = () => {
   const [api, setApi] = useState<CarouselApi>();
@@ -79,19 +49,14 @@ const HeroSlideshow = () => {
         }}
       >
         <CarouselContent className="w-full h-full ml-0">
-          {slides.map((slide) => (
-            <CarouselItem key={slide.id} className="w-full h-full pl-0">
+          {slides.map((slide, index) => (
+            <CarouselItem key={index} className="w-full h-full pl-0">
               <div className="relative w-full h-full bg-gray-900 overflow-hidden">
                 <img
                   src={slide.image}
                   alt={slide.alt}
-                  className={`w-full h-full object-cover ${
-                    slide.id === 4 ? 'object-[center_30%]' : 
-                    slide.id === 6 ? 'object-[center_25%]' : 
-                    slide.id === 3 ? 'object-[center_40%]' : 
-                    'object-center'
-                  }`}
-                  loading={slide.id === 1 ? 'eager' : 'lazy'}
+                  className={`w-full h-full object-cover`}
+                  loading={index === 0 ? 'eager' : 'lazy'}
                   decoding="async"
                 />
                 <div className="absolute inset-0 bg-black/40" />

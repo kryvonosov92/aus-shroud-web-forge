@@ -68,8 +68,6 @@ export type Database = {
           additional_images: string[]
           images: string[]
           feature_tags: string[]
-          specifications: Json | null
-          colour_options: Json | null
           tabbed_content: Json | null
           sort_order: number
           show_standard_configs: boolean
@@ -87,8 +85,6 @@ export type Database = {
           additional_images?: string[]
           images?: string[]
           feature_tags?: string[]
-          specifications?: Json | null
-          colour_options?: Json | null
           tabbed_content?: Json | null
           sort_order?: number
           show_standard_configs?: boolean
@@ -106,8 +102,6 @@ export type Database = {
           additional_images?: string[]
           images?: string[]
           feature_tags?: string[]
-          specifications?: Json | null
-          colour_options?: Json | null
           tabbed_content?: Json | null
           sort_order?: number
           show_standard_configs?: boolean

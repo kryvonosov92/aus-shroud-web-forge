@@ -1,15 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Phone, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import siteContent from "@/config/site-content.json";
 
 const Header = () => {
+  const logoUrl = (siteContent as any).brand?.logoUrl as string | undefined;
   return (
     <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-24">
           <div className="flex items-center space-x-2">
             <img 
-              src="https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/df654ff6-def4-4349-8292-8713634579f4.png" 
+              src={logoUrl || "/favicon.ico"}
               alt="AusWindowShrouds Logo" 
               className="h-28 w-auto"
               style={{ clipPath: 'inset(15% 0 15% 0)' }}
