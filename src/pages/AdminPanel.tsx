@@ -13,6 +13,7 @@ import StandardConfigsEditor, { StandardConfigItem } from "@/components/admin/St
 import TabbedContentEditor from "@/components/admin/TabbedContentEditor";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { uploadToAwsMedia } from "@/lib/storage";
+import { Input } from "@/components/ui/input";
 
 // Product type
 interface Product {
@@ -73,7 +74,7 @@ const AdminPanel = () => {
   // CRUD handlers
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm({ ...form, [name]: value ?? "" });
     setDirty((d) => ({ ...d, [name]: true }));
     if (name === 'name') {
       const slug = createSlug(value || '');
@@ -81,7 +82,7 @@ const AdminPanel = () => {
     }
   };
   const handleFeatureTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value;
+    const raw = e.target.value ?? "";
     const tags = raw.split(',').map(t => t.trim()).filter(Boolean);
     setForm({ ...form, feature_tags: tags });
     setDirty((d) => ({ ...d, feature_tags: true }));
@@ -91,10 +92,7 @@ const AdminPanel = () => {
     setEditingId(product.id);
     const base = { ...product } as any;
     if (!Array.isArray((base as any).images)) {
-      const merged = [] as string[];
-      if (base.image_url) merged.push(base.image_url);
-      if (Array.isArray(base.additional_images)) merged.push(...base.additional_images);
-      base.images = merged;
+      base.images = [];
     }
     setForm(base);
     setInitialForm(base);
@@ -225,13 +223,13 @@ const AdminPanel = () => {
                   {formError}
                 </div>
               )}
-              <input name="name" value={form.name || ""} onChange={handleChange} placeholder="Name" className="border p-2 rounded" required />
-              <input name="slug" value={form.slug || ""} onChange={handleChange} placeholder="Slug" className="border p-2 rounded" required />
+              <Input name="name" value={form.name || ""} onChange={handleChange} placeholder="Name" required />
+              <Input name="slug" value={form.slug || ""} onChange={handleChange} placeholder="Slug" required />
               
-              <input name="category" value={form.category || ""} onChange={handleChange} placeholder="Category" className="border p-2 rounded" />
-              <input name="sort_order" value={form.sort_order ?? ''} onChange={(e) => setForm({ ...form, sort_order: e.target.value === '' ? undefined : (Number(e.target.value) || 0) })} placeholder="Sort Order Priority" type="number" min="0" step="1" className="border p-2 rounded" />
+              <Input name="category" value={form.category || ""} onChange={handleChange} placeholder="Category" />
+              <Input name="sort_order" value={(form.sort_order ?? '').toString()} onChange={(e) => setForm({ ...form, sort_order: e.target.value === '' ? undefined : (Number(e.target.value) || 0) })} placeholder="Sort Order Priority" type="number" min="0" step="1" />
               <textarea name="description" value={form.description || ""} onChange={handleChange} placeholder="Description" className="border p-2 rounded col-span-1 md:col-span-2" required />
-              <input name="feature_tags_input" value={Array.isArray(form.feature_tags) ? (form.feature_tags as string[]).join(', ') : ''} onChange={handleFeatureTagsChange} placeholder="Feature tags (comma-separated)" className="border p-2 rounded col-span-1 md:col-span-2" />
+              <Input name="feature_tags_input" value={Array.isArray(form.feature_tags) ? (form.feature_tags as string[]).join(', ') : ''} onChange={handleFeatureTagsChange} placeholder="Feature tags (comma-separated)" className="col-span-1 md:col-span-2" />
               
               <div className="col-span-1 md:col-span-2">
                 <label className="block mb-2">Images</label>
