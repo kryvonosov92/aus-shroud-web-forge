@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BlogManager from "@/components/BlogManager";
 import SEO from "@/components/SEO";
+import { createSlug } from "@/lib/slugify";
+import ProductImagesManager from "@/components/ProductImagesManager";
 
 // Product type
 interface Product {
@@ -16,6 +18,7 @@ interface Product {
   image_url: string;
   additional_images?: string[];
   category?: string;
+  sort_order?: number;
   created_at?: string;
   updated_at?: string;
 }
@@ -24,7 +27,9 @@ const AdminPanel = () => {
   const [user, setUser] = useState<any>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState<any>({ feature_tags: [], specifications: null, colour_options: null });
+  const [form, setForm] = useState<any>({ feature_tags: [], specifications: null, colour_options: null, sort_order: undefined, images: [] });
+  const [initialForm, setInitialForm] = useState<any>(null);
+  const [dirty, setDirty] = useState<Record<string, boolean>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
   // Removed local email/password auth; errors now managed via toasts where needed
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
@@ -50,6 +55,7 @@ const AdminPanel = () => {
     supabase
       .from("products")
       .select("*")
+      .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true })
       .then(({ data, error }) => {
         if (!error && data) setProducts(data);
@@ -67,8 +73,9 @@ const AdminPanel = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+    setDirty((d) => ({ ...d, [name]: true }));
     if (name === 'name') {
-      const slug = (value || '').toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-');
+      const slug = createSlug(value || '');
       setForm((prev: any) => ({ ...prev, slug }));
     }
   };
@@ -76,11 +83,13 @@ const AdminPanel = () => {
     const raw = e.target.value;
     const tags = raw.split(',').map(t => t.trim()).filter(Boolean);
     setForm({ ...form, feature_tags: tags });
+    setDirty((d) => ({ ...d, feature_tags: true }));
   };
   const handleSpecificationsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     try {
       const parsed = e.target.value ? JSON.parse(e.target.value) : null;
       setForm({ ...form, specifications: parsed });
+      setDirty((d) => ({ ...d, specifications: true }));
     } catch {
       // ignore parse errors while typing
       setForm({ ...form, specifications: e.target.value });
@@ -90,6 +99,7 @@ const AdminPanel = () => {
     try {
       const parsed = e.target.value ? JSON.parse(e.target.value) : null;
       setForm({ ...form, colour_options: parsed });
+      setDirty((d) => ({ ...d, colour_options: true }));
     } catch {
       setForm({ ...form, colour_options: e.target.value });
     }
@@ -106,7 +116,16 @@ const AdminPanel = () => {
   };
   const handleEdit = (product: Product) => {
     setEditingId(product.id);
-    setForm(product);
+    const base = { ...product } as any;
+    if (!Array.isArray((base as any).images)) {
+      const merged = [] as string[];
+      if (base.image_url) merged.push(base.image_url);
+      if (Array.isArray(base.additional_images)) merged.push(...base.additional_images);
+      base.images = merged;
+    }
+    setForm(base);
+    setInitialForm(base);
+    setDirty({});
   };
   const handleDelete = async (id: string) => {
     await supabase.from("products").delete().eq("id", id);
@@ -118,46 +137,27 @@ const AdminPanel = () => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let image_url = form.image_url || "";
-    let additional_images: string[] = form.additional_images || [];
+    // Build partial update based on dirty fields
+    const updatePayload: any = {};
+    Object.keys(dirty).forEach((key) => {
+      if (dirty[key]) updatePayload[key] = (form as any)[key];
+    });
     // Ensure JSON fields are objects, not raw strings
-    let specifications = form.specifications;
-    let colour_options = form.colour_options;
+    let specifications = updatePayload.specifications;
+    let colour_options = updatePayload.colour_options;
     if (typeof specifications === 'string') {
       try { specifications = JSON.parse(specifications); } catch { specifications = null; }
     }
     if (typeof colour_options === 'string') {
       try { colour_options = JSON.parse(colour_options); } catch { colour_options = null; }
     }
-    // Upload main image if selected
-    if (mainImageFile) {
-      const fileExt = mainImageFile.name.split('.').pop();
-      const filePath = `products/${Date.now()}-main.${fileExt}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage.from('aws-media').upload(filePath, mainImageFile, { upsert: true });
-      if (!uploadError) {
-        const { data: publicUrlData } = supabase.storage.from('aws-media').getPublicUrl(filePath);
-        image_url = publicUrlData.publicUrl;
-      }
-    }
-    // Upload additional images if selected
-    if (additionalImageFiles.length > 0) {
-      const uploadedUrls: string[] = [];
-      for (const file of additionalImageFiles) {
-        const fileExt = file.name.split('.').pop();
-        const filePath = `products/${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
-        const { data: uploadData, error: uploadError } = await supabase.storage.from('aws-media').upload(filePath, file, { upsert: true });
-        if (!uploadError) {
-          const { data: publicUrlData } = supabase.storage.from('aws-media').getPublicUrl(filePath);
-          uploadedUrls.push(publicUrlData.publicUrl);
-        }
-      }
-      additional_images = uploadedUrls;
-    }
+    // Handle images via images array (drag/drop changes + uploads)
+    // Upload any pending files set by ProductImagesManager and merge into updatePayload.images
     if (editingId) {
       // Update
       const { data, error } = await supabase
         .from("products")
-        .update({ ...form, image_url, additional_images })
+        .update(updatePayload)
         .eq("id", editingId)
         .select();
       if (!error && data) {
@@ -171,7 +171,7 @@ const AdminPanel = () => {
       // Create
       const { data, error } = await supabase
         .from("products")
-        .insert([{ ...form, image_url, additional_images }])
+        .insert([{ ...form }])
         .select();
       if (!error && data) {
         setProducts([...products, data[0]]);
@@ -211,6 +211,7 @@ const AdminPanel = () => {
               <input name="slug" value={form.slug || ""} onChange={handleChange} placeholder="Slug" className="border p-2 rounded" required />
               
               <input name="category" value={form.category || ""} onChange={handleChange} placeholder="Category" className="border p-2 rounded" />
+              <input name="sort_order" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) || 0 })} placeholder="Sort Order Priority" type="number" min="0" step="1" className="border p-2 rounded" />
               <textarea name="description" value={form.description || ""} onChange={handleChange} placeholder="Description" className="border p-2 rounded col-span-1 md:col-span-2" required />
               <input name="feature_tags_input" value={(form.feature_tags || []).join(', ')} onChange={handleFeatureTagsChange} placeholder="Feature tags (comma-separated)" className="border p-2 rounded col-span-1 md:col-span-2" />
               <div className="col-span-1 md:col-span-2">
@@ -222,22 +223,28 @@ const AdminPanel = () => {
                 <textarea name="colour_options" value={typeof form.colour_options === 'string' ? form.colour_options : JSON.stringify(form.colour_options || {}, null, 2)} onChange={handleColourOptionsChange} className="border p-2 rounded w-full h-40 font-mono text-sm" />
               </div>
               <div className="col-span-1 md:col-span-2">
-                <label className="block mb-1">Main Featured Image</label>
-                <input type="file" accept="image/*" onChange={handleMainImageChange} />
-                {mainImageFile && <img src={URL.createObjectURL(mainImageFile)} alt="Preview" className="h-24 mt-2 object-cover" />}
-                {form.image_url && !mainImageFile && <img src={form.image_url} alt="Current" className="h-24 mt-2 object-cover" />}
-              </div>
-              <div className="col-span-1 md:col-span-2">
-                <label className="block mb-1">Additional Images</label>
-                <input type="file" accept="image/*" multiple onChange={handleAdditionalImagesChange} />
-                <div className="flex gap-2 mt-2">
-                  {additionalImageFiles.map((file, idx) => (
-                    <img key={idx} src={URL.createObjectURL(file)} alt="Preview" className="h-16 object-cover" />
-                  ))}
-                  {form.additional_images && !additionalImageFiles.length && form.additional_images.map((url, idx) => (
-                    <img key={idx} src={url} alt="Current" className="h-16 object-cover" />
-                  ))}
-                </div>
+                <label className="block mb-2">Images</label>
+                <ProductImagesManager
+                  images={form.images || []}
+                  onChange={(imgs) => { setForm({ ...form, images: imgs }); setDirty((d) => ({ ...d, images: true })); }}
+                  onUploadFiles={async (files) => {
+                    const urls: string[] = [];
+                    for (const file of files) {
+                      const ext = file.name.split('.').pop();
+                      const filePath = `products/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+                      const { error: uploadError } = await supabase.storage.from('aws-media').upload(filePath, file, { upsert: true });
+                      if (!uploadError) {
+                        const { data: pub } = supabase.storage.from('aws-media').getPublicUrl(filePath);
+                        urls.push(pub.publicUrl);
+                      }
+                    }
+                    return urls;
+                  }}
+                  onDeleteImage={async (_url) => {
+                    // optional: could also remove from storage if needed
+                    return;
+                  }}
+                />
               </div>
               <div className="col-span-1 md:col-span-2 flex gap-2">
                 <Button type="submit">{editingId ? "Update" : "Add"} Product</Button>

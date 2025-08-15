@@ -66,9 +66,11 @@ export type Database = {
           image_url: string | null
           name: string
           additional_images: string[]
+          images: string[]
           feature_tags: string[]
           specifications: Json | null
           colour_options: Json | null
+          sort_order: number
           updated_at: string | null
         }
         Insert: {
@@ -80,9 +82,11 @@ export type Database = {
           image_url?: string | null
           name: string
           additional_images?: string[]
+          images?: string[]
           feature_tags?: string[]
           specifications?: Json | null
           colour_options?: Json | null
+          sort_order?: number
           updated_at?: string | null
         }
         Update: {
@@ -94,9 +98,11 @@ export type Database = {
           image_url?: string | null
           name?: string
           additional_images?: string[]
+          images?: string[]
           feature_tags?: string[]
           specifications?: Json | null
           colour_options?: Json | null
+          sort_order?: number
           updated_at?: string | null
         }
         Relationships: []

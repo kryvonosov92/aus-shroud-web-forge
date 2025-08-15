@@ -1,13 +1,14 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Shield, Eye, Sun, Wind, Wrench, Star } from "lucide-react";
+import siteContent from "@/config/site-content.json";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
+import { createSlug } from "@/lib/slugify";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -19,64 +20,34 @@ const Products = () => {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .in('name', ['ThermaCore© Box Shroud', 'ThermaCore© Corner Shroud', 'ThermaCore© Hood', 'ThermaCore© Tapered Shroud', 'ThermaCore© Louvered Shroud', 'ThermaCore© Modular Shroud', 'ThermaCore© Curved Shroud', 'ThermaCore© Boxed Shroud', 'LouvreShield© Awning', 'BattenShield© Screen', 'PerfaShield© Screen', 'LouvreShield© Screen']);
+        .order('sort_order', { ascending: true })
+        .order('created_at', { ascending: true });
       
-      if (!error && data) {
-        // Sort products according to our desired order
-        const desiredOrder = ['ThermaCore© Box Shroud', 'ThermaCore© Corner Shroud', 'ThermaCore© Hood', 'ThermaCore© Tapered Shroud', 'ThermaCore© Louvered Shroud', 'ThermaCore© Modular Shroud', 'ThermaCore© Curved Shroud', 'ThermaCore© Boxed Shroud', 'LouvreShield© Awning', 'BattenShield© Screen', 'PerfaShield© Screen', 'LouvreShield© Screen'];
-        const sortedProducts = desiredOrder.map(name => data.find(product => product.name === name)).filter(Boolean);
-        setProducts(sortedProducts);
-      }
+      if (!error && data) setProducts(data);
       setLoading(false);
     };
     fetchProducts();
   }, []);
 
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const toSlug = (slug: string) => encodeURIComponent(slug);
+  const slugToURL = (value: string) => encodeURIComponent(value);
   const itemListSchema = products && products.length ? {
     "@context": "https://schema.org",
     "@type": "ItemList",
     itemListElement: products.map((p: any, idx: number) => ({
       "@type": "ListItem",
       position: idx + 1,
-      url: `${origin}/products/${toSlug((p as any).slug || p.name.toLowerCase().replace(/\s+/g, '-'))}`,
+      url: `${origin}/products/${slugToURL((p as any).slug || createSlug(p.name))}`,
       name: p.name
     }))
   } : undefined;
 
-  const features = [
-    {
-      icon: Shield,
-      title: "Weather Protection",
-      description: "Built to withstand Australian weather conditions"
-    },
-    {
-      icon: Eye,
-      title: "Privacy Control",
-      description: "Enhance privacy without sacrificing natural light"
-    },
-    {
-      icon: Sun,
-      title: "UV Protection",
-      description: "Block harmful UV rays while maintaining visibility"
-    },
-    {
-      icon: Wind,
-      title: "Ventilation",
-      description: "Maintain airflow while providing screening"
-    },
-    {
-      icon: Wrench,
-      title: "Easy Installation",
-      description: "User-friendly installation that most carpenters handle with ease"
-    },
-    {
-      icon: Star,
-      title: "Premium Quality",
-      description: "High-grade materials from Australian suppliers with extended warranties"
-    }
-  ];
+  const iconMap = { Shield, Eye, Sun, Wind, Wrench, Star } as const;
+  const features = (siteContent as any).productFeatures?.map((f: any) => ({
+    icon: iconMap[f.icon as keyof typeof iconMap] || Shield,
+    title: f.title,
+    description: f.description,
+  })) || [];
 
   return (
     <div className="min-h-screen">
@@ -109,7 +80,7 @@ const Products = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
               {products.map((product) => (
                 <Card key={product.id} className="overflow-hidden hover-scale">
-                  <Link to={`/products/${encodeURIComponent((product as any).slug || product.name.toLowerCase().replace(/\s+/g, '-'))}`} className="block">
+                  <Link to={`/products/${slugToURL((product as any).slug || createSlug(product.name))}`} className="block">
                      <div className="relative h-64 bg-muted/30 flex items-center justify-center overflow-hidden">
                         <img 
                           src={

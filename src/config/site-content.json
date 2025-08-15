@@ -1,0 +1,35 @@
+{
+  "productFeatures": [
+    {
+      "icon": "Shield",
+      "title": "Weather Protection",
+      "description": "Built to withstand Australian weather conditions"
+    },
+    {
+      "icon": "Eye",
+      "title": "Privacy Control",
+      "description": "Enhance privacy without sacrificing natural light"
+    },
+    {
+      "icon": "Sun",
+      "title": "UV Protection",
+      "description": "Block harmful UV rays while maintaining visibility"
+    },
+    {
+      "icon": "Wind",
+      "title": "Ventilation",
+      "description": "Maintain airflow while providing screening"
+    },
+    {
+      "icon": "Wrench",
+      "title": "Easy Installation",
+      "description": "User-friendly installation that most carpenters handle with ease"
+    },
+    {
+      "icon": "Star",
+      "title": "Premium Quality",
+      "description": "High-grade materials from Australian suppliers with extended warranties"
+    }
+  ]
+}
+

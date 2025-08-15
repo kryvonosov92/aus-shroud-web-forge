@@ -1,18 +1,13 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { ChevronRight, Star, Wrench, Globe, CheckCircle, Ruler } from "lucide-react";
+import { ChevronRight, Star, Wrench, Globe, Ruler } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProductStandardConfigurations from "@/components/ProductStandardConfigurations";
-
-function createProductSlug(name: string) {
-  return name.toLowerCase().replace(/\s+/g, '-');
-}
 
 type Product = {
   id: string;
@@ -58,6 +53,8 @@ const ProductDetail = () => {
 
   // Product-specific slideshow images
   const getProductImages = () => {
+    const dbImages = (product as any)?.images as string[] | undefined;
+    if (Array.isArray(dbImages) && dbImages.length > 0) return dbImages.filter(Boolean);
     const list: string[] = [];
     if (product?.image_url) list.push(product.image_url);
     if (Array.isArray(product?.additional_images) && product!.additional_images.length > 0) {
