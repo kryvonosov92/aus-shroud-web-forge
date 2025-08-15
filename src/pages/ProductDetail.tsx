@@ -134,25 +134,7 @@ const ProductDetail = () => {
                 <div className="space-y-8">
                   <div>
                     <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-                      {product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') || product.name.toLowerCase().includes('perfashield') ? (
-                        <>
-                          <span className="text-black">
-                            {product.name.toLowerCase().includes('battenshield') ? 'BATTENSHIELD©' :
-                             product.name.toLowerCase().includes('louvreshield') ? 'LOUVRESHIELD©' :
-                             product.name.toLowerCase().includes('perfashield') ? 'PERFASHIELD©' : product.name.toUpperCase()}
-                          </span>
-                          <br />
-                          <span className="text-primary">
-                            {product.name.toLowerCase().includes('screen') ? 'SCREEN' :
-                             product.name.toLowerCase().includes('awning') ? 'AWNING' : ''}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          THERMACORE©<br />
-                          <span className="text-primary">{product.name.replace(/ThermaCore©?\s*/i, '').toUpperCase()}</span>
-                        </>
-                      )}
+                      {product.name}
                     </h1>
                     
                     {/* Feature Tags */}
