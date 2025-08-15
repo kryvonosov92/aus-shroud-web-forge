@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Form from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export type TabbedContent = {
   tabs: Array<{
@@ -24,7 +25,7 @@ interface TabbedContentEditorProps {
 }
 
 const TabbedContentEditor: React.FC<TabbedContentEditorProps> = ({ value, onChange }) => {
-  const [showSchemaEditor, setShowSchemaEditor] = useState(false);
+  const [schemaOpen, setSchemaOpen] = useState(false);
   const content: TabbedContent = (value && typeof value === 'object' && !Array.isArray(value) && Array.isArray((value as any).tabs))
     ? (value as TabbedContent)
     : { tabs: [] };
@@ -113,50 +114,54 @@ const TabbedContentEditor: React.FC<TabbedContentEditorProps> = ({ value, onChan
         <div className="flex items-center justify-between">
           <div className="font-medium">Tabbed Content</div>
           <div className="flex items-center gap-2">
-            <Button type="button" variant="outline" size="sm" onClick={() => setShowSchemaEditor((v) => !v)}>
-              {showSchemaEditor ? 'Simple Editor' : 'JSON Schema Editor'}
-            </Button>
-            <Button type="button" size="sm" onClick={addTab}>Add Tab</Button>
-          </div>
-        </div>
-        {showSchemaEditor ? (
-          <div className="border rounded p-3">
-            <Form
-              validator={validator}
-              schema={{
-                type: 'object',
-                properties: {
-                  tabs: {
-                    type: 'array',
-                    title: 'Tabs',
-                    items: {
+            <Dialog open={schemaOpen} onOpenChange={setSchemaOpen}>
+              <DialogTrigger asChild>
+                <Button type="button" variant="outline" size="sm">JSON Schema Editor</Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl">
+                <DialogHeader>
+                  <DialogTitle>Edit Tabbed Content (Schema)</DialogTitle>
+                </DialogHeader>
+                <div className="max-h-[70vh] overflow-auto">
+                  <Form
+                    validator={validator}
+                    schema={{
                       type: 'object',
-                      required: ['id','title','columns'],
                       properties: {
-                        id: { type: 'string', title: 'ID' },
-                        title: { type: 'string', title: 'Title' },
-                        columns: {
+                        tabs: {
                           type: 'array',
-                          title: 'Columns',
+                          title: 'Tabs',
                           items: {
                             type: 'object',
+                            required: ['id','title','columns'],
                             properties: {
-                              sections: {
+                              id: { type: 'string', title: 'ID' },
+                              title: { type: 'string', title: 'Title' },
+                              columns: {
                                 type: 'array',
-                                title: 'Sections',
+                                title: 'Columns',
                                 items: {
                                   type: 'object',
                                   properties: {
-                                    heading: { type: 'string', title: 'Heading' },
-                                    rows: {
+                                    sections: {
                                       type: 'array',
-                                      title: 'Rows',
+                                      title: 'Sections',
                                       items: {
                                         type: 'object',
-                                        required: ['label'],
                                         properties: {
-                                          label: { type: 'string', title: 'Label' },
-                                          value: { type: 'string', title: 'Value' }
+                                          heading: { type: 'string', title: 'Heading' },
+                                          rows: {
+                                            type: 'array',
+                                            title: 'Rows',
+                                            items: {
+                                              type: 'object',
+                                              required: ['label'],
+                                              properties: {
+                                                label: { type: 'string', title: 'Label' },
+                                                value: { type: 'string', title: 'Value' }
+                                              }
+                                            }
+                                          }
                                         }
                                       }
                                     }
@@ -167,19 +172,20 @@ const TabbedContentEditor: React.FC<TabbedContentEditorProps> = ({ value, onChan
                           }
                         }
                       }
-                    }
-                  }
-                }
-              }}
-              formData={content}
-              onChange={(e) => onChange((e.formData as any) || { tabs: [] })}
-              onSubmit={() => {}}
-              onError={() => {}}
-            >
-              <></>
-            </Form>
+                    }}
+                    formData={content}
+                    onChange={(e) => onChange((e.formData as any) || { tabs: [] })}
+                    onSubmit={() => setSchemaOpen(false)}
+                    onError={() => {}}
+                  >
+                    <></>
+                  </Form>
+                </div>
+              </DialogContent>
+            </Dialog>
+            <Button type="button" size="sm" onClick={addTab}>Add Tab</Button>
           </div>
-        ) : null}
+        </div>
         <div className="space-y-6">
           {(content.tabs || []).map((tab, tabIdx) => (
             <div key={tab.id || tabIdx} className="border rounded p-3 space-y-3">
