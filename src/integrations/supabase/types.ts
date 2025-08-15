@@ -70,7 +70,10 @@ export type Database = {
           feature_tags: string[]
           specifications: Json | null
           colour_options: Json | null
+          tabbed_content: Json | null
           sort_order: number
+          show_standard_configs: boolean
+          standard_configurations: Json
           updated_at: string | null
         }
         Insert: {
@@ -86,7 +89,10 @@ export type Database = {
           feature_tags?: string[]
           specifications?: Json | null
           colour_options?: Json | null
+          tabbed_content?: Json | null
           sort_order?: number
+          show_standard_configs?: boolean
+          standard_configurations?: Json
           updated_at?: string | null
         }
         Update: {
@@ -102,7 +108,10 @@ export type Database = {
           feature_tags?: string[]
           specifications?: Json | null
           colour_options?: Json | null
+          tabbed_content?: Json | null
           sort_order?: number
+          show_standard_configs?: boolean
+          standard_configurations?: Json
           updated_at?: string | null
         }
         Relationships: []

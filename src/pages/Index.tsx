@@ -13,14 +13,22 @@ const Index = () => {
         title="Window Shrouds Australia | AusWindowShrouds"
         description="Premium aluminium window shrouds and screens. Design appeal, privacy and thermal efficiency. Request a fast quote."
         canonicalPath="/"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "AusWindowShrouds",
-          "url": typeof window !== 'undefined' ? window.location.origin : undefined,
-          "logo": typeof window !== 'undefined' ? `${window.location.origin}/favicon.ico` : undefined,
-          "sameAs": ["https://www.instagram.com/auswindowshrouds/"]
-        }}
+        structuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "AusWindowShrouds",
+            "url": typeof window !== 'undefined' ? window.location.origin : undefined,
+            "logo": typeof window !== 'undefined' ? `${window.location.origin}/favicon.ico` : undefined,
+            "sameAs": ["https://www.instagram.com/auswindowshrouds/"]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "AusWindowShrouds",
+            "url": typeof window !== 'undefined' ? window.location.origin : undefined
+          }
+        ]}
       />
       <Header />
       <Hero />

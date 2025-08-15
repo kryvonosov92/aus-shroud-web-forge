@@ -73,7 +73,18 @@ const ProductDetail = () => {
     description: product.description || undefined,
     brand: { "@type": "Organization", name: "AusWindowShrouds" },
     url: origin && slug ? `${origin}/products/${slug}` : undefined,
-    category: product.category || undefined
+    category: product.category || undefined,
+    additionalProperty: (product as any)?.tabbed_content?.tabs?.flatMap((tab: any) =>
+      (tab.columns||[]).flatMap((col: any) =>
+        (col.sections||[]).flatMap((sec: any) =>
+          (sec.rows||[]).map((row: any) => ({
+            "@type": "PropertyValue",
+            name: `${tab.title} - ${sec.heading} - ${row.label}`,
+            value: row.value
+          }))
+        )
+      )
+    )
   } : undefined;
 
   // Reset carousel index if images change
@@ -105,7 +116,8 @@ const ProductDetail = () => {
         title={`${product?.name || 'Product'} | AusWindowShrouds`}
         description={product?.description || 'Premium window shrouds, screens and awnings engineered for Australian conditions.'}
         canonicalPath={`/products/${slug}`}
-        image={product?.image_url}
+        image={images && images.length ? images[0] : product?.image_url}
+        ogType="product"
         structuredData={productSchema}
       />
       <Header />
@@ -268,170 +280,64 @@ const ProductDetail = () => {
             </div>
           </section>
 
-          {/* Standard Configurations */}
-          {((product.name.toLowerCase().includes('box') && !product.name.toLowerCase().includes('boxed')) || product.name.toLowerCase().includes('curved')) && (
-            <ProductStandardConfigurations 
-              productType={product.name.toLowerCase().includes('curved') ? 'curved' : 'box'} 
+          {/* Standard Configurations (DB-driven) */}
+          {((product as any).show_standard_configs || false) && (
+            <ProductStandardConfigurations
+              productType={product.name.toLowerCase().includes('curved') ? 'curved' : 'box'}
+              items={((product as any).standard_configurations as any[]) || []}
             />
           )}
 
-          {/* Specification Details & Colour Options Tabs */}
+          {/* Specification / Tabbed Content */}
           <section id="specification-details" className="py-8 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-7xl mx-auto">
-                <Tabs defaultValue="specifications" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 mb-8">
-                    <TabsTrigger value="specifications">Specification Details</TabsTrigger>
-                    <TabsTrigger value="colours">Colour Options</TabsTrigger>
-                  </TabsList>
-                  
-                   <TabsContent value="specifications">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold border-b pb-1">Overview</h3>
-                          <div className="space-y-1">
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Product</span>
-                              <span className="text-muted-foreground text-xs">{product.name}</span>
-                            </div>
-                             <div className="flex justify-between py-1 border-b border-muted/30">
-                               <span className="font-medium text-xs">Category</span>
-                               <span className="text-muted-foreground text-xs">{product.specifications?.overview?.category || product.category || 'Window Shroud'}</span>
-                             </div>
-                             <div className="flex justify-between py-1 border-b border-muted/30">
-                               <span className="font-medium text-xs">Profile</span>
-                               <span className="text-muted-foreground text-xs">{product.specifications?.overview?.profile || '6.0mm'}</span>
-                             </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Wind Rating</span>
-                              <span className="text-muted-foreground text-xs">{product.specifications?.overview?.windRating || '15m'}</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Material</span>
-                              <span className="text-muted-foreground text-xs">{product.specifications?.overview?.material || 'Aluminium 5083 H32 Marine-Grade'}</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Profile Depth</span>
-                              <span className="text-muted-foreground text-xs">{product.specifications?.overview?.profileDepth || '50mm - 850mm*'}</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Standard Profile Depth</span>
-                              <span className="text-muted-foreground text-xs">{product.specifications?.overview?.standardProfileDepth || '300mm / 450mm / 600mm'}</span>
-                            </div>
-                             {product.specifications?.overview?.profileSlope && (
-                              <div className="flex justify-between py-1 border-b border-muted/30">
-                                <span className="font-medium text-xs">Profile Slope</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications.overview.profileSlope}</span>
-                              </div>
-                             )}
-                             <div className="flex justify-between py-1">
-                               <span className="font-medium text-xs">Fixing Flange</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.overview?.fixingFlange || 'Typ. 50mm / 100mm'}</span>
-                             </div>
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold border-b pb-1">Product Applications</h3>
-                          <div className="space-y-1">
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Usage</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.applications?.usage || 'Commercial & Residential'}</span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                              <span className="font-medium text-xs">Exterior</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.applications?.exterior || 'Window Dressing, Solar Shading'}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold border-b pb-1">Dimensions & Performance</h3>
-                          <div className="space-y-1">
-                              {product.specifications?.dimensions?.maxHeight && (
-                                <div className="flex justify-between py-1 border-b border-muted/30">
-                                  <span className="font-medium text-xs">Max Height</span>
-                                  <span className="text-muted-foreground text-xs">{product.specifications.dimensions.maxHeight}</span>
-                                </div>
-                              )}
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Max Width</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.maxWidth || '6000mm*'}</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Density</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.density || '2650 kg/m³'}</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Material Weight</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.materialWeight || '15.9 kg/m²'}</span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">AS 1530.3</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.AS1530_3 || 'Yes'}</span>
-                            </div>
-                              <div className="flex justify-between py-1">
-                                <span className="font-medium text-xs">Curved Profiles</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.dimensions?.curvedProfiles || 'Yes'}</span>
-                              </div>
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold border-b pb-1">Product Warranty</h3>
-                          <div className="space-y-1">
-                            <div className="flex justify-between py-1 border-b border-muted/30">
-                              <span className="font-medium text-xs">Term</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.warranty?.term || '7 Years'}</span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                              <span className="font-medium text-xs">Coverage</span>
-                                <span className="text-muted-foreground text-xs">{product.specifications?.warranty?.coverage || 'Workmanship & Materials'}</span>
-                            </div>
-                          </div>
-                          <p className="text-xs text-muted-foreground bg-muted/20 p-2 rounded text-[10px] leading-tight">
-                            To ensure you meet the eligibility requirements, make sure to disclose your project's location and the intended application at the time of placing your order.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  
-                   <TabsContent value="colours">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold border-b pb-1">Powder Coating Systems</h3>
-                          <div className="space-y-1">
-                              {(product.colour_options?.systems || []).map((sys: string) => (
-                                <div key={sys} className="flex justify-between py-1 border-b border-muted/30">
-                                  <span className="font-medium text-xs">{sys}</span>
-                                  <span className="text-muted-foreground text-xs">Available</span>
+                {((product as any)?.tabbed_content?.tabs?.length || 0) > 0 ? (
+                  <Tabs defaultValue={(product as any).tabbed_content.tabs[0]?.id || 'tab-0'} className="w-full">
+                    <TabsList className="w-full flex flex-wrap gap-2 mb-8">
+                      {((product as any).tabbed_content.tabs || []).map((t: any) => (
+                        <TabsTrigger className="flex-1" key={t.id} value={t.id}>{t.title}</TabsTrigger>
+                      ))}
+                    </TabsList>
+                    {((product as any).tabbed_content.tabs || []).map((t: any) => (
+                      <TabsContent key={t.id} value={t.id}>
+                        <div className={`grid grid-cols-1 ${((t.columns||[]).length||1) > 1 ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6`}>
+                          {(t.columns || []).map((col: any, cIdx: number) => (
+                            <div key={cIdx} className="space-y-4">
+                              {(col.sections || []).map((sec: any, sIdx: number) => (
+                                <div key={sIdx} className="space-y-2">
+                                  {sec.heading ? (<h3 className="text-lg font-semibold border-b pb-1">{sec.heading}</h3>) : null}
+                                  <div className="space-y-1">
+                                    {(sec.rows || []).map((row: any, rIdx: number) => (
+                                      <div key={rIdx} className="flex justify-between py-1 border-b border-muted/30">
+                                        <span className="font-medium text-xs">{row.label}</span>
+                                        <span className="text-muted-foreground text-xs">{row.value}</span>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
                               ))}
-                          </div>
+                            </div>
+                          ))}
                         </div>
-                      </div>
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold border-b pb-1">Coating Properties</h3>
-                          <div className="space-y-1">
-                              {product.colour_options?.properties && (
-                                <>
-                                  {Object.entries(product.colour_options.properties).map(([key, val]: any) => (
-                                    <div key={key} className="flex justify-between py-1 border-b border-muted/30">
-                                      <span className="font-medium text-xs">{key.replace(/([A-Z])/g,' $1').replace(/^./, (c)=>c.toUpperCase())}</span>
-                                      <span className="text-muted-foreground text-xs">{String(val)}</span>
-                                    </div>
-                                  ))}
-                                </>
-                              )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                </Tabs>
+                      </TabsContent>
+                    ))}
+                  </Tabs>
+                ) : (
+                  // Fallback to older specific tabs if tabbed_content not present
+                  <Tabs defaultValue="specifications" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 mb-8">
+                      <TabsTrigger value="specifications">Specification Details</TabsTrigger>
+                      <TabsTrigger value="colours">Colour Options</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="specifications">
+                      <div className="text-sm text-muted-foreground">No tabbed content available.</div>
+                    </TabsContent>
+                    <TabsContent value="colours">
+                      <div className="text-sm text-muted-foreground">No tabbed content available.</div>
+                    </TabsContent>
+                  </Tabs>
+                )}
               </div>
             </div>
           </section>

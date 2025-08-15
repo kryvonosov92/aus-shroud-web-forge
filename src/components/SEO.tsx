@@ -8,6 +8,7 @@ interface SEOProps {
   image?: string; // public path or absolute URL
   noindex?: boolean;
   structuredData?: any | any[]; // JSON-LD object(s)
+  ogType?: string; // e.g., 'product', defaults to 'website'
 }
 
 const buildUrl = (path?: string) => {
@@ -25,6 +26,7 @@ const SEO: React.FC<SEOProps> = ({
   image,
   noindex,
   structuredData,
+  ogType,
 }) => {
   const url = buildUrl(canonicalPath || (typeof window !== 'undefined' ? window.location.pathname : undefined));
   const ogImage = buildUrl(image || "/products/tapered-shroud-1.png");
@@ -45,7 +47,7 @@ const SEO: React.FC<SEOProps> = ({
         <meta property="og:site_name" content={siteName} />
         <meta property="og:title" content={title} />
         {description && <meta property="og:description" content={description} />}
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content={ogType || 'website'} />
         <meta property="og:url" content={url} />
         {ogImage && <meta property="og:image" content={ogImage} />}
 

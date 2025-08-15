@@ -9,6 +9,8 @@ import BlogManager from "@/components/BlogManager";
 import SEO from "@/components/SEO";
 import { createSlug } from "@/lib/slugify";
 import ProductImagesManager from "@/components/ProductImagesManager";
+import StandardConfigsEditor, { StandardConfigItem } from "@/components/admin/StandardConfigsEditor";
+import TabbedContentEditor from "@/components/admin/TabbedContentEditor";
 import { uploadToAwsMedia } from "@/lib/storage";
 
 // Product type
@@ -31,6 +33,7 @@ const AdminPanel = () => {
   const [initialForm, setInitialForm] = useState<any>(null);
   const [dirty, setDirty] = useState<Record<string, boolean>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
   // Auth state
   useEffect(() => {
@@ -125,6 +128,45 @@ const AdminPanel = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError(null);
+    // Basic validation for new flexible fields
+    if (form.show_standard_configs) {
+      const items = (form.standard_configurations as any[]) || [];
+      const invalid = items.some((it) => !it || !it.title || !it.image);
+      if (invalid) {
+        setFormError("Please complete all Standard Configurations: each item requires a title and an image.");
+        return;
+      }
+    }
+    if (form.tabbed_content) {
+      try {
+        const tc = typeof form.tabbed_content === 'string' ? JSON.parse(form.tabbed_content) : form.tabbed_content;
+        if (tc && Array.isArray(tc.tabs)) {
+          for (const tab of tc.tabs) {
+            if (!tab || !tab.title || !Array.isArray(tab.columns)) {
+              setFormError("Each tab must include a title and at least one column.");
+              return;
+            }
+            for (const col of tab.columns) {
+              if (!col || !Array.isArray(col.sections)) continue;
+              for (const sec of col.sections) {
+                if (sec && Array.isArray(sec.rows)) {
+                  for (const row of sec.rows) {
+                    if (!row || !row.label) {
+                      setFormError("All rows in tabbed content must have a label.");
+                      return;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      } catch {
+        setFormError("Tabbed Content JSON is invalid. Please correct the JSON.");
+        return;
+      }
+    }
     // Build partial update based on dirty fields
     const updatePayload: any = {};
     Object.keys(dirty).forEach((key) => {
@@ -134,14 +176,19 @@ const AdminPanel = () => {
     // Ensure JSON fields are objects, not raw strings
     let specifications = updatePayload.specifications;
     let colour_options = updatePayload.colour_options;
+    let tabbed_content = updatePayload.tabbed_content;
     if (typeof specifications === 'string') {
       try { specifications = JSON.parse(specifications); } catch { specifications = null; }
     }
     if (typeof colour_options === 'string') {
       try { colour_options = JSON.parse(colour_options); } catch { colour_options = null; }
     }
+    if (typeof tabbed_content === 'string') {
+      try { tabbed_content = JSON.parse(tabbed_content); } catch { tabbed_content = null; }
+    }
     updatePayload.specifications = specifications;
     updatePayload.colour_options = colour_options;
+    updatePayload.tabbed_content = tabbed_content;
     // images handled via ProductImagesManager
     if (editingId) {
       // Update
@@ -198,6 +245,11 @@ const AdminPanel = () => {
           <CardContent>
             
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {formError && (
+                <div className="md:col-span-2 text-sm text-red-600 bg-red-50 border border-red-200 p-2 rounded">
+                  {formError}
+                </div>
+              )}
               <input name="name" value={form.name || ""} onChange={handleChange} placeholder="Name" className="border p-2 rounded" required />
               <input name="slug" value={form.slug || ""} onChange={handleChange} placeholder="Slug" className="border p-2 rounded" required />
               
@@ -205,14 +257,7 @@ const AdminPanel = () => {
               <input name="sort_order" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) || 0 })} placeholder="Sort Order Priority" type="number" min="0" step="1" className="border p-2 rounded" />
               <textarea name="description" value={form.description || ""} onChange={handleChange} placeholder="Description" className="border p-2 rounded col-span-1 md:col-span-2" required />
               <input name="feature_tags_input" value={(form.feature_tags || []).join(', ')} onChange={handleFeatureTagsChange} placeholder="Feature tags (comma-separated)" className="border p-2 rounded col-span-1 md:col-span-2" />
-              <div className="col-span-1 md:col-span-2">
-                <label className="block mb-1">Specifications (JSON)</label>
-                <textarea name="specifications" value={typeof form.specifications === 'string' ? form.specifications : JSON.stringify(form.specifications || {}, null, 2)} onChange={handleSpecificationsChange} className="border p-2 rounded w-full h-40 font-mono text-sm" />
-              </div>
-              <div className="col-span-1 md:col-span-2">
-                <label className="block mb-1">Colour Options (JSON)</label>
-                <textarea name="colour_options" value={typeof form.colour_options === 'string' ? form.colour_options : JSON.stringify(form.colour_options || {}, null, 2)} onChange={handleColourOptionsChange} className="border p-2 rounded w-full h-40 font-mono text-sm" />
-              </div>
+              
               <div className="col-span-1 md:col-span-2">
                 <label className="block mb-2">Images</label>
                 <ProductImagesManager
@@ -228,6 +273,48 @@ const AdminPanel = () => {
                   }}
                   onDeleteImage={async (_url) => { return; }}
                 />
+              </div>
+
+              <div className="col-span-1 md:col-span-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <input
+                    type="checkbox"
+                    id="show_standard_configs"
+                    checked={!!form.show_standard_configs}
+                    onChange={(e)=>{ setForm({ ...form, show_standard_configs: e.target.checked }); setDirty((d)=>({ ...d, show_standard_configs: true })); }}
+                  />
+                  <label htmlFor="show_standard_configs">Show Standard Configurations</label>
+                </div>
+                {form.show_standard_configs && (
+                  <StandardConfigsEditor
+                    items={(form.standard_configurations as StandardConfigItem[]) || []}
+                    onChange={(next)=>{ setForm({ ...form, standard_configurations: next }); setDirty((d)=>({ ...d, standard_configurations: true })); }}
+                  />
+                )}
+              </div>
+
+              <div className="col-span-1 md:col-span-2 space-y-4">
+                <TabbedContentEditor
+                  value={form.tabbed_content || null}
+                  onChange={(v)=>{ setForm({ ...form, tabbed_content: v }); setDirty((d)=>({ ...d, tabbed_content: true })); }}
+                />
+                <div>
+                  <label className="block mb-1">Tabbed Content (JSON)</label>
+                  <textarea
+                    name="tabbed_content"
+                    value={typeof form.tabbed_content === 'string' ? form.tabbed_content : JSON.stringify(form.tabbed_content || { tabs: [] }, null, 2)}
+                    onChange={(e)=>{
+                      try {
+                        const parsed = e.target.value ? JSON.parse(e.target.value) : null;
+                        setForm({ ...form, tabbed_content: parsed });
+                      } catch {
+                        setForm({ ...form, tabbed_content: e.target.value });
+                      }
+                      setDirty((d)=>({ ...d, tabbed_content: true }));
+                    }}
+                    className="border p-2 rounded w-full h-40 font-mono text-sm"
+                  />
+                </div>
               </div>
               <div className="col-span-1 md:col-span-2 flex gap-2">
                 <Button type="submit">{editingId ? "Update" : "Add"} Product</Button>

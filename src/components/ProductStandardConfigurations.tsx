@@ -8,6 +8,9 @@ type Configuration = {
 
 type ProductStandardConfigurationsProps = {
   productType?: "box" | "curved";
+  items?: Configuration[];
+  heading?: string;
+  description?: string;
 };
 
 const boxConfigurations: Configuration[] = [
@@ -41,8 +44,8 @@ const curvedConfigurations: Configuration[] = [
   }
 ];
 
-const ProductStandardConfigurations = ({ productType = "box" }: ProductStandardConfigurationsProps) => {
-  const configurations = productType === "curved" ? curvedConfigurations : boxConfigurations;
+const ProductStandardConfigurations = ({ productType = "box", items, heading = "STANDARD CONFIGURATIONS", description = "Choose from our range of pre-designed configurations, each engineered for specific architectural requirements and aesthetic preferences." }: ProductStandardConfigurationsProps) => {
+  const configurations = (items && items.length > 0) ? items : (productType === "curved" ? curvedConfigurations : boxConfigurations);
   const gridCols = productType === "curved" ? "md:grid-cols-2" : "md:grid-cols-3";
 
   return (
@@ -51,12 +54,10 @@ const ProductStandardConfigurations = ({ productType = "box" }: ProductStandardC
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold tracking-tight mb-4">
-              STANDARD CONFIGURATIONS
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Choose from our range of pre-designed configurations, each engineered for specific architectural requirements and aesthetic preferences.
-            </p>
+            <h2 className="text-4xl font-bold tracking-tight mb-4">{heading}</h2>
+            {description && (
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{description}</p>
+            )}
           </div>
 
           {/* Configuration Grid */}
