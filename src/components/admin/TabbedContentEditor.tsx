@@ -25,7 +25,9 @@ interface TabbedContentEditorProps {
 
 const TabbedContentEditor: React.FC<TabbedContentEditorProps> = ({ value, onChange }) => {
   const [showSchemaEditor, setShowSchemaEditor] = useState(false);
-  const content = value || { tabs: [] };
+  const content: TabbedContent = (value && typeof value === 'object' && !Array.isArray(value) && Array.isArray((value as any).tabs))
+    ? (value as TabbedContent)
+    : { tabs: [] };
 
   const addTab = () => {
     const id = Math.random().toString(36).slice(2);
@@ -179,7 +181,7 @@ const TabbedContentEditor: React.FC<TabbedContentEditorProps> = ({ value, onChan
           </div>
         ) : null}
         <div className="space-y-6">
-          {content.tabs.map((tab, tabIdx) => (
+          {(content.tabs || []).map((tab, tabIdx) => (
             <div key={tab.id || tabIdx} className="border rounded p-3 space-y-3">
               <div className="flex items-center gap-2">
                 <div className="text-xs text-muted-foreground">Tab Title</div>
@@ -188,13 +190,13 @@ const TabbedContentEditor: React.FC<TabbedContentEditorProps> = ({ value, onChan
                 <Button type="button" variant="outline" size="sm" onClick={()=>addColumn(tabIdx)}>Add Column</Button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {tab.columns.map((col, colIdx) => (
+                {(tab.columns || []).map((col, colIdx) => (
                   <div key={colIdx} className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="text-sm font-medium">Column {colIdx+1}</div>
                       <Button type="button" variant="outline" size="sm" onClick={()=>addSection(tabIdx, colIdx)}>Add Section</Button>
                     </div>
-                    {col.sections.map((sec, secIdx) => (
+                    {(col.sections || []).map((sec, secIdx) => (
                       <div key={secIdx} className="border rounded p-3 space-y-2">
                         <div>
                           <div className="text-xs text-muted-foreground mb-1">Section Heading</div>
@@ -202,7 +204,7 @@ const TabbedContentEditor: React.FC<TabbedContentEditorProps> = ({ value, onChan
                         </div>
                         <div className="space-y-2">
                           <div className="text-xs">Rows</div>
-                          {sec.rows.map((row, rowIdx) => (
+                          {(sec.rows || []).map((row, rowIdx) => (
                             <div key={rowIdx} className="grid grid-cols-1 md:grid-cols-3 gap-2 items-center">
                               <Input value={row.label} onChange={(e)=>updateRow(tabIdx, colIdx, secIdx, rowIdx, 'label', e.target.value)} placeholder="Label" />
                               <Input value={row.value} onChange={(e)=>updateRow(tabIdx, colIdx, secIdx, rowIdx, 'value', e.target.value)} placeholder="Value" className="md:col-span-2" />

@@ -11,6 +11,7 @@ import { createSlug } from "@/lib/slugify";
 import ProductImagesManager from "@/components/ProductImagesManager";
 import StandardConfigsEditor, { StandardConfigItem } from "@/components/admin/StandardConfigsEditor";
 import TabbedContentEditor from "@/components/admin/TabbedContentEditor";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { uploadToAwsMedia } from "@/lib/storage";
 
 // Product type
@@ -254,9 +255,9 @@ const AdminPanel = () => {
               <input name="slug" value={form.slug || ""} onChange={handleChange} placeholder="Slug" className="border p-2 rounded" required />
               
               <input name="category" value={form.category || ""} onChange={handleChange} placeholder="Category" className="border p-2 rounded" />
-              <input name="sort_order" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) || 0 })} placeholder="Sort Order Priority" type="number" min="0" step="1" className="border p-2 rounded" />
+              <input name="sort_order" value={form.sort_order ?? ''} onChange={(e) => setForm({ ...form, sort_order: e.target.value === '' ? undefined : (Number(e.target.value) || 0) })} placeholder="Sort Order Priority" type="number" min="0" step="1" className="border p-2 rounded" />
               <textarea name="description" value={form.description || ""} onChange={handleChange} placeholder="Description" className="border p-2 rounded col-span-1 md:col-span-2" required />
-              <input name="feature_tags_input" value={(form.feature_tags || []).join(', ')} onChange={handleFeatureTagsChange} placeholder="Feature tags (comma-separated)" className="border p-2 rounded col-span-1 md:col-span-2" />
+              <input name="feature_tags_input" value={Array.isArray(form.feature_tags) ? (form.feature_tags as string[]).join(', ') : ''} onChange={handleFeatureTagsChange} placeholder="Feature tags (comma-separated)" className="border p-2 rounded col-span-1 md:col-span-2" />
               
               <div className="col-span-1 md:col-span-2">
                 <label className="block mb-2">Images</label>
@@ -294,10 +295,12 @@ const AdminPanel = () => {
               </div>
 
               <div className="col-span-1 md:col-span-2 space-y-4">
-                <TabbedContentEditor
-                  value={form.tabbed_content || null}
-                  onChange={(v)=>{ setForm({ ...form, tabbed_content: v }); setDirty((d)=>({ ...d, tabbed_content: true })); }}
-                />
+                <ErrorBoundary>
+                  <TabbedContentEditor
+                    value={form.tabbed_content || null}
+                    onChange={(v)=>{ setForm({ ...form, tabbed_content: v }); setDirty((d)=>({ ...d, tabbed_content: true })); }}
+                  />
+                </ErrorBoundary>
                 <div>
                   <label className="block mb-1">Tabbed Content (JSON)</label>
                   <textarea
