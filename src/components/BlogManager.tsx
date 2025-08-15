@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { uploadToAwsMedia } from "@/lib/storage";
 import { createSlug } from "@/lib/slugify";
 import MDEditor from '@uiw/react-md-editor';
 import '@uiw/react-md-editor/markdown-editor.css';
@@ -242,14 +243,30 @@ const BlogManager = ({ userId }: BlogManagerProps) => {
               </div>
 
               <div>
-                <Label htmlFor="featured_image_url">Featured Image URL</Label>
-                <Input
-                  id="featured_image_url"
-                  value={form.featured_image_url}
-                  onChange={(e) => setForm({ ...form, featured_image_url: e.target.value })}
-                  placeholder="https://example.com/image.jpg"
-                  type="url"
-                />
+                <Label htmlFor="featured_image_url">Featured Image</Label>
+                <div className="flex items-center gap-3">
+                  <Input
+                    id="featured_image_url"
+                    value={form.featured_image_url}
+                    onChange={(e) => setForm({ ...form, featured_image_url: e.target.value })}
+                    placeholder="Paste image URL or upload below"
+                  />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      try {
+                        const url = await uploadToAwsMedia(file);
+                        setForm((f) => ({ ...f, featured_image_url: url }));
+                      } catch (err) {
+                        console.error('Upload failed', err);
+                        toast({ title: 'Upload failed', description: 'Could not upload image', variant: 'destructive' });
+                      }
+                    }}
+                  />
+                </div>
               </div>
 
               <div>

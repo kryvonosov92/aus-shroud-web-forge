@@ -9,6 +9,7 @@ import BlogManager from "@/components/BlogManager";
 import SEO from "@/components/SEO";
 import { createSlug } from "@/lib/slugify";
 import ProductImagesManager from "@/components/ProductImagesManager";
+import { uploadToAwsMedia } from "@/lib/storage";
 
 // Product type
 interface Product {
@@ -220,13 +221,8 @@ const AdminPanel = () => {
                   onUploadFiles={async (files) => {
                     const urls: string[] = [];
                     for (const file of files) {
-                      const ext = file.name.split('.').pop();
-                      const key = `img-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-                      const { error: uploadError } = await supabase.storage.from('aws-media').upload(key, file, { upsert: false, contentType: file.type || undefined });
-                      if (!uploadError) {
-                        const { data: pub } = supabase.storage.from('aws-media').getPublicUrl(key);
-                        urls.push(pub.publicUrl);
-                      }
+                      const url = await uploadToAwsMedia(file);
+                      urls.push(url);
                     }
                     return urls;
                   }}
