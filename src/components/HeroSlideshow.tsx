@@ -51,14 +51,12 @@ const HeroSlideshow = () => {
         <CarouselContent className="w-full h-full ml-0">
           {slides.map((slide, index) => (
             <CarouselItem key={index} className="w-full h-full pl-0">
-              <div className="relative w-full h-full bg-gray-900 overflow-hidden">
-                <img
-                  src={slide.image}
-                  alt={slide.alt}
-                  className="w-full h-full object-cover object-center"
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  decoding="async"
-                />
+              <div
+                className="relative w-full h-full overflow-hidden bg-center bg-cover bg-no-repeat"
+                role="img"
+                aria-label={slide.alt}
+                style={{ backgroundImage: `url(${slide.image})` }}
+              >
                 <div className="absolute inset-0 bg-black/40" />
               </div>
             </CarouselItem>
@@ -80,6 +78,7 @@ const HeroSlideshow = () => {
                 : "bg-white/50 hover:bg-white/70"
             }`}
             onClick={() => api?.scrollTo(index)}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
