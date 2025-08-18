@@ -6,15 +6,15 @@ import siteContent from "@/config/site-content.json";
 const Header = () => {
   const logoUrl = (siteContent as any).brand?.logoUrl as string | undefined;
   return (
-    <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-24">
+    <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50" style={{ height: 'var(--nav-height)' }}>
+      <div className="container mx-auto px-4 h-full">
+        <div className="flex items-center justify-between h-full">
           <div className="flex items-center space-x-2">
             <img 
               src={logoUrl || "/favicon.ico"}
               alt="AusWindowShrouds Logo" 
-              className="h-28 w-auto"
-              style={{ clipPath: 'inset(15% 0 15% 0)' }}
+              className="w-auto"
+              style={{ height: 'var(--nav-height)', clipPath: 'inset(15% 0 15% 0)' }}
             />
           </div>
           

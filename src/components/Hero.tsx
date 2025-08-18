@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Star, Users } from "lucide-react";
 import HeroSlideshow from "./HeroSlideshow";
 const Hero = () => {
-  return <section id="home" className="relative h-screen flex items-center overflow-hidden">
+  return <section id="home" className="relative min-h-[calc(100svh-var(--nav-height))] flex items-center overflow-hidden">
       <HeroSlideshow />
       
       <div className="container mx-auto px-4 relative z-10">

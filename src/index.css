@@ -73,6 +73,9 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 220 30% 15%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 220 30% 15%;
+
+    /* Layout variables */
+    --nav-height: 6rem; /* Keep header and hero in sync */
   }
 
   .dark {
