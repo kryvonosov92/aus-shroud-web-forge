@@ -35,6 +35,8 @@ const configurations: Configuration[] = [
   }
 ];
 
+// NOTE: This component is currently unused. A DB-driven version exists as `ProductStandardConfigurations`.
+// Keeping this file as a legacy/demo marketing section. Consider removal if not needed.
 const StandardConfigurations = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage] = useState(4);

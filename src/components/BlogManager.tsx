@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import FileUploadButton from "@/components/FileUploadButton";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { uploadToAwsMedia } from "@/lib/storage";
@@ -251,11 +253,10 @@ const BlogManager = ({ userId }: BlogManagerProps) => {
                     onChange={(e) => setForm({ ...form, featured_image_url: e.target.value })}
                     placeholder="Paste image URL or upload below"
                   />
-                  <input
-                    type="file"
+                  <FileUploadButton
                     accept="image/*"
-                    onChange={async (e) => {
-                      const file = e.target.files?.[0];
+                    onFilesSelected={async (files) => {
+                      const file = files[0];
                       if (!file) return;
                       try {
                         const url = await uploadToAwsMedia(file);
@@ -265,7 +266,7 @@ const BlogManager = ({ userId }: BlogManagerProps) => {
                         toast({ title: 'Upload failed', description: 'Could not upload image', variant: 'destructive' });
                       }
                     }}
-                  />
+                  >Upload image</FileUploadButton>
                 </div>
               </div>
 
@@ -282,12 +283,10 @@ const BlogManager = ({ userId }: BlogManagerProps) => {
               </div>
 
               <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
+                <Checkbox
                   id="published"
                   checked={form.published}
-                  onChange={(e) => setForm({ ...form, published: e.target.checked })}
-                  className="h-4 w-4"
+                  onCheckedChange={(v) => setForm({ ...form, published: Boolean(v) })}
                 />
                 <Label htmlFor="published">Publish immediately</Label>
               </div>

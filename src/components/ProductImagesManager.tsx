@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import FileUploadButton from "@/components/FileUploadButton";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface ProductImagesManagerProps {
@@ -13,10 +14,10 @@ const ProductImagesManager: React.FC<ProductImagesManagerProps> = ({ images, onC
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleFilesSelected = async (files: FileList | null) => {
+  const handleFilesSelected = async (files: File[] | null) => {
     if (!files || files.length === 0) return;
     if (!onUploadFiles) return;
-    const uploaded = await onUploadFiles(Array.from(files));
+    const uploaded = await onUploadFiles(files);
     if (uploaded && uploaded.length) onChange([...(images || []), ...uploaded]);
     if (inputRef.current) inputRef.current.value = "";
   };
@@ -46,7 +47,11 @@ const ProductImagesManager: React.FC<ProductImagesManagerProps> = ({ images, onC
         <div className="flex items-center justify-between mb-2">
           <div className="text-sm text-muted-foreground">Drag images to reorder. First image is featured.</div>
           <div>
-            <input ref={inputRef} type="file" multiple accept="image/*" onChange={(e) => handleFilesSelected(e.target.files)} />
+            <FileUploadButton
+              accept="image/*"
+              multiple
+              onFilesSelected={(files) => handleFilesSelected(files)}
+            >Add images</FileUploadButton>
           </div>
         </div>
         <div className="flex flex-wrap gap-3">

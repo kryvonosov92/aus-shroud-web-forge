@@ -14,6 +14,8 @@ import TabbedContentEditor from "@/components/admin/TabbedContentEditor";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { uploadToAwsMedia } from "@/lib/storage";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Formik, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 
@@ -330,13 +332,13 @@ const AdminPanel = () => {
                     step="1"
                     required
                   />
-                  <textarea
+                  <Textarea
                     name="description"
                     value={values.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="Description"
-                    className="border p-2 rounded col-span-1 md:col-span-2"
+                    className="col-span-1 md:col-span-2"
                     required
                   />
                   <Input
@@ -370,11 +372,10 @@ const AdminPanel = () => {
 
                   <div className="col-span-1 md:col-span-2">
                     <div className="flex items-center gap-2 mb-2">
-                      <input
-                        type="checkbox"
+                      <Checkbox
                         id="show_standard_configs"
                         checked={!!values.show_standard_configs}
-                        onChange={(e) => setFieldValue('show_standard_configs', e.target.checked)}
+                        onCheckedChange={(v) => setFieldValue('show_standard_configs', Boolean(v))}
                       />
                       <label htmlFor="show_standard_configs">Show Standard Configurations</label>
                     </div>
@@ -398,7 +399,7 @@ const AdminPanel = () => {
                     </ErrorBoundary>
                     <div>
                       <label className="block mb-1">Tabbed Content (JSON)</label>
-                      <textarea
+                      <Textarea
                         name="tabbed_content_json"
                         value={typeof values.tabbed_content === 'string' ? values.tabbed_content : JSON.stringify(values.tabbed_content || { tabs: [] }, null, 2)}
                         onChange={(e) => {
@@ -409,7 +410,7 @@ const AdminPanel = () => {
                             setFieldValue('tabbed_content', e.target.value, true);
                           }
                         }}
-                        className="border p-2 rounded w-full h-40 font-mono text-sm"
+                        className="w-full h-40 font-mono text-sm"
                       />
                     </div>
                   </div>
