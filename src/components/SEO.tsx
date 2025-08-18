@@ -1,5 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
+import siteContent from "@/config/site-content.json";
+import { buildAbsoluteUrl, resolveOgImageAbsolute } from "@/lib/site";
 
 interface SEOProps {
   title: string;
@@ -9,15 +11,11 @@ interface SEOProps {
   noindex?: boolean;
   structuredData?: any | any[]; // JSON-LD object(s)
   ogType?: string; // e.g., 'product', defaults to 'website'
+  keywords?: string[]; // optional meta keywords
 }
 
-const buildUrl = (path?: string) => {
-  const origin = typeof window !== 'undefined' && window.location ? window.location.origin : '';
-  if (!origin) return path || '';
-  if (!path) return origin;
-  if (path.startsWith('http')) return path;
-  return `${origin}${path}`;
-};
+// Deprecated: use buildAbsoluteUrl from lib/site instead
+const buildUrl = buildAbsoluteUrl;
 
 const SEO: React.FC<SEOProps> = ({
   title,
@@ -27,10 +25,13 @@ const SEO: React.FC<SEOProps> = ({
   noindex,
   structuredData,
   ogType,
+  keywords,
 }) => {
-  const url = buildUrl(canonicalPath || (typeof window !== 'undefined' ? window.location.pathname : undefined));
-  const ogImage = buildUrl(image || "/products/tapered-shroud-1.png");
-  const siteName = "AusWindowShrouds";
+  const url = buildAbsoluteUrl(canonicalPath || (typeof window !== 'undefined' ? window.location.pathname : undefined));
+  const ogImage = resolveOgImageAbsolute(image);
+  const siteName = ((siteContent as any)?.seo?.siteName as string) || "AusWindowShrouds";
+  const twitterHandle = (siteContent as any)?.seo?.twitterHandle as string | undefined;
+  const mergedKeywords = keywords || ((siteContent as any)?.seo?.keywords as string[] | undefined);
 
   const jsonLdArray = structuredData
     ? (Array.isArray(structuredData) ? structuredData : [structuredData])
@@ -41,6 +42,9 @@ const SEO: React.FC<SEOProps> = ({
       <Helmet prioritizeSeoTags>
         <title>{title}</title>
         {description && <meta name="description" content={description} />}
+        {mergedKeywords && mergedKeywords.length > 0 && (
+          <meta name="keywords" content={mergedKeywords.join(", ")} />
+        )}
         <link rel="canonical" href={url} />
 
         {/* Open Graph */}
@@ -56,9 +60,12 @@ const SEO: React.FC<SEOProps> = ({
         <meta name="twitter:title" content={title} />
         {description && <meta name="twitter:description" content={description} />}
         {ogImage && <meta name="twitter:image" content={ogImage} />}
+        {twitterHandle && <meta name="twitter:site" content={twitterHandle} />}
 
         <meta name="author" content="AusWindowShrouds" />
-        {noindex && <meta name="robots" content="noindex,nofollow" />}
+        {/* Robots policy */}
+        {!noindex && <meta name="robots" content="max-image-preview:large" />}
+        {noindex && <meta name="robots" content="noindex,nofollow,max-image-preview:large" />}
       </Helmet>
 
       {jsonLdArray.map((data, i) => (

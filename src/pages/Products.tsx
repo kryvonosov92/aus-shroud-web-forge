@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabase";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { createSlug } from "@/lib/slugify";
+import { buildAbsoluteUrl } from "@/lib/site";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -29,7 +30,6 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const slugToURL = (value: string) => encodeURIComponent(value);
   const itemListSchema = products && products.length ? {
     "@context": "https://schema.org",
@@ -37,10 +37,29 @@ const Products = () => {
     itemListElement: products.map((p: any, idx: number) => ({
       "@type": "ListItem",
       position: idx + 1,
-      url: `${origin}/products/${slugToURL((p as any).slug || createSlug(p.name))}`,
+      url: buildAbsoluteUrl(`/products/${slugToURL((p as any).slug || createSlug(p.name))}`),
       name: p.name
     }))
   } : undefined;
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": buildAbsoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Products",
+        "item": buildAbsoluteUrl("/products")
+      }
+    ]
+  };
 
   const iconMap = { Shield, Eye, Sun, Wind, Wrench, Star } as const;
   const features = (siteContent as any).productFeatures?.map((f: any) => ({
@@ -55,7 +74,7 @@ const Products = () => {
         title="Window Shrouds & Screens | Product Range"
         description="Explore our range of aluminium window shrouds, screens and awnings designed for Australian conditions."
         canonicalPath="/products"
-        structuredData={itemListSchema}
+        structuredData={itemListSchema ? [itemListSchema, breadcrumbLd] : breadcrumbLd}
       />
       <Header />
       {/* Hero Section */}

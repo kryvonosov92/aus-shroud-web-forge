@@ -47,7 +47,7 @@ const metaEnv = readFromImportMetaEnv()
  * const port = readEnvKey('PORT') || '3000'
  * ```
  */
-function readEnvKey(key: string): string | undefined {
+export function readEnvKey(key: string): string | undefined {
   return (processEnv[key] ?? metaEnv[key] ?? undefined) as IEnv[keyof IEnv] 
 }
 

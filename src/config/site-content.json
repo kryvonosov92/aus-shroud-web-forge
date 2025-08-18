@@ -2,6 +2,22 @@
   "brand": {
     "logoUrl": "/AWS-Logo.svg"
   },
+  "seo": {
+    "siteName": "AusWindowShrouds",
+    "homeTitle": "Window Shrouds Australia – Discover Melbourne's premier window shroud specialists at AUS Window Shrouds. Our expert team provides custom window shroud solutions tailored to your design to enhance the aesthetics and functionality of your modern, contemporary facade. We supply a range of residential and commercial builds projects. Contact us for more information to find the perfect match for your project. Experience unparalleled quality and craftsmanship with Melbourne's trusted window shroud experts.",
+    "homeDescription": "Premium aluminium window shrouds and screens. Design appeal, privacy and thermal efficiency. Request a fast quote.",
+    "keywords": [
+      "window shrouds",
+      "aluminium window shrouds",
+      "window screens",
+      "architectural window features",
+      "Melbourne window shrouds",
+      "privacy screens",
+      "sun shades",
+      "facade design"
+    ],
+    "defaultOgImage": "/AWS-Logo.svg"
+  },
   "heroSlides": [
     { "image": "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/a3dfe94a-179a-4c2c-b164-a5875b958caa.png", "alt": "Modern grey vertical cladding with dark window shrouds and trim details" },
     { "image": "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/ac7d710d-dfad-4ca8-862e-faca579d2447.png", "alt": "Curved modern architecture with timber screening and window shrouds" },

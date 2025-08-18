@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { generateExcerpt } from "@/lib/slugify";
 import SEO from "@/components/SEO";
+import { buildAbsoluteUrl, resolveOgImageAbsolute } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -143,7 +144,7 @@ const BlogPost = () => {
     "@type": "BlogPosting",
     "headline": post.title,
     "description": description,
-    "image": post.featured_image_url || `${window.location.origin}/products/tapered-shroud-1.png`,
+    "image": resolveOgImageAbsolute(post.featured_image_url),
     "author": {
       "@type": "Person",
       "name": post.profiles?.full_name || "AusWindowShrouds Team"
@@ -151,14 +152,39 @@ const BlogPost = () => {
     "publisher": {
       "@type": "Organization",
       "name": "AusWindowShrouds",
-      "url": window.location.origin
+      "url": buildAbsoluteUrl()
     },
     "datePublished": post.published_at,
     "dateModified": post.published_at,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `${window.location.origin}/latest/${post.slug}`
+      "@id": buildAbsoluteUrl(`/latest/${post.slug}`)
     }
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": buildAbsoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Latest",
+        "item": buildAbsoluteUrl("/latest")
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.title,
+        "item": buildAbsoluteUrl(`/latest/${post.slug}`)
+      }
+    ]
   };
 
   return (
@@ -168,7 +194,7 @@ const BlogPost = () => {
         description={description}
         canonicalPath={`/latest/${post.slug}`}
         image={post.featured_image_url || undefined}
-        structuredData={structuredData}
+        structuredData={[structuredData, breadcrumbLd]}
       />
       
       <Header />

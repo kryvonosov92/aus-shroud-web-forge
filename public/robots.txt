@@ -12,3 +12,4 @@ Allow: /
 
 User-agent: *
 Allow: /
+Sitemap: https://auswindowshrouds.com.au/sitemap.xml

@@ -8,6 +8,7 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { Calendar, User } from "lucide-react";
 import { generateExcerpt } from "@/lib/slugify";
 import SEO from "@/components/SEO";
+import { buildAbsoluteUrl } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -207,17 +208,17 @@ const Blog = () => {
     "@type": "Blog",
     "name": "AusWindowShrouds Latest News & Updates",
     "description": "Stay updated with the latest news, insights, and updates from AusWindowShrouds.",
-    "url": `${window.location.origin}/latest`,
+    "url": buildAbsoluteUrl("/latest"),
     "publisher": {
       "@type": "Organization",
       "name": "AusWindowShrouds",
-      "url": window.location.origin
+      "url": buildAbsoluteUrl()
     },
     "blogPost": posts.map(post => ({
       "@type": "BlogPosting",
       "headline": post.title,
       "description": post.meta_description || generateExcerpt(post.content),
-      "url": `${window.location.origin}/latest/${post.slug}`,
+      "url": buildAbsoluteUrl(`/latest/${post.slug}`),
       "datePublished": post.published_at,
       "author": {
         "@type": "Person",
@@ -226,13 +227,32 @@ const Blog = () => {
     }))
   };
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": buildAbsoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Latest",
+        "item": buildAbsoluteUrl("/latest")
+      }
+    ]
+  };
+
   return (
     <>
       <SEO 
         title="Latest News & Updates - AusWindowShrouds"
         description="Stay updated with the latest news, insights, and updates from AusWindowShrouds. Discover industry trends, product updates, and expert advice."
         canonicalPath="/latest"
-        structuredData={structuredData}
+        structuredData={[structuredData, breadcrumbLd]}
       />
       
       <Header />

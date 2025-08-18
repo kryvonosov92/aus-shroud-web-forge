@@ -6,35 +6,32 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import siteContent from "@/config/site-content.json";
+import { resolveLogoUrlAbsolute } from "@/lib/site";
 
 const Index = () => {
+  const seo = (siteContent as any).seo || {};
+  const homeTitle = seo.homeTitle || "Window Shrouds Australia | AusWindowShrouds";
+  const homeDescription = seo.homeDescription || "Premium aluminium window shrouds and screens. Design appeal, privacy and thermal efficiency. Request a fast quote.";
   return (
     <div className="min-h-screen">
       <SEO
-        title="Window Shrouds Australia | AusWindowShrouds"
-        description="Premium aluminium window shrouds and screens. Design appeal, privacy and thermal efficiency. Request a fast quote."
+        title={homeTitle}
+        description={homeDescription}
+        keywords={seo.keywords}
         canonicalPath="/"
         structuredData={[
           {
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "AusWindowShrouds",
+            "name": seo.siteName || "AusWindowShrouds",
             "url": typeof window !== 'undefined' ? window.location.origin : undefined,
-            "logo": (() => {
-              const logoPath = (siteContent as any).brand?.logoUrl as string | undefined;
-              if (typeof window === 'undefined' || !logoPath) return undefined;
-              try {
-                return new URL(logoPath, window.location.origin).toString();
-              } catch {
-                return undefined;
-              }
-            })(),
+            "logo": resolveLogoUrlAbsolute(),
             "sameAs": ["https://www.instagram.com/auswindowshrouds/"]
           },
           {
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "AusWindowShrouds",
+            "name": seo.siteName || "AusWindowShrouds",
             "url": typeof window !== 'undefined' ? window.location.origin : undefined
           }
         ]}

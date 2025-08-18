@@ -5,6 +5,7 @@ import { ChevronRight, Star, Wrench, Globe, Ruler } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { buildAbsoluteUrl } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProductStandardConfigurations from "@/components/ProductStandardConfigurations";
@@ -59,15 +60,14 @@ const ProductDetail = () => {
   };
   
   const images = getProductImages();
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const productSchema = product ? {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    image: images && images.length ? images.map((src) => (src?.startsWith('http') ? src : `${origin}${src}`)) : undefined,
+    image: images && images.length ? images.map((src) => buildAbsoluteUrl(src) || src) : undefined,
     description: product.description || undefined,
     brand: { "@type": "Organization", name: "AusWindowShrouds" },
-    url: origin && slug ? `${origin}/products/${slug}` : undefined,
+    url: slug ? buildAbsoluteUrl(`/products/${slug}`) : undefined,
     category: product.category || undefined,
     additionalProperty: (product as any)?.tabbed_content?.tabs?.flatMap((tab: any) =>
       (tab.columns||[]).flatMap((col: any) =>
@@ -80,6 +80,31 @@ const ProductDetail = () => {
         )
       )
     )
+  } : undefined;
+
+  const breadcrumbLd = product ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": buildAbsoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Products",
+        "item": buildAbsoluteUrl("/products")
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": product.name,
+        "item": buildAbsoluteUrl(`/products/${slug}`)
+      }
+    ]
   } : undefined;
 
   // Reset carousel index if images change
@@ -113,7 +138,7 @@ const ProductDetail = () => {
         canonicalPath={`/products/${slug}`}
         image={images && images.length ? images[0] : product?.image_url}
         ogType="product"
-        structuredData={productSchema}
+        structuredData={productSchema && breadcrumbLd ? [productSchema, breadcrumbLd] : (productSchema || breadcrumbLd)}
       />
       <Header />
       {loading ? (
