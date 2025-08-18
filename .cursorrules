@@ -1,1 +1,3 @@
 Whenever a list of instructions is givem or even a single instruction that is not very simple, then think it through and plan it out and execute your plan step by step, while confirming and asking questions about important structural decisions. Use all MCPs at your disposal when needed. In this project, utilise the supabase MCP when appropriate and confirm your changes are correct and find any new bugs you need to correct by using the browser MCP to check the live running dev server to see the results of your code changes.
+
+More often than not, the dev server is already running at http://localhost:8080/ so you can double check your work using the browser MCP.
