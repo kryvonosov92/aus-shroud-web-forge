@@ -1,6 +1,6 @@
 {
   "brand": {
-    "logoUrl": "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/df654ff6-def4-4349-8292-8713634579f4.png"
+    "logoUrl": "/AWS-Logo.svg"
   },
   "heroSlides": [
     { "image": "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/a3dfe94a-179a-4c2c-b164-a5875b958caa.png", "alt": "Modern grey vertical cladding with dark window shrouds and trim details" },

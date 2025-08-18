@@ -5,6 +5,7 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import siteContent from "@/config/site-content.json";
 
 const Index = () => {
   return (
@@ -19,7 +20,15 @@ const Index = () => {
             "@type": "Organization",
             "name": "AusWindowShrouds",
             "url": typeof window !== 'undefined' ? window.location.origin : undefined,
-            "logo": typeof window !== 'undefined' ? `${window.location.origin}/favicon.ico` : undefined,
+            "logo": (() => {
+              const logoPath = (siteContent as any).brand?.logoUrl as string | undefined;
+              if (typeof window === 'undefined' || !logoPath) return undefined;
+              try {
+                return new URL(logoPath, window.location.origin).toString();
+              } catch {
+                return undefined;
+              }
+            })(),
             "sameAs": ["https://www.instagram.com/auswindowshrouds/"]
           },
           {

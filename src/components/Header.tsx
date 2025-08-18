@@ -13,6 +13,11 @@ const Header = () => {
             <img 
               src={logoUrl || "/favicon.ico"}
               alt="AusWindowShrouds Logo" 
+              width={800}
+              height={600}
+              decoding="async"
+              loading="eager"
+              fetchPriority="high"
               className="w-auto"
               style={{ height: 'var(--nav-height)', clipPath: 'inset(15% 0 15% 0)' }}
             />
