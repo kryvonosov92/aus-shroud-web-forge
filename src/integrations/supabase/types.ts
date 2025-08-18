@@ -143,11 +143,12 @@ export type Database = {
           company_name: string | null
           created_at: string
           email: string
-          first_name: string
+          first_name: string | null
           how_heard_about_us: string
           id: string
-          last_name: string
+          last_name: string | null
           message: string
+          name: string
           phone: string
           project_address: string | null
           updated_at: string
@@ -157,11 +158,12 @@ export type Database = {
           company_name?: string | null
           created_at?: string
           email: string
-          first_name: string
+          first_name?: string | null
           how_heard_about_us?: string
           id?: string
-          last_name: string
+          last_name?: string | null
           message: string
+          name: string
           phone: string
           project_address?: string | null
           updated_at?: string
@@ -171,11 +173,12 @@ export type Database = {
           company_name?: string | null
           created_at?: string
           email?: string
-          first_name?: string
+          first_name?: string | null
           how_heard_about_us?: string
           id?: string
-          last_name?: string
+          last_name?: string | null
           message?: string
+          name?: string
           phone?: string
           project_address?: string | null
           updated_at?: string

@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Star, Users } from "lucide-react";
+import { ArrowRight, Link, Shield, Star, Users } from "lucide-react";
 import HeroSlideshow from "./HeroSlideshow";
 const Hero = () => {
-  return <section id="home" className="relative min-h-[calc(100svh-var(--nav-height))] flex items-center overflow-hidden">
+  return <section id="home" className="relative min-h-[calc(100svh-var(--nav-height))] max-h-[80vh] md:max-h-none flex items-center overflow-hidden">
       <HeroSlideshow />
       
       <div className="container mx-auto px-4 relative z-10">
@@ -22,8 +22,8 @@ const Hero = () => {
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </a>
-            <a href="https://www.instagram.com/auswindowshrouds/" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline-hero" size="lg" className="text-lg px-8 py-6 h-14">
+            <a href="/latest">
+              <Button variant="hero" size="lg" className="text-lg px-8 py-6 h-14">
                 Latest Projects
               </Button>
             </a>

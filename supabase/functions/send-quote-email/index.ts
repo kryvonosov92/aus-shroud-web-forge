@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
@@ -13,8 +15,7 @@ interface AttachmentIn {
 }
 
 interface EmailPayload {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
   companyName?: string;
@@ -49,8 +50,7 @@ serve(async (req) => {
     const payload: EmailPayload = await req.json();
 
     const {
-      firstName,
-      lastName,
+      name,
       email,
       phone,
       companyName,
@@ -68,7 +68,7 @@ serve(async (req) => {
 
     const html = `
       <h2>New Quote Request</h2>
-      <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+      <p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone}</p>
       ${companyName ? `<p><strong>Company:</strong> ${companyName}</p>` : ""}
@@ -84,7 +84,7 @@ serve(async (req) => {
     const { data, error } = await resend.emails.send({
       from: "Aus Window Shrouds <info@auswindowshrouds.com.au>",
       to: [toAddress],
-      subject: `New Quote Request from ${firstName} ${lastName}`,
+      subject: `New Quote Request from ${name}`,
       html,
       reply_to: email,
       attachments: attachmentsForResend,

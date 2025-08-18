@@ -55,7 +55,7 @@ const HeroSlideshow = () => {
                 <img
                   src={slide.image}
                   alt={slide.alt}
-                  className={`w-full h-full object-cover`}
+                  className="w-full h-full object-cover object-center"
                   loading={index === 0 ? 'eager' : 'lazy'}
                   decoding="async"
                 />

@@ -10,8 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 const Contact = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     phone: '',
     companyName: '',
@@ -129,8 +128,7 @@ const Contact = () => {
       const { error } = await supabase
         .from('quote_requests')
         .insert({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
+          name: formData.name,
           email: formData.email,
           phone: formData.phone,
           company_name: formData.companyName,
@@ -148,8 +146,7 @@ const Contact = () => {
       try {
         await supabase.functions.invoke('send-quote-email', {
           body: {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
+            name: formData.name,
             email: formData.email,
             phone: formData.phone,
             companyName: formData.companyName,
@@ -171,8 +168,7 @@ const Contact = () => {
 
       // Reset form
       setFormData({
-        firstName: '',
-        lastName: '',
+        name: '',
         email: '',
         phone: '',
         companyName: '',
@@ -266,37 +262,30 @@ const Contact = () => {
           </div>
 
           <div>
-            <Card className="border-border">
+            <Card id="enquiry" className="border-border">
               <CardHeader className="pb-8">
                 <CardTitle className="text-2xl lg:text-3xl mb-6">Request a Quote</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium mb-2 block">First Name</label>
-                      <Input 
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        placeholder="Enter your first name" 
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium mb-2 block">Last Name</label>
-                      <Input 
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        placeholder="Enter your last name" 
-                        required
-                      />
-                    </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">
+                      Name <span className="text-red-500">*</span>
+                    </label>
+                    <Input 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Enter your full name" 
+                      required
+                      aria-required="true"
+                    />
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Email</label>
+                    <label className="text-sm font-medium mb-2 block">
+                      Email <span className="text-red-500">*</span>
+                    </label>
                     <Input 
                       type="email" 
                       name="email"
@@ -304,11 +293,14 @@ const Contact = () => {
                       onChange={handleInputChange}
                       placeholder="Enter your email address" 
                       required
+                      aria-required="true"
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Phone</label>
+                    <label className="text-sm font-medium mb-2 block">
+                      Phone <span className="text-red-500">*</span>
+                    </label>
                     <Input 
                       type="tel" 
                       name="phone"
@@ -316,11 +308,12 @@ const Contact = () => {
                       onChange={handleInputChange}
                       placeholder="Enter your phone number" 
                       required
+                      aria-required="true"
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Company Name</label>
+                    <label className="text-sm font-medium mb-2 block">Company Name (Optional)</label>
                     <Input 
                       name="companyName"
                       value={formData.companyName}
@@ -330,7 +323,7 @@ const Contact = () => {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Project Address</label>
+                    <label className="text-sm font-medium mb-2 block">Project Address (Optional)</label>
                     <Input 
                       name="projectAddress"
                       value={formData.projectAddress}
@@ -340,7 +333,9 @@ const Contact = () => {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Message *</label>
+                    <label className="text-sm font-medium mb-2 block">
+                      Message <span className="text-red-500">*</span>
+                    </label>
                     <Textarea 
                       name="message"
                       value={formData.message}
@@ -348,11 +343,14 @@ const Contact = () => {
                       placeholder="Tell us about your window shroud requirements, number of windows, preferred style, etc." 
                       rows={4} 
                       required
+                      aria-required="true"
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium mb-2 block">How did you hear about us? *</label>
+                    <label className="text-sm font-medium mb-2 block">
+                      How did you hear about us? <span className="text-red-500">*</span>
+                    </label>
                     <Select
                       value={formData.howHeardAboutUs}
                       onValueChange={(value) => handleSelectChange('howHeardAboutUs', value)}

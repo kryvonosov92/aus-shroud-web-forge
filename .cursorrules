@@ -1,3 +1,16 @@
 Whenever a list of instructions is givem or even a single instruction that is not very simple, then think it through and plan it out and execute your plan step by step, while confirming and asking questions about important structural decisions. Use all MCPs at your disposal when needed. In this project, utilise the supabase MCP when appropriate and confirm your changes are correct and find any new bugs you need to correct by using the browser MCP to check the live running dev server to see the results of your code changes.
 
-More often than not, the dev server is already running at http://localhost:8080/ so you can double check your work using the browser MCP.
+More often than not, the dev server is already running at <http://localhost:8080/> so you can double check your work using the browser MCP.
+
+SSR migration to Next.js rules (must follow):
+
+- Prefer server-side data fetching and rendering. Move API calls from client components into Server Components, `getServerSideProps`/`generateStaticParams` with ISR, or Route Handlers as appropriate.
+- Replace `react-router-dom` with Next.js file-based routing. Use `next/link` and `next/navigation` APIs; remove `BrowserRouter`.
+- Replace `react-helmet-async` with Next Metadata (`generateMetadata`) or `next/head`. Build canonical URLs on the server; avoid `window` access during render.
+- Migrate images to `next/image` with correct `alt`, `sizes`, and `priority` for above-the-fold content.
+- Use environment variables correctly: client-exposed vars must be prefixed with `NEXT_PUBLIC_`; keep secrets server-only.
+- Implement redirects in `next.config.js` (e.g., `/blog -> /latest`). Remove SPA rewrites once on Next.js.
+- Ensure all interactive controls have accessible names and keyboard support. Label carousel dots, tabs, and buttons with `aria-*`.
+- Form submissions must validate on both client and server. Protect against spam (honeypot/time trap or CAPTCHA). Handle success/failure with clear UI.
+- Keep Supabase operations on the server when possible. Verify RLS policies. For edge functions, call from server to avoid CORS.
+- After edits, verify pages in the local browser and, when available, the deployed preview. Fix issues before closing tasks.
