@@ -249,34 +249,33 @@ const ProductDetail = () => {
           <section className="py-16 bg-muted/30">
             <div className="container mx-auto px-4">
               <div className="max-w-7xl mx-auto">
-                <h2 className="text-3xl font-bold tracking-tight text-center mb-10">Features</h2>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                   <div className="text-center space-y-3">
                     <div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
                       <Star className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="font-semibold">Commercial Grade</h3>
+                    <h2 className="font-semibold">Commercial Grade</h2>
                   </div>
                   
                   <div className="text-center space-y-3">
                     <div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
                       <Ruler className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="font-semibold">Made to Order</h3>
+                    <h2 className="font-semibold">Made to Order</h2>
                   </div>
                   
                   <div className="text-center space-y-3">
                     <div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
                       <Globe className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="font-semibold">Australian Product</h3>
+                    <h2 className="font-semibold">Australian Product</h2>
                   </div>
                   
                   <div className="text-center space-y-3">
                     <div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
                       <Wrench className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="font-semibold">Easy Installation</h3>
+                    <h2 className="font-semibold">Easy Installation</h2>
                   </div>
                 </div>
               </div>
