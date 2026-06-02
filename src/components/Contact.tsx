@@ -224,7 +224,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="font-semibold">Instagram</div>
-                    <div className="text-muted-foreground">@auswindowshrouds</div>
+                    <div className="text-muted-foreground">@auswindowshrouds_</div>
                   </div>
                 </div>
 
