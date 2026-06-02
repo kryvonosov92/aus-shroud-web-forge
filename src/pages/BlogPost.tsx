@@ -267,7 +267,7 @@ const BlogPost = () => {
                   [rehypeExternalLinks, { target: '_blank', rel: 'noopener noreferrer' }]
                 ]}
                 components={{
-                  h1: ({ children }) => <h1 className="text-3xl font-bold text-foreground mt-8 mb-4">{children}</h1>,
+                  h1: ({ children }) => <h2 className="text-3xl font-bold text-foreground mt-8 mb-4">{children}</h2>,
                   h2: ({ children }) => <h2 className="text-2xl font-semibold text-foreground mt-6 mb-3">{children}</h2>,
                   h3: ({ children }) => <h3 className="text-xl font-semibold text-foreground mt-5 mb-2">{children}</h3>,
                   p: ({ children }) => <p className="text-foreground leading-relaxed mb-4">{children}</p>,
