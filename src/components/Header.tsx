@@ -39,9 +39,9 @@ const Header = () => {
             <Link to="/#about" className="text-foreground hover:text-primary transition-colors">
               About
             </Link>
-            <Link to="/latest" className="text-foreground hover:text-primary transition-colors">
+            <a href="https://www.instagram.com/auswindowshrouds_/" target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary transition-colors">
               Latest
-            </Link>
+            </a>
             <Link to="/#contact" className="text-foreground hover:text-primary transition-colors">
               Contact
             </Link>
@@ -88,7 +88,7 @@ const Header = () => {
                         <Link to="/#about" className="px-6 py-4 text-base hover:bg-accent">About</Link>
                       </SheetClose>
                       <SheetClose asChild>
-                        <Link to="/latest" className="px-6 py-4 text-base hover:bg-accent">Latest</Link>
+                        <a href="https://www.instagram.com/auswindowshrouds_/" target="_blank" rel="noopener noreferrer" className="px-6 py-4 text-base hover:bg-accent">Latest</a>
                       </SheetClose>
                       <SheetClose asChild>
                         <Link to="/#contact" className="px-6 py-4 text-base hover:bg-accent">Contact</Link>
