@@ -33,6 +33,21 @@ const Index = () => {
             "@type": "WebSite",
             "name": seo.siteName || "AusWindowShrouds",
             "url": typeof window !== 'undefined' ? window.location.origin : undefined
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "AusWindowShrouds",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1/10 Clarissa St",
+              "addressLocality": "Campbellfield",
+              "addressRegion": "VIC",
+              "postalCode": "3061",
+              "addressCountry": "AU"
+            },
+            "telephone": "(03) 9020 1422",
+            "openingHours": "Mo-Fr 08:00-17:30"
           }
         ]}
       />
