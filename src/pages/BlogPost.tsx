@@ -194,6 +194,7 @@ const BlogPost = () => {
         description={description}
         canonicalPath={`/latest/${post.slug}`}
         image={post.featured_image_url || undefined}
+        ogType="article"
         structuredData={[structuredData, breadcrumbLd]}
       />
       
