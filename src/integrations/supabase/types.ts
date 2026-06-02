@@ -54,58 +54,60 @@ export type Database = {
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       products: {
         Row: {
           category: string | null
           created_at: string | null
           description: string | null
-          slug: string
-          id: string
-          image_url: string | null
-          name: string
-          additional_images: string[]
-          images: string[]
           feature_tags: string[]
-          tabbed_content: Json | null
-          sort_order: number
+          id: string
+          images: string[]
+          name: string
           show_standard_configs: boolean
+          slug: string
+          sort_order: number
           standard_configurations: Json
+          tabbed_content: Json | null
           updated_at: string | null
         }
         Insert: {
           category?: string | null
           created_at?: string | null
           description?: string | null
-          slug: string
-          id?: string
-          image_url?: string | null
-          name: string
-          additional_images?: string[]
-          images?: string[]
           feature_tags?: string[]
-          tabbed_content?: Json | null
-          sort_order?: number
+          id?: string
+          images?: string[]
+          name: string
           show_standard_configs?: boolean
+          slug: string
+          sort_order?: number
           standard_configurations?: Json
+          tabbed_content?: Json | null
           updated_at?: string | null
         }
         Update: {
           category?: string | null
           created_at?: string | null
           description?: string | null
-          slug?: string
-          id?: string
-          image_url?: string | null
-          name?: string
-          additional_images?: string[]
-          images?: string[]
           feature_tags?: string[]
-          tabbed_content?: Json | null
-          sort_order?: number
+          id?: string
+          images?: string[]
+          name?: string
           show_standard_configs?: boolean
+          slug?: string
+          sort_order?: number
           standard_configurations?: Json
+          tabbed_content?: Json | null
           updated_at?: string | null
         }
         Relationships: []
@@ -190,7 +192,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      unaccent: { Args: { "": string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
