@@ -1,0 +1,16 @@
+# AusWindowShrouds
+
+> Premium aluminium window shrouds and screens for residential and commercial projects across Australia. Melbourne-based specialists offering custom facade solutions for design appeal, privacy, and thermal efficiency.
+
+AusWindowShrouds is an Australian window shroud and screening supplier. The site showcases product ranges, shares project insights via articles, and lets visitors request quotes for custom installations.
+
+## Pages
+
+- [Home](/): Overview of window shroud products, services, company background, and contact options.
+- [Products](/products): Browse the full range of aluminium window shrouds and screens.
+- [Latest](/latest): Articles and updates about window shroud projects, trends, and tips.
+
+## Optional
+
+- [Product example](/products/aluminium-window-shrouds): Representative product detail page for aluminium window shrouds.
+- [Article example](/latest/welcome-to-our-blog): Representative blog post showcasing project updates and insights.
