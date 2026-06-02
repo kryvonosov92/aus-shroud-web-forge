@@ -294,6 +294,7 @@ const ProductDetail = () => {
           <section id="specification-details" className="py-8 bg-background">
             <div className="container mx-auto px-4">
               <div className="max-w-7xl mx-auto">
+                <h2 className="text-3xl font-bold tracking-tight mb-8">Specifications</h2>
                 {((product as any)?.tabbed_content?.tabs?.length || 0) > 0 ? (
                   <Tabs defaultValue={(product as any).tabbed_content.tabs[0]?.id || 'tab-0'} className="w-full">
                     <TabsList className="w-full flex flex-wrap gap-2 mb-8">
