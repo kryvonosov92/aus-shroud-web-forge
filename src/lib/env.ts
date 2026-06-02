@@ -1,14 +1,14 @@
-import type * as processType from 'node:process'
+type IEnv = Record<string, string | undefined>;
 
-type IEnv = typeof processType.env;
+declare const process: { env?: IEnv } | undefined;
 
-function readFromProcessEnv() {
+function readFromProcessEnv(): IEnv {
   try {
-    if (process) {
-      return process?.env ?? {} as IEnv;
+    if (typeof process !== 'undefined' && process?.env) {
+      return process.env;
     }
   } catch (_) {}
-  return {} as IEnv;
+  return {};
 }
 
 /**
