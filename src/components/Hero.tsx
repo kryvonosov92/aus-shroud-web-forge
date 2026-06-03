@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Link, Shield, Star, Users } from "lucide-react";
 import HeroSlideshow from "./HeroSlideshow";
+import myRenoRulesLogo from "@/assets/my-reno-rules.webp";
+import channel7Logo from "@/assets/channel-7.png";
 const Hero = () => {
   return <section id="home" className="relative min-h-[calc(100svh-var(--nav-height))] max-h-[80vh] md:max-h-none flex items-center overflow-hidden">
       <HeroSlideshow />
@@ -13,6 +15,14 @@ const Hero = () => {
             for Australian Homes
           </h1>
           
+          <div className="mb-10 lg:mb-14 flex flex-col items-center gap-4">
+            <p className="text-sm md:text-base uppercase tracking-[0.2em] text-primary-foreground/80">As Featured On</p>
+            <div className="flex items-center justify-center gap-8 md:gap-12">
+              <img src={myRenoRulesLogo} alt="My Reno Rules" className="h-12 md:h-16 lg:h-20 w-auto object-contain drop-shadow-lg" loading="lazy" />
+              <img src={channel7Logo} alt="Channel 7" className="h-12 md:h-16 lg:h-20 w-auto object-contain drop-shadow-lg" loading="lazy" />
+            </div>
+          </div>
+
           <p className="text-xl md:text-2xl lg:text-3xl mb-12 lg:mb-16 text-primary-foreground/90 max-w-4xl mx-auto leading-relaxed">Talk to us today about your project's custom window shroud and screen needs</p>
           
           <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 justify-center">
