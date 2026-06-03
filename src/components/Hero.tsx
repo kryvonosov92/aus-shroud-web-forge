@@ -23,8 +23,6 @@ const Hero = () => {
             </div>
           </div>
 
-          <p className="text-xl md:text-2xl lg:text-3xl mb-12 lg:mb-16 text-primary-foreground/90 max-w-4xl mx-auto leading-relaxed">Talk to us today about your project's custom window shroud and screen needs</p>
-          
           <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 justify-center">
             <a href="#contact">
               <Button variant="hero" size="lg" className="text-lg px-8 py-6 h-14">
