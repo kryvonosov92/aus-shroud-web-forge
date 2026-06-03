@@ -23,8 +23,6 @@ const Hero = () => {
             </div>
           </div>
 
-          
-          
           <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 justify-center">
             <a href="#contact">
               <Button variant="hero" size="lg" className="text-lg px-8 py-6 h-14">
