@@ -16,7 +16,7 @@ const Hero = () => {
           </h1>
           
           <div className="mb-10 lg:mb-14 flex flex-col items-center gap-4">
-            <p className="text-sm md:text-base uppercase tracking-[0.2em] text-primary-foreground/80">As Featured On</p>
+            <p className="text-sm md:text-base uppercase tracking-[0.2em] text-primary-foreground/80 font-sans">As Featured On</p>
             <div className="flex items-center justify-center gap-8 md:gap-12">
               <img src={myRenoRulesLogo} alt="My Reno Rules" className="h-12 md:h-16 lg:h-20 w-auto object-contain drop-shadow-lg" loading="lazy" />
               <img src={channel7Logo} alt="Channel 7" className="h-12 md:h-16 lg:h-20 w-auto object-contain drop-shadow-lg" loading="lazy" />
