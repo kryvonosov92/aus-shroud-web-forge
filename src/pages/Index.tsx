@@ -26,7 +26,7 @@ const Index = () => {
             "name": seo.siteName || "AusWindowShrouds",
             "url": typeof window !== 'undefined' ? window.location.origin : undefined,
             "logo": resolveLogoUrlAbsolute(),
-            "sameAs": ["https://www.instagram.com/auswindowshrouds/"]
+            "sameAs": ["https://www.instagram.com/auswindowshrouds_/"]
           },
           {
             "@context": "https://schema.org",
