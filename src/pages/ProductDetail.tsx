@@ -213,7 +213,7 @@ const ProductDetail = () => {
                           className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 ${
                             product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') || product.name.toLowerCase().includes('perfashield')
                               ? 'object-center scale-100' 
-                              : 'scale-125 object-left'
+                              : 'scale-125 object-[30%_center]'
                           } ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
                           onLoad={handleImgLoad}
                           onError={handleImgError}
