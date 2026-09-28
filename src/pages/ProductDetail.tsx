@@ -285,7 +285,7 @@ const ProductDetail = () => {
           {/* Standard Configurations (DB-driven) */}
           {((product as any).show_standard_configs || false) && (
             <ProductStandardConfigurations
-              productType={product.name.toLowerCase().includes('curved') ? 'curved' : 'box'}
+              productType={product.name.toLowerCase().includes('arch') || product.name.toLowerCase().includes('curved') ? 'curved' : 'box'}
               items={((product as any).standard_configurations as any[]) || []}
             />
           )}

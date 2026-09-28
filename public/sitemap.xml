@@ -16,6 +16,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://aus-shroud-web-forge.lovable.app/products/thermacorec-curved-shroud</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://aus-shroud-web-forge.lovable.app/products/thermacorec-modular-shroud</loc>
     <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
@@ -48,12 +54,6 @@
   <url>
     <loc>https://aus-shroud-web-forge.lovable.app/products/perfashieldc-screen</loc>
     <lastmod>2025-08-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://aus-shroud-web-forge.lovable.app/products/thermacorec-curved-shroud</loc>
-    <lastmod>2026-09-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
