@@ -198,7 +198,7 @@ const ProductDetail = () => {
 
                 {/* Right Content - Product Image */}
                 <div className="lg:order-last">
-                  <div className="relative bg-muted rounded-lg aspect-square max-w-md mx-auto overflow-hidden">
+                  <div className="relative bg-muted rounded-lg aspect-square max-w-md mx-auto overflow-hidden [clip-path:inset(0_round_0.75rem)]">
                     {images.length === 0 || imgError ? (
                       <img
                         src={PLACEHOLDER}
@@ -206,11 +206,11 @@ const ProductDetail = () => {
                         className="object-cover w-full h-full rounded-lg"
                       />
                     ) : (
-                      <>
+                      <div className="absolute inset-0 overflow-hidden rounded-lg">
                         <img
                           src={images[activeIdx]}
                           alt={product.name}
-                          className={`object-cover w-full h-full rounded-lg transition-opacity duration-300 ${
+                          className={`block object-cover w-full h-full transition-opacity duration-300 ${
                             product.name.toLowerCase().includes('battenshield') || product.name.toLowerCase().includes('louvreshield') || product.name.toLowerCase().includes('perfashield')
                               ? 'object-center scale-100' 
                               : 'scale-125 object-[30%_center]'
@@ -237,7 +237,7 @@ const ProductDetail = () => {
                             <ChevronRight className="h-5 w-5 text-foreground" />
                           </button>
                         )}
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>
