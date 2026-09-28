@@ -108,7 +108,7 @@ const Products = () => {
                               : "/placeholder.svg"
                           }
                           alt={`${product.name} - product image`}
-                          className={`w-full h-full object-contain ${product.name?.toLowerCase().includes('curved shroud') || product.name?.toLowerCase().includes('tapered shroud') ? 'scale-125' : ''}`}
+                          className={`w-full h-full object-contain ${product.name?.toLowerCase().includes('curved shroud') || product.name?.toLowerCase().includes('tapered shroud') || product.name?.toLowerCase().includes('arch shroud') ? 'scale-125' : ''}`}
                           loading="lazy"
                           decoding="async"
                           onError={(e) => {
