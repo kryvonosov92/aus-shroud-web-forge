@@ -15,9 +15,13 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   for(let i=0;i<positions.count;i++){
    const px=positions.getX(i),py=positions.getY(i),pz=positions.getZ(i);
    const projection=c.profile==='corner'?Math.max(0,pz,px-w/2):Math.max(0,pz);
-   // Leave the circular arch untouched; only extend jamb bottoms to meet its sill.
-   const falls=c.profile!=='curved'||name==='Bottom'||(p.bottom&&(name==='Left'||name==='Right')&&Math.abs(py)<1e-7);
-   if(falls)positions.setY(i,py-projection*FALL_SLOPE);
+    // The sill's upper face falls from y=0 at the rear. Jambs must follow
+    // that face at their lower edge, rather than exposing an open wedge.
+    const sillJamb=name==='Left'||name==='Right';
+    const falls=c.profile==='curved'
+     ? name==='Bottom'||(p.bottom&&sillJamb&&Math.abs(py)<1e-7)
+     : !sillJamb||py<=1e-7||py>=h-1e-7;
+    if(falls)positions.setY(i,py-projection*FALL_SLOPE);
   }
   geo.computeVertexNormals();geo.computeBoundingBox();geo.computeBoundingSphere();
   const mesh=new THREE.Mesh(geo,material);mesh.name=`${name} panel`;group.add(mesh);

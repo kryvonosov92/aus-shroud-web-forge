@@ -41,13 +41,14 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
     const a=face==='front'?-w/2-t-fl:0,b=face==='front'?w/2-t:c.returnWidth+t+fl;
     const pts=layout.points.filter(p=>p.face===face);
     flange(rect(a,h+t,b,h+t+fl),pts.filter(p=>p.y>h),face);
-    if(p.bottom)flange(rect(a,-t-fl,b,-t),pts.filter(p=>p.y<0),face);
+     // Meet the jamb flanges at y=0; ending at -t leaves a visible 6 mm slot.
+     if(p.bottom)flange(rect(a,-t-fl,b,0),pts.filter(p=>p.y<0),face);
     if(face==='front'?p.left:p.right)flange(rect(face==='front'?a:b-fl,0,face==='front'?a+fl:b,h+t),pts.filter(p=>p.y>=0&&p.y<=h),face);
    }
   }else if(hasPanelOptions(c.profile)){
    const a=-w/2-t-fl,b=w/2+t+fl;
    flange(rect(a,h+t,b,h+t+fl),run('Head'));
-   if(p.bottom)flange(rect(a,-t-fl,b,-t),run('Sill'));
+    if(p.bottom)flange(rect(a,-t-fl,b,0),run('Sill'));
    if(p.left)flange(rect(a,0,a+fl,h+t),run('Left jamb'));
    if(p.right)flange(rect(b-fl,0,b,h+t),run('Right jamb'));
   }else{
