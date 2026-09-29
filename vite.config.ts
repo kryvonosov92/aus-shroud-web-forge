@@ -8,6 +8,12 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      "/__l5e/assets-v1": {
+        target: "https://aus-shroud-web-forge.lovable.app",
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [
     react(),
