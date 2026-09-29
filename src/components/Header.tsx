@@ -33,15 +33,15 @@ const Header = () => {
             <Link to="/products" className="text-foreground hover:text-primary transition-colors">
               Products
             </Link>
+            <Link to="/shroud-builder" className="text-foreground hover:text-primary transition-colors">
+              Shroud Builder
+            </Link>
             <Link to="/#services" className="text-foreground hover:text-primary transition-colors">
               Why AWS
             </Link>
             <Link to="/#about" className="text-foreground hover:text-primary transition-colors">
               About
             </Link>
-            <a href="https://www.instagram.com/auswindowshrouds_/" target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary transition-colors">
-              Latest
-            </a>
             <Link to="/#contact" className="text-foreground hover:text-primary transition-colors">
               Contact
             </Link>
@@ -82,13 +82,13 @@ const Header = () => {
                         <Link to="/products" className="px-6 py-4 text-base hover:bg-accent">Products</Link>
                       </SheetClose>
                       <SheetClose asChild>
+                        <Link to="/shroud-builder" className="px-6 py-4 text-base hover:bg-accent">Shroud Builder</Link>
+                      </SheetClose>
+                      <SheetClose asChild>
                         <Link to="/#services" className="px-6 py-4 text-base hover:bg-accent">Why AWS</Link>
                       </SheetClose>
                       <SheetClose asChild>
                         <Link to="/#about" className="px-6 py-4 text-base hover:bg-accent">About</Link>
-                      </SheetClose>
-                      <SheetClose asChild>
-                        <a href="https://www.instagram.com/auswindowshrouds_/" target="_blank" rel="noopener noreferrer" className="px-6 py-4 text-base hover:bg-accent">Latest</a>
                       </SheetClose>
                       <SheetClose asChild>
                         <Link to="/#contact" className="px-6 py-4 text-base hover:bg-accent">Contact</Link>
