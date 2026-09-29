@@ -12,4 +12,5 @@ const assets: Record<string, string> = {
   "fonts/inter-400.ttf": "/__l5e/assets-v1/922109c4-3791-4c10-b71d-ef3e26f11764/inter-400.ttf",
   "fonts/inter-600.ttf": "/__l5e/assets-v1/eed12044-97f9-47ef-9942-d7e4375c944e/inter-600.ttf"
 };
-export const builderAsset = (path: string) => assets[path] ?? "";
+// The Lovable host serves CDN paths; external deployments need an absolute asset URL.
+export const builderAsset = (path: string) => assets[path] ? `https://aus-shroud-web-forge.lovable.app${assets[path]}` : "";
