@@ -1,3 +1,4 @@
+import { builderAsset } from './assets';
 export type Profile = 'box' | 'hood' | 'corner' | 'tapered' | 'louvered' | 'modular' | 'curved' | 'round';
 export const THICKNESS = 6;
 export const FALL_DEGREES = 3;
@@ -38,7 +39,7 @@ export const palette:PowderColour[] = [
  {name:'Pearl White',hex:'#f9ffff',brand:'Interpon',code:'GA029A',sheen:'Gloss',source:'https://shop.interpon.com/au/en/ga029a.html'},
  // Electro is a Dulux range. Representative RGB sampled from its official
  // Medium Bronze Kinetic swatch; this is not a measured coating specification.
- {name:'Electro Bronze Medium',hex:'#5c4b36',brand:'Dulux',code:'9068183F',sheen:'Flat',source:'https://www.duluxpowders.com.au/products/electro/',image:'/colours/electro-medium-bronze.webp'},
+ {name:'Electro Bronze Medium',hex:'#5c4b36',brand:'Dulux',code:'9068183F',sheen:'Flat',source:'https://www.duluxpowders.com.au/products/electro/',image:builderAsset('colours/electro-medium-bronze.webp')},
 ];
 export const initial:Config = {profile:'box',width:1200,height:1800,internalRadius:600,depth:300,returnWidth:1200,bottomDepth:150,colour:palette[0].hex,finish:palette[0].name,otherColour:'',bladePitch:120,bladeAngle:45,flange:50,stiffenerHeight:50,reference:'AWS-001',leftPanel:true,bottomPanel:true,rightPanel:true};
 export const MAX_ARCH_RADIUS = 100000;

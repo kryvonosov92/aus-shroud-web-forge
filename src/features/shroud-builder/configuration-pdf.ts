@@ -1,3 +1,4 @@
+import { builderAsset } from './assets';
 import {PDFDocument,PDFFont,rgb} from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import {Config,products,THICKNESS,archContour,includedPanels,hasPanelOptions,panelDescription,finishSpecification,hoodStiffenerLayout,measurements,validate,fallDescription} from './shroud-model';
@@ -78,7 +79,7 @@ export async function createConfigurationPdf(c:Config,fonts:PdfFonts,perspective
 }
 let fontData:Promise<PdfFonts>|undefined;
 export async function downloadConfigurationPdf(c:Config,perspective:string){
- if(!fontData)fontData=Promise.all(['/fonts/inter-400.ttf','/fonts/inter-600.ttf'].map(async path=>{const response=await fetch(path);if(!response.ok)throw new Error('Could not load PDF fonts.');return new Uint8Array(await response.arrayBuffer());})).then(([regular,bold])=>({regular,bold})).catch(error=>{fontData=undefined;throw error;});
+ if(!fontData)fontData=Promise.all([builderAsset('fonts/inter-400.ttf'),builderAsset('fonts/inter-600.ttf')].map(async path=>{const response=await fetch(path);if(!response.ok)throw new Error('Could not load PDF fonts.');return new Uint8Array(await response.arrayBuffer());})).then(([regular,bold])=>({regular,bold})).catch(error=>{fontData=undefined;throw error;});
  const bytes=await createConfigurationPdf(c,await fontData,perspective),url=URL.createObjectURL(new Blob([new Uint8Array(bytes)],{type:'application/pdf'}));
  const link=document.createElement('a');link.href=url;link.download=`${c.reference.replace(/[^a-zA-Z0-9_-]/g,'_')||'AWS'}-shroud.pdf`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
 }

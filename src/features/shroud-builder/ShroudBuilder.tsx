@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
 import { builderAsset } from './assets';
+import './shroud-builder.css';
 import {useCallback,useEffect,useRef,useState} from 'react';
 import {Box, RotateCcw, Download, Printer, Ruler, Move3d, ArrowUpRight, Check, ChevronRight, Maximize, Layers, Info, PanelTop, Sun, FileText} from 'lucide-react';
 import {Tabs,TabsList,TabsTrigger} from '@/components/ui/tabs';

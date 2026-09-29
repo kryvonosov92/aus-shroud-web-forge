@@ -1,7 +1,8 @@
+import { builderAsset } from './assets';
 import {Config,products} from './shroud-model';
 /** Add the same AWS identity to saved model images. */
 export async function brandModelImage(source:string,c:Config){
- const model=new Image(),logo=new Image();model.src=source;logo.src='/aws-logo.svg';
+ const model=new Image(),logo=new Image();model.src=source;logo.src=builderAsset('aws-logo.svg');
  await Promise.all([model.decode(),logo.decode(),document.fonts.load('600 24px Inter'),document.fonts.load('400 18px Inter')]);
  const width=Math.max(1200,model.naturalWidth),scale=width/model.naturalWidth,height=model.naturalHeight*scale;
  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height+146;
