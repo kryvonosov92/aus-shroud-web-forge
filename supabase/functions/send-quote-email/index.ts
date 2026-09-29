@@ -2,6 +2,7 @@
 // @ts-nocheck
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "npm:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -57,9 +58,23 @@ serve(async (req) => {
       projectAddress,
       message,
       howHeardAboutUs,
-      attachmentUrls = [],
       attachments = [],
     } = payload;
+
+    if (!Array.isArray(attachments) || attachments.length > 10) {
+      return new Response(JSON.stringify({ error: "Too many attachments" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } });
+    }
+    // Store attachments server-side (bucket is private; no public uploads)
+    const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const attachmentUrls: string[] = [];
+    for (const a of attachments) {
+      if (typeof a?.base64 !== "string" || a.base64.length > 14_000_000) continue;
+      const ext = (String(a.filename || "").split(".").pop() || "bin").replace(/[^a-z0-9]/gi, "").slice(0, 8) || "bin";
+      const path = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
+      const { error: upErr } = await admin.storage.from("quote-attachments").upload(path, base64ToUint8Array(a.base64), { contentType: a.contentType || "application/octet-stream" });
+      if (upErr) console.error("Attachment upload failed:", upErr);
+      else attachmentUrls.push(path);
+    }
 
     const attachmentsForResend = attachments.map((a) => ({
       filename: a.filename,
@@ -98,7 +113,7 @@ serve(async (req) => {
       });
     }
 
-    return new Response(JSON.stringify({ ok: true, data }), {
+    return new Response(JSON.stringify({ ok: true, data, attachmentUrls }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
