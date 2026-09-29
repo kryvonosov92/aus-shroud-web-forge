@@ -74,35 +74,11 @@ const Contact = () => {
     setAttachments(prev => prev.filter((_, i) => i !== index));
   };
 
-  const uploadFiles = async () => {
-    const uploadedUrls: string[] = [];
-    
-    for (const file of attachments) {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      
-      const { data, error } = await supabase.storage
-        .from('quote-attachments')
-        .upload(fileName, file);
-        
-      if (error) {
-        throw new Error(`Failed to upload ${file.name}: ${error.message}`);
-      }
-      
-      uploadedUrls.push(data.path);
-    }
-    
-    return uploadedUrls;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // Upload files first
-      const attachmentUrls = await uploadFiles();
-
       // Prepare attachments as base64 for emailing via Edge Function
       const readFileAsBase64 = (file: File) =>
         new Promise<string>((resolve, reject) => {
@@ -124,6 +100,26 @@ const Contact = () => {
         }))
       );
 
+      // Fire email via Supabase Edge Function (non-blocking for UX)
+      let attachmentUrls: string[] = [];
+      try {
+        const { data: emailData } = await supabase.functions.invoke('send-quote-email', {
+          body: {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            companyName: formData.companyName,
+            projectAddress: formData.projectAddress,
+            message: formData.message,
+            howHeardAboutUs: formData.howHeardAboutUs,
+            attachments: attachmentsPayload,
+          },
+        });
+        attachmentUrls = emailData?.attachmentUrls ?? [];
+      } catch (emailErr) {
+        console.warn('Email send failed:', emailErr);
+      }
+
       // Insert quote request
       const { error } = await supabase
         .from('quote_requests')
@@ -140,25 +136,6 @@ const Contact = () => {
 
       if (error) {
         throw new Error(error.message);
-      }
-
-      // Fire email via Supabase Edge Function (non-blocking for UX)
-      try {
-        await supabase.functions.invoke('send-quote-email', {
-          body: {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            companyName: formData.companyName,
-            projectAddress: formData.projectAddress,
-            message: formData.message,
-            howHeardAboutUs: formData.howHeardAboutUs,
-            attachmentUrls,
-            attachments: attachmentsPayload,
-          },
-        });
-      } catch (emailErr) {
-        console.warn('Email send failed:', emailErr);
       }
 
       toast({
