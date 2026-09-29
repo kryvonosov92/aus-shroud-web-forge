@@ -25,7 +25,7 @@ async function buildEntries(): Promise<SitemapEntry[]> {
   const entries: SitemapEntry[] = [
     { path: "/", changefreq: "weekly", priority: "1.0" },
     { path: "/products", changefreq: "weekly", priority: "0.9" },
-    { path: "/latest", changefreq: "weekly", priority: "0.8" },
+    { path: "/shroud-builder", changefreq: "weekly", priority: "0.8" },
   ];
 
   try {
@@ -44,20 +44,6 @@ async function buildEntries(): Promise<SitemapEntry[]> {
       });
     }
 
-    const { data: posts } = await supabase
-      .from("blog_posts")
-      .select("slug, updated_at, published_at, published")
-      .eq("published", true);
-    for (const post of posts || []) {
-      if (!post?.slug) continue;
-      const ts = post.updated_at || post.published_at;
-      entries.push({
-        path: `/latest/${post.slug}`,
-        lastmod: ts ? new Date(ts).toISOString().slice(0, 10) : undefined,
-        changefreq: "monthly",
-        priority: "0.6",
-      });
-    }
   } catch (err) {
     console.warn("sitemap: failed to fetch dynamic routes:", err);
   }
