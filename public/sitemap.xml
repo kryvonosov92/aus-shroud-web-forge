@@ -11,7 +11,7 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://aus-shroud-web-forge.lovable.app/latest</loc>
+    <loc>https://aus-shroud-web-forge.lovable.app/shroud-builder</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
