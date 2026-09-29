@@ -5,6 +5,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
 import { builderAsset } from './assets';
+import thumbBox from './media/box.webp';import thumbCorner from './media/corner.webp';import thumbCurved from './media/curved.webp';import thumbHood from './media/hood.webp';import thumbLouvered from './media/louvered.webp';import thumbModular from './media/modular.webp';import thumbRound from './media/round.webp';import thumbTapered from './media/tapered.webp';
+const profileThumbs:Record<Profile,string>={box:thumbBox,corner:thumbCorner,curved:thumbCurved,hood:thumbHood,louvered:thumbLouvered,modular:thumbModular,round:thumbRound,tapered:thumbTapered};
 import './shroud-builder.css';
 import {useCallback,useEffect,useRef,useState} from 'react';
 import {Box, RotateCcw, Download, Printer, Ruler, Move3d, ArrowUpRight, Check, ChevronRight, Maximize, Layers, Info, PanelTop, Sun, FileText} from 'lucide-react';
