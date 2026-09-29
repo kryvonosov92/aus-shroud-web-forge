@@ -38,7 +38,7 @@ export default function ShroudBuilder(){
  for(const tool of tools){try{void Promise.resolve(context.registerTool(tool,{signal:controller.signal})).catch(()=>{});}catch{}}
  return()=>controller.abort();
  },[]);
- return <>
+  return <><SEO title="Shroud Builder | AusWindowShrouds" description="Design a ThermaCore window shroud with custom dimensions, finishes and a 3D preview." canonicalPath="/shroud-builder" /><Header /><div className="shroud-builder">
  <header className="app-header"><div className="brand"><img src={builderAsset("aws-logo.svg")} alt="Aus Window Shrouds"/><span className="brand-divider"/><span className="studio-name">SHROUD STUDIO</span></div><Link to="/products" className="catalogue-link">Product catalogue <ArrowUpRight size={16}/></Link><span className="header-tag">MADE TO YOUR MEASUREMENTS</span></header>
  <main className="app-main"><div className="page-heading"><div><div className="eyebrow">THERMACORE COLLECTION / CONFIGURATOR</div><h1>Shroud designer.</h1><p>Choose a profile. Set your internal dimensions. See it in 3D.</p></div><div className="heading-actions"><Button variant="outline" className="button secondary" onClick={()=>{setC(initial);setShowStudWall(true);setShowScrews(true);setView('perspective');setReset(r=>r+1);setNotice('Default design restored.');}}><RotateCcw size={16}/>Reset</Button><Button className="button dark" onClick={()=>window.print()} disabled={!!errors.length}><Printer size={16}/>Print specification</Button></div></div>
  <div className="workspace"><aside className="controls-panel"><section className="control-section"><div className="section-title"><span className="step">01</span><h2>Choose your profile</h2><span className="count">{products.length} profiles</span></div>
@@ -81,6 +81,6 @@ export default function ShroudBuilder(){
  {errors.length>0&&<div role="alert" className="errors">{errors.join(' ')}</div>}
  </div></div><footer className="footer"><span>AUS WINDOW SHROUDS / SHROUD STUDIO</span><span>Designed around the opening.</span></footer></main>
  <section className={`print-sheet ${c.profile==='hood'?'hood-sheet':''}`}><div className="print-heading"><img src={builderAsset("aws-logo.svg")} alt="Aus Window Shrouds"/><div><h1>Shroud specification</h1><p>{c.reference||'Untitled design'} · Design draft</p></div></div><h2>ThermaCore© {product.title}</h2><div className="print-drawing"><Elevation config={c}/></div><table><tbody>{Object.entries(summary).filter(([k,v])=>v!==null&&k!=='note'&&k!=='previewColour').map(([k,v])=><tr key={k}><th>{k.replace(/([A-Z])/g,' $1').replace(/Mm$/,' (mm)')}</th><td>{String(v)}</td></tr>)}</tbody></table><p className="print-note">{summary.note} All opening measurements are internal. Overall dimensions exclude fixing flanges. Preview colours are indicative.</p></section>
- {notice&&<div role="status" className="toast"><Check size={17}/>{notice}</div>}
+  {notice&&<div role="status" className="toast"><Check size={17}/>{notice}</div>}</div><Footer />
  </>;
 }
