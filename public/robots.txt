@@ -12,4 +12,4 @@ Allow: /
 
 User-agent: *
 Allow: /
-Sitemap: https://aus-shroud-web-forge.lovable.app/sitemap.xml
+Sitemap: https://www.auswindowshrouds.com.au/sitemap.xml

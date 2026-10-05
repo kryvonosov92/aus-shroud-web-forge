@@ -6,7 +6,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import siteContent from "@/config/site-content.json";
-import { resolveLogoUrlAbsolute } from "@/lib/site";
+import { resolveLogoUrlAbsolute, getSiteOrigin } from "@/lib/site";
 
 const Index = () => {
   const seo = (siteContent as any).seo || {};
@@ -24,7 +24,7 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": seo.siteName || "AusWindowShrouds",
-            "url": typeof window !== 'undefined' ? window.location.origin : undefined,
+            "url": getSiteOrigin(),
             "logo": resolveLogoUrlAbsolute(),
             "sameAs": ["https://www.instagram.com/auswindowshrouds_/"]
           },
@@ -32,7 +32,7 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": seo.siteName || "AusWindowShrouds",
-            "url": typeof window !== 'undefined' ? window.location.origin : undefined
+            "url": getSiteOrigin()
           },
           {
             "@context": "https://schema.org",
