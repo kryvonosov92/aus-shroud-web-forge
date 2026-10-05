@@ -2,8 +2,19 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 import { createClient } from "@supabase/supabase-js";
+import { execSync } from "child_process";
 
-const BASE_URL = "https://aus-shroud-web-forge.lovable.app";
+// Last commit date (YYYY-MM-DD) touching the given source paths; falls back to undefined.
+function gitDate(...paths: string[]): string | undefined {
+  try {
+    const out = execSync(`git log -1 --format=%cs -- ${paths.join(" ")}`, { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(out) ? out : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+const BASE_URL = "https://www.auswindowshrouds.com.au";
 
 const SUPABASE_URL =
   process.env.VITE_SUPABASE_URL ||
@@ -23,17 +34,19 @@ interface SitemapEntry {
 
 async function buildEntries(): Promise<SitemapEntry[]> {
   const entries: SitemapEntry[] = [
-    { path: "/", changefreq: "weekly", priority: "1.0" },
-    { path: "/products", changefreq: "weekly", priority: "0.9" },
-    { path: "/shroud-builder", changefreq: "weekly", priority: "0.8" },
+    { path: "/", lastmod: gitDate("src/pages/Index.tsx", "src/components/Hero.tsx", "src/components/Services.tsx", "src/components/About.tsx", "src/components/Contact.tsx", "src/config/site-content.json"), changefreq: "weekly", priority: "1.0" },
+    { path: "/products", lastmod: gitDate("src/pages/Products.tsx"), changefreq: "weekly", priority: "0.9" },
+    { path: "/shroud-builder", lastmod: gitDate("src/features/shroud-builder"), changefreq: "weekly", priority: "0.8" },
   ];
+  const productsIdx = 1;
 
   try {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const { data: products } = await supabase
       .from("products")
-      .select("slug, updated_at");
+      .select("slug, updated_at")
+      .order("sort_order", { ascending: true });
     for (const p of products || []) {
       if (!p?.slug) continue;
       entries.push({
@@ -44,6 +57,10 @@ async function buildEntries(): Promise<SitemapEntry[]> {
       });
     }
 
+    // Products listing changes whenever any product changes.
+    const latest = entries.slice(3).map((e) => e.lastmod).filter(Boolean).sort().pop();
+    const listing = entries[productsIdx];
+    if (latest && (!listing.lastmod || latest > listing.lastmod)) listing.lastmod = latest;
   } catch (err) {
     console.warn("sitemap: failed to fetch dynamic routes:", err);
   }

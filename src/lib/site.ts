@@ -12,6 +12,8 @@ export const DEFAULT_TWITTER_HANDLE = (siteContent as any)?.seo?.twitterHandle |
 export const FALLBACK_IMAGE: string = DEFAULT_OG_IMAGE_PATH || 
   "https://nlxdrbqstjodlkrsisbd.supabase.co/storage/v1/object/public/aws-media/a3dfe94a-179a-4c2c-b164-a5875b958caa.png";
 
+export const PUBLIC_SITE_ORIGIN = "https://www.auswindowshrouds.com.au";
+
 // Determine site base URL from env with sensible fallbacks
 export function getSiteOrigin(): string | undefined {
   const fromEnv = readEnvKey('NEXT_PUBLIC_SITE_URL') || readEnvKey('SITE_URL');
@@ -22,10 +24,8 @@ export function getSiteOrigin(): string | undefined {
       // ignore malformed env
     }
   }
-  if (typeof window !== 'undefined' && window.location) {
-    return window.location.origin;
-  }
-  return undefined;
+  // Always use the live public domain so canonical and og:url never point at preview hosts.
+  return PUBLIC_SITE_ORIGIN;
 }
 
 // Build absolute URL when possible; accept absolute input; fall back to input
