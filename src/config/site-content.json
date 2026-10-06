@@ -4,8 +4,58 @@
   },
   "seo": {
     "siteName": "AusWindowShrouds",
-    "homeTitle": "Window Shrouds Australia – Discover Melbourne's premier window shroud specialists at AUS Window Shrouds. Our expert team provides custom window shroud solutions tailored to your design to enhance the aesthetics and functionality of your modern, contemporary facade. We supply a range of residential and commercial builds projects. Contact us for more information to find the perfect match for your project. Experience unparalleled quality and craftsmanship with Melbourne's trusted window shroud experts.",
-    "homeDescription": "Premium aluminium window shrouds and screens. Design appeal, privacy and thermal efficiency. Request a fast quote.",
+    "homeTitle": "Window Shrouds Australia | Aus Window Shrouds",
+    "homeDescription": "Custom aluminium window shrouds, screens and awnings for Australian homes and commercial builds. Our products are made in Melbourne. Get a free quote.",
+    "productMetadata": {
+      "thermacorec-curved-shroud": {
+        "title": "Arch Window Shroud - ThermaCore© | Aus Window Shrouds",
+        "description": "ThermaCore© arch window shrouds, custom-made to frame curved and arched windows. Aluminium construction with improved shading and thermal performance."
+      },
+      "thermacorec-modular-shroud": {
+        "title": "Modular Window Shroud - ThermaCore© | Aus Window Shrouds",
+        "description": "The ThermaCore© Modular Shroud offers unparalleled flexibility with its modular design system, including ease of transportation and installation in tight spaces."
+      },
+      "thermacorec-boxed-shroud": {
+        "title": "Boxed Window Shroud - ThermaCore© | Aus Window Shrouds",
+        "description": "The ThermaCore© Boxed Shroud features a robust rectangular design that provides exceptional structural integrity and weather protection for Australian homes."
+      },
+      "louvreshieldc-awning": {
+        "title": "Louvre Awning - LouvreShield© | Aus Window Shrouds",
+        "description": "LouvreShield© aluminium louvre awnings with fixed blades for sun and weather protection plus controlled light and ventilation. Request a quote."
+      },
+      "battenshieldc-screen": {
+        "title": "Aluminium Batten Screen - BattenShield© | Aus Window Shrouds",
+        "description": "BattenShield© aluminium batten screens add privacy and architectural style. Custom configurations for residential and commercial projects. Get a quote."
+      },
+      "thermacorec-box-shroud": {
+        "title": "Box Window Shroud - ThermaCore© | Aus Window Shrouds",
+        "description": "ThermaCore© box window shroud in aluminium, adding a crisp architectural frame to modern homes and commercial facades. Request a quote."
+      },
+      "perfashieldc-screen": {
+        "title": "Perforated Privacy Screen - PerfaShield | Aus Window Shrouds",
+        "description": "PerfaShield© perforated aluminium screens give privacy while letting in light and air. Precision-made for homes and commercial buildings."
+      },
+      "louvreshieldc-screen": {
+        "title": "Louvre Privacy Screen - LouvreShield | Aus Window Shrouds",
+        "description": "LouvreShield© fixed louvre screens balance privacy with natural ventilation. Durable aluminium framing for residential and commercial screening."
+      },
+      "thermacorec-tapered-shroud": {
+        "title": "Tapered Window Shroud - ThermaCore© | Aus Window Shrouds",
+        "description": "ThermaCore© tapered window shrouds control light with a slim, low-bulk profile. A striking aluminium design and a coastal favourite. Request a quote."
+      },
+      "thermacorec-hood": {
+        "title": "Window Hood Shroud - ThermaCore© | Aus Window Shrouds",
+        "description": "ThermaCore© aluminium window hoods with marine-grade construction and custom depths, built for weather protection on homes and commercial buildings."
+      },
+      "thermacorec-corner-shroud": {
+        "title": "Corner Window Shroud - ThermaCore© | Aus Window Shrouds",
+        "description": "ThermaCore© corner window shrouds wrap corner windows in clean aluminium lines. Custom-made for modern residential and commercial facades."
+      },
+      "thermacorec-louvered-shroud": {
+        "title": "Louvred Window Shroud - ThermaCore© | Aus Window Shrouds",
+        "description": "ThermaCore© louvred window shrouds with horizontal slats at 25% transparency: a stylish alternative to frosted glass that keeps privacy and airflow."
+      }
+    },
     "keywords": [
       "window shrouds",
       "aluminium window shrouds",

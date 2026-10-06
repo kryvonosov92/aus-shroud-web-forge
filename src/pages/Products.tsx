@@ -71,8 +71,8 @@ const Products = () => {
   return (
     <div className="min-h-screen">
       <SEO
-        title="Window Shrouds & Screens | Product Range"
-        description="Explore our range of aluminium window shrouds, screens and awnings designed for Australian conditions."
+        title="Window Shrouds, Screens & Awnings | Aus Window Shrouds"
+        description="Browse our range of aluminium window shrouds, privacy screens and louvre awnings. Custom-made and built for Australian homes and commercial projects."
         canonicalPath="/products"
         structuredData={itemListSchema ? [itemListSchema, breadcrumbLd] : breadcrumbLd}
       />
