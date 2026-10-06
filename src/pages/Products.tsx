@@ -121,7 +121,7 @@ const Products = () => {
                         />
                       </div>
                     <CardHeader>
-                      <CardTitle className="text-xl">{product.name}</CardTitle>
+                      <h2 className="text-xl font-semibold leading-none tracking-tight">{product.name}</h2>
                     </CardHeader>
                     <CardContent>
                       {/* Features and popular fields are omitted as they are not in the DB */}
