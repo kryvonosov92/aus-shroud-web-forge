@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { buildAbsoluteUrl } from "@/lib/site";
+import siteContent from "@/config/site-content.json";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProductStandardConfigurations from "@/components/ProductStandardConfigurations";
@@ -60,6 +61,9 @@ const ProductDetail = () => {
   };
   
   const images = getProductImages();
+  const productMetadata = slug
+    ? (siteContent.seo.productMetadata as Record<string, { title: string; description: string }>)[slug]
+    : undefined;
   const productSchema = product ? {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -133,8 +137,8 @@ const ProductDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={`${product?.name || 'Product'} | AusWindowShrouds`}
-        description={product?.description || 'Premium window shrouds, screens and awnings engineered for Australian conditions.'}
+        title={productMetadata?.title || `${product?.name || 'Product'} | Aus Window Shrouds`}
+        description={productMetadata?.description || product?.description || 'Premium window shrouds, screens and awnings engineered for Australian conditions.'}
         canonicalPath={`/products/${slug}`}
         image={images && images.length ? images[0] : product?.image_url}
         ogType="product"
