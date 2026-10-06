@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Shield, Eye, Sun, Wind, Wrench, Star } from "lucide-react";
 import siteContent from "@/config/site-content.json";
@@ -121,7 +121,7 @@ const Products = () => {
                         />
                       </div>
                     <CardHeader>
-                      <CardTitle className="text-xl">{product.name}</CardTitle>
+                      <h2 className="text-xl font-semibold leading-none tracking-tight">{product.name}</h2>
                     </CardHeader>
                     <CardContent>
                       {/* Features and popular fields are omitted as they are not in the DB */}
