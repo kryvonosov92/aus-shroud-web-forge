@@ -36,7 +36,12 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    if(c.hoodCorner){
     // Return canopy wraps the right-hand corner, falling away from the wall.
     box('Top return',d,plate,rw,w/2+d/2,h+plate/2,-rw/2);
-    const returnRib=rib.clone();returnRib.rotateY(Math.PI);
+    // Corner infill: two triangles meeting on the diagonal hip so both canopies join.
+    const tri=(pts:[number,number][])=>{const s=new THREE.Shape();s.moveTo(pts[0][0],pts[0][1]);for(const q of pts.slice(1))s.lineTo(q[0],q[1]);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:plate,bevelEnabled:false});g.rotateX(Math.PI/2);return g;};
+    add('Top corner',tri([[0,0],[d,d],[0,d]]),w/2,h+plate,0);
+    add('Top corner',tri([[0,0],[d,0],[d,d]]),w/2,h+plate,0);
+    // Return ribs run perpendicular to the side wall (along +x).
+    const returnRib=new THREE.ExtrudeGeometry(stiffener,{depth:t,bevelEnabled:false});
     for(const position of hoodStiffenerLayout(c.returnWidth).positions)add('Stiffener',returnRib.clone(),w/2,h+plate,-position/1000-t/2);
     returnRib.dispose();
    }
