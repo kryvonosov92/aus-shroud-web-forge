@@ -128,19 +128,19 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
      [spine+WT,mid+WT/2],[spine+WT,LEG],[spine,LEG],
      [spine,WT],[WT,WT],[WT,LEG],[0,LEG],
     ];
-    // Vertically mirrored: the axis that becomes world height is flipped for each
-    // fitting (local x at the head, local y at the sill), so the channel opens
-    // downward while the section, its grip and the frame junctions stay identical.
+    // One cross-section for every corner: the head/jamb orientation, mirrored
+     // vertically at the sill so the bottom fitting hugs the shroud exactly like
+     // the top one. Channel opens toward the frame interior in both cases.
     const joiner=(side:number,top:boolean)=>{
      const f=new THREE.Shape();
      pts.forEach(([x,y],i)=>{
-      const px=top?-side*y:-side*x;
-      const py=top?LEG-x:LEG-y;
+      const px=-side*y;
+      const py=LEG-x;
       if(i===0)f.moveTo(px,py);else f.lineTo(px,py);
-     });
+      });
      f.closePath();
-     const x=top?side*(w/2+t):side*(w/2+t/2+WT+SLOT/2);
-     const y=top?h+plate/2-LEG+slotCenter:-WT+2*slotCenter-LEG;
+     const x=side*(w/2+t);
+     const y=top?h+plate/2-LEG+slotCenter:-(plate/2-LEG+slotCenter);
 
      add(`Corner joiner ${top?'top':'bottom'} ${side<0?'left':'right'}`,
       new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),x,y);
