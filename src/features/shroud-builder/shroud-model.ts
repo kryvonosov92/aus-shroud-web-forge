@@ -18,7 +18,7 @@ export const products: {id: Profile; name: string; title: string; description: s
   {id:'curved',name:'Arch shroud',title:'Arch Shroud',description:'An adjustable circular arch with fixed sides and an optional bottom panel.',image:'1aae726f-762a-4c16-b289-5dcdf8e70726',slug:'thermacorec-curved-shroud'},
   {id:'round',name:'Round shroud',title:'Round Shroud',description:'A full circular shroud, sized by its internal radius or diameter.',image:'round',slug:'thermacorec-curved-shroud'},
 ];
-export type Config = { profile:Profile; width:number; height:number; internalRadius:number; depth:number; returnWidth:number; bottomDepth:number; colour:string; finish:string; otherColour:string; bladePitch:number; bladeAngle:number; flange:number; stiffenerHeight:number; reference:string; leftPanel:boolean; bottomPanel:boolean; rightPanel:boolean; hoodCorner:boolean; hoodCornerRounded?:boolean };
+export type Config = { profile:Profile; width:number; height:number; internalRadius:number; depth:number; returnWidth:number; bottomDepth:number; colour:string; finish:string; otherColour:string; bladePitch:number; bladeAngle:number; flange:number; stiffenerHeight:number; reference:string; leftPanel:boolean; bottomPanel:boolean; rightPanel:boolean; hoodCorner:boolean; hoodCornerRounded?:boolean; roundedEnds?:boolean };
 export const hasPanelOptions=(profile:Profile)=>['box','corner','tapered','curved'].includes(profile);
 export function includedPanels(c:Config){
  const selectable=hasPanelOptions(c.profile);
