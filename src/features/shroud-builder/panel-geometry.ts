@@ -116,15 +116,15 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    if(p.right)box('Right',t,h,d,w/2+t/2,h/2,d/2);
   }
   if(c.profile==='modular'){
-   // F-profile corner extrusion (CRL satin anodized style, per AWS detail image):
-   // a spine wraps the outside of the jamb and two prongs grip the head/sill
-   // panel edge in a 6.8 mm slot. 18.9 mm legs, runs the full depth, coloured
-   // with the shroud material.
-   const mm=(v:number)=>v/1000;
-   const LEG=mm(18.9),WT=mm(2); // leg length, wall thickness (slot = plate thickness)
-   const joiner=(name:string,sx:number,top:boolean)=>{
-    const sy=top?1:-1;
-    const pts:[number,number][]=[[0,-WT],[0,plate+WT],[-LEG,plate+WT],[-LEG,plate],[-WT,plate],[-WT,0],[-LEG,0],[-LEG,-WT]];
+    // F-profile corner extrusion (CRL satin anodized style, per AWS detail image):
+    // the spine sits against the jamb's inner face and the two prongs reach
+    // inwards, gripping over the head/sill panel edges. 18.9 mm legs, runs the
+    // full depth, coloured with the shroud material.
+    const mm=(v:number)=>v/1000;
+    const LEG=mm(18.9),WT=mm(2); // leg length, wall thickness (slot = plate thickness)
+    const joiner=(name:string,sx:number,top:boolean)=>{
+     const sy=top?1:-1;
+     const pts:[number,number][]=[[0,-WT],[0,plate+WT],[LEG,plate+WT],[LEG,plate],[WT,plate],[WT,0],[LEG,0],[LEG,-WT]];
     const f=new THREE.Shape();
     pts.forEach(([x,y],i)=>{const px=-sx*x,py=sy*y;i?f.lineTo(px,py):f.moveTo(px,py);});
     f.closePath();
