@@ -123,10 +123,10 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    const profile:[number,number][]=[[0,0],[30,0],[30,-3],[18,-3],[18,-6],[6,-6],[6,-18],[3,-18],[3,-30],[0,-30]];
    const joiner=(name:string,sx:number,top:boolean)=>{
     const sy=top?1:-1,shape=new THREE.Shape();
-    profile.forEach(([x,y],i)=>{const px=sx*mm(x),py=sy*mm(y);i?shape.lineTo(px,py):shape.moveTo(px,py);});
+    profile.forEach(([x,y],i)=>{const px=-sx*mm(x),py=sy*mm(y);i?shape.lineTo(px,py):shape.moveTo(px,py);});
     shape.closePath();
     const g=new THREE.ExtrudeGeometry(shape,{depth:d+0.002,bevelEnabled:false});
-    add(name,g,sx*-w/2*-1*(sx<0?1:1)*(sx<0?1:1)===0?0:-sx*w/2*-1,top?h:0,0);
+    add(name,g,sx*w/2,top?h:0,0);
    };
    if(p.left)joiner('Corner joiner top left',-1,true);
    if(p.right)joiner('Corner joiner top right',1,true);
