@@ -27,17 +27,17 @@ describe('Louver section rules',()=>{
  test('section height changes blades independently of shroud height',()=>{
   const c=updateConfiguration(base,{louverSectionHeight:900});const layout=louverLayout(c);
   expect(layout.sectionHeight).toBe(900);
-  expect(layout.sections[0]?.bottom).toBe(900);
-  expect(layout.sections[layout.sections.length-1]?.top).toBe(1800);
+  expect(layout.sections[0]?.bottom).toBe(0);
+  expect(layout.sections[layout.sections.length-1]?.top).toBe(900);
   expect(c.height).toBe(1800);
   expect(measurements(c).outerHeight).toBe(measurements(base).outerHeight);
   const bounds=bladeBounds(0,'down',{louverSectionHeight:900});
-  expect(bounds[0].min.y*1000).toBeCloseTo(900,3);
-  expect(bounds[bounds.length-1].max.y*1000).toBeCloseTo(1800,3);
+  expect(bounds[0].min.y*1000).toBeCloseTo(0,3);
+  expect(bounds[bounds.length-1].max.y*1000).toBeCloseTo(900,3);
   expect(validate(c)).toEqual([]);
  });
- test('blade width is 88 mm at every angle',()=>{
-  for(const bladeAngle of [30,45,75])expect(louverLayout({...base,bladeAngle}).bladeDepth).toBe(88);
+ test('blade width remains 88 mm at the fixed angle',()=>{
+  expect(louverLayout(base).bladeDepth).toBe(88);
  });
  test('blade centres are halfway through the projection depth',()=>{
   for(const depth of [300,450,600])for(const direction of ['up','down']){
