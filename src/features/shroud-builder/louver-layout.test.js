@@ -2,7 +2,7 @@ import {describe,expect,test} from 'bun:test';
 import * as THREE from 'three';
 import {initial,selectProfile,updateConfiguration,validate,measurements} from './shroud-model';
 import {louverLayout} from './louver-layout';
-import {createShroudScene,disposeShroudScene} from './shroud-scene';
+import {createShroudScene,disposeShroudScene,revealLouverExtrusions} from './shroud-scene';
 
 const base=selectProfile(initial,'louvered');
 function bladeBounds(spacing,orientation,patch={}){
@@ -14,6 +14,18 @@ function bladeBounds(spacing,orientation,patch={}){
  disposeShroudScene(scene);return bounds;
 }
 describe('Louver section rules',()=>{
+ test('side inspection reveals the extrusion through only the near jamb and restores it from the front',()=>{
+  const {scene,model}=createShroudScene(base,{windowVisible:false,studWallVisible:false,screwsVisible:false},true);
+  for(const side of [-1,1]){
+   revealLouverExtrusions(model,new THREE.Vector3(side,0,0));
+   expect(model.getObjectByName(side<0?'Left panel':'Right panel').material.opacity).toBeLessThan(1);
+   expect(model.getObjectByName(side<0?'Right panel':'Left panel').material.opacity).toBe(1);
+   expect(model.getObjectByName('Louver side extrusions').children[0].children[0].material.opacity).toBe(1);
+  }
+  revealLouverExtrusions(model,new THREE.Vector3(0,0,1));
+  for(const name of ['Left panel','Right panel'])expect(model.getObjectByName(name).material.opacity).toBe(1);
+  disposeShroudScene(scene);
+ });
  test('0 mm spacing blocks front-view visibility between every blade',()=>{
   for(const direction of ['up','down']){const bounds=bladeBounds(0,direction);expect(bounds.length).toBeGreaterThan(2);for(let i=1;i<bounds.length;i++)expect((bounds[i].min.y-bounds[i-1].max.y)*1000).toBeCloseTo(0,3);}
  });

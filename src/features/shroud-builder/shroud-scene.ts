@@ -25,7 +25,11 @@ export function createShroudScene(c:Config,{windowVisible,studWallVisible,screws
  const ring=(outerRadius:number)=>{const shape=new THREE.Shape();shape.absarc(0,cy,outerRadius,0,Math.PI*2,false);const inner=new THREE.Path();inner.absarc(0,cy,radius,0,Math.PI*2,true);shape.holes.push(inner);return shape;};
  mesh(new THREE.ExtrudeGeometry(ring(radius+t),{depth:d,steps:Math.max(1,Math.ceil(d/0.06)),bevelEnabled:false,curveSegments:96}),0,0,0,mat,false);
  }else{
- model.add(createPanelBody(c,mat,edges));
+ const panels=createPanelBody(c,mat,edges);model.add(panels);
+ if(c.profile==='louvered')for(const name of ['Left panel','Right panel']){
+  const panel=panels.getObjectByName(name);
+  if(panel instanceof THREE.Mesh)panel.material=mat.clone();
+ }
  if(c.profile==='louvered'){
  const layout=louverLayout(c),blades=new THREE.Group();blades.name='Louver blades';model.add(blades);
  const rails=new THREE.Group();rails.name='Louver side extrusions';model.add(rails);
@@ -56,6 +60,17 @@ export function createShroudScene(c:Config,{windowVisible,studWallVisible,screws
  const svgLayers:{object:THREE.Object3D;front:number;rear:number}[]=[];
  if(!gpu){for(const object of windowLayers)svgLayers.push({object,front:-1,rear:3});installation.getObjectByName('90 x 45 mm pine stud wall')?.traverse(object=>{if(object instanceof THREE.Mesh||object instanceof THREE.Line)svgLayers.push({object,front:-4,rear:4});});installation.getObjectByName('Perforated fixing flanges')?.traverse(object=>{if(object instanceof THREE.Mesh)svgLayers.push({object,front:-3,rear:2});});installation.getObjectByName('Flange screws')?.traverse(object=>{if(object instanceof THREE.Mesh||object instanceof THREE.Line)svgLayers.push({object,front:object.userData.embedded?-5:-2,rear:1});});}
  return {scene,model,svgLayers};
+}
+
+/** Side inspection fades only the near jamb, without moving the actual extrusion. */
+export function revealLouverExtrusions(model:THREE.Group,direction:THREE.Vector3){
+ if(!model.getObjectByName('Louver side extrusions'))return;
+ for(const [name,side] of [['Left panel',-1],['Right panel',1]] as const){
+  const panel=model.getObjectByName(name);
+  if(!(panel instanceof THREE.Mesh)||!(panel.material instanceof THREE.MeshStandardMaterial))continue;
+  const reveal=Math.abs(direction.x)>Math.abs(direction.z)*1.2&&direction.x*side>0;
+  panel.material.transparent=reveal;panel.material.opacity=reveal?0.12:1;panel.material.depthWrite=!reveal;
+ }
 }
 
 export function disposeShroudScene(scene:THREE.Scene){
