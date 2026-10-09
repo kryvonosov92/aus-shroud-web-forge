@@ -35,5 +35,7 @@
 @media print { body:has(.shroud-builder) > #root > :not(.shroud-builder) { display: none; } .shroud-builder ~ footer { display:none; } }
 .shroud-builder .view-download{padding:8px 14px;min-height:36px;font-size:13px;white-space:nowrap}
 .shroud-builder .view-download:disabled{opacity:.55;cursor:not-allowed}
+.shroud-builder [aria-label="Louver spacing"] label{min-height:58px;text-align:center;line-height:1.4}
+.shroud-builder [aria-label="Louver spacing"] small{display:block;font-size:11px}
 @media(max-width:1100px){.shroud-builder .view-download{padding:7px 10px;font-size:12px;min-height:32px}}
 @media(max-width:760px){.shroud-builder .view-download{padding:6px 8px;font-size:11px;gap:5px;min-height:30px}.shroud-builder .view-footer .dl-sub{display:none}.shroud-builder .view-footer{gap:8px}}
