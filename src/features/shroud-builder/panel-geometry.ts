@@ -116,17 +116,21 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    if(p.right)box('Right',t,h,d,w/2+t/2,h/2,d/2);
   }
   if(c.profile==='modular'){
-   // Stepped internal corner joiners (per AWS detail): a double-step angle seated in the
-   // inside corner where head/sill meets each jamb, running the full depth and
-   // standing 2 mm proud of the front edge so the stepped profile reads at the face.
+   // Interlocking folded-hem corner joint (per AWS detail photo): the head/sill edge
+   // folds down into a lip and the jamb edge folds up and hooks over it, forming an
+   // S-shaped interlock that runs the full depth, 2 mm proud of the front edge.
    const mm=(v:number)=>v/1000;
-   const profile:[number,number][]=[[0,0],[30,0],[30,-3],[18,-3],[18,-6],[6,-6],[6,-18],[3,-18],[3,-30],[0,-30]];
+   const LIP=mm(18),HOOK=mm(24),OVER=mm(12),FT=mm(3); // lip drop, hook rise, hook overhang, fold thickness
    const joiner=(name:string,sx:number,top:boolean)=>{
-    const sy=top?1:-1,shape=new THREE.Shape();
-    profile.forEach(([x,y],i)=>{const px=-sx*mm(x),py=sy*mm(y);i?shape.lineTo(px,py):shape.moveTo(px,py);});
-    shape.closePath();
-    const g=new THREE.ExtrudeGeometry(shape,{depth:d+0.002,bevelEnabled:false});
-    add(name,g,sx*w/2,top?h:0,0);
+    const sy=top?1:-1;
+    // Head/sill downturned lip, just inside the jamb face.
+    add(name+' lip',new THREE.BoxGeometry(FT,LIP,d+0.002),sx*(w/2+FT/2),(top?h:0)-sy*LIP/2,0);
+    // Jamb hook: a leg rising past the lip, then bending inward over it (inverted-L band).
+    const hook=new THREE.Shape();
+    const pts:[number,number][]=[[0,0],[FT,0],[FT,HOOK],[FT-OVER,HOOK],[FT-OVER,HOOK-FT],[0,HOOK-FT]];
+    pts.forEach(([x,y],i)=>{const px=-sx*x,py=sy*y;i?hook.lineTo(px,py):hook.moveTo(px,py);});
+    hook.closePath();
+    add(name+' hook',new THREE.ExtrudeGeometry(hook,{depth:d+0.002,bevelEnabled:false}),sx*(w/2+FT),top?h:0,0);
    };
    if(p.left)joiner('Corner joiner top left',-1,true);
    if(p.right)joiner('Corner joiner top right',1,true);
