@@ -39,3 +39,5 @@
 .shroud-builder [aria-label="Louver spacing"] small{display:block;font-size:11px}
 @media(max-width:1100px){.shroud-builder .view-download{padding:7px 10px;font-size:12px;min-height:32px}}
 @media(max-width:760px){.shroud-builder .view-download{padding:6px 8px;font-size:11px;gap:5px;min-height:30px}.shroud-builder .view-footer .dl-sub{display:none}.shroud-builder .view-footer{gap:8px}}
+
+.shroud-builder .panel-options.louver-options{border-top:0;margin-top:0;padding-top:0}
