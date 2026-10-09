@@ -119,7 +119,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
     // Reference is a cross-section, not a full-width front cap. Keep the
     // fittings at the four head/jamb and sill/jamb junctions, along depth.
     const LEG=18.9/1000,SLOT=6.8/1000,WT=2/1000;
-    const spine=WT+SLOT,mid=LEG/2;
+    const spine=WT+SLOT,mid=LEG/2,slotCenter=(WT+spine)/2;
     // Exact pictured F: receiving channel on the left, two arms on the right.
     // Wall thickness is estimated; the labelled outside dimensions and slot are exact.
     const pts:[number,number][]=[
@@ -128,16 +128,20 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
      [spine+WT,mid+WT/2],[spine+WT,LEG],[spine,LEG],
      [spine,WT],[WT,WT],[WT,LEG],[0,LEG],
     ];
+    // Vertically mirrored: the axis that becomes world height is flipped for each
+    // fitting (local x at the head, local y at the sill), so the channel opens
+    // downward while the section, its grip and the frame junctions stay identical.
     const joiner=(side:number,top:boolean)=>{
      const f=new THREE.Shape();
      pts.forEach(([x,y],i)=>{
       const px=top?-side*y:-side*x;
-      const py=top?x:y;
+      const py=top?LEG-x:LEG-y;
       if(i===0)f.moveTo(px,py);else f.lineTo(px,py);
      });
      f.closePath();
      const x=top?side*(w/2+t):side*(w/2+t/2+WT+SLOT/2);
-     const y=top?h+plate/2-WT-SLOT/2:-WT;
+     const y=top?h+plate/2-LEG+slotCenter:-WT+2*slotCenter-LEG;
+
      add(`Corner joiner ${top?'top':'bottom'} ${side<0?'left':'right'}`,
       new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),x,y);
     };
