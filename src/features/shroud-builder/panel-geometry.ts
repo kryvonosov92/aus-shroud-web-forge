@@ -132,7 +132,8 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
     const f=new THREE.Shape();
     pts.forEach(([x,y],i)=>{const px=-sx*x;i?f.lineTo(px,y):f.moveTo(px,y);});
     f.closePath();
-    add(name,new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),sx*w/2,top?h:0,0);
+    // Stand 3 mm proud of the front so the F cross-section reads in every view.
+    add(name,new THREE.ExtrudeGeometry(f,{depth:d+mm(3),bevelEnabled:false}),sx*w/2,top?h:0,0);
    };
    if(p.left)joiner('Corner joiner top left',-1,true);
    if(p.right)joiner('Corner joiner top right',1,true);
