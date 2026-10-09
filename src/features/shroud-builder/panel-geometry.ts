@@ -49,10 +49,19 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    else add('Top',new THREE.BoxGeometry(w,plate,d),0,h+plate/2,d/2,!c.hoodCorner);
    const stiffener=new THREE.Shape();stiffener.moveTo(0,0);stiffener.lineTo(d,0);stiffener.lineTo(0,c.stiffenerHeight/1000);stiffener.closePath();
    const rib=new THREE.ExtrudeGeometry(stiffener,{depth:t,bevelEnabled:false});rib.rotateY(-Math.PI/2);
-   for(const position of hoodStiffenerLayout(c.width).positions)add('Stiffener',rib.clone(),-w/2+position/1000+t/2,h+plate);
+   // Near a rounded end the canopy edge recedes, so ribs are cut to stop at that edge.
+   const endR=Math.min(d,w/2);
+   const edgeDepth=(a:number,r:number)=>a>=r?d:Math.max(0.01,d-r+Math.sqrt(Math.max(0,r*r-(r-Math.max(0,a))**2)));
+   const ribOf=(len:number,rotate:boolean)=>{if(len>=d-1e-9)return null;const s=new THREE.Shape();s.moveTo(0,0);s.lineTo(len,0);s.lineTo(0,c.stiffenerHeight/1000);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:t,bevelEnabled:false});if(rotate)g.rotateY(-Math.PI/2);return g;};
+   for(const position of hoodStiffenerLayout(c.width).positions){
+    const pos=position/1000;let len=d;
+    if(c.roundedEnds){len=Math.min(len,edgeDepth(pos-t/2,endR));if(!c.hoodCorner)len=Math.min(len,edgeDepth(w-pos-t/2,endR));}
+    add('Stiffener',ribOf(len,true)??rib.clone(),-w/2+pos+t/2,h+plate);
+   }
    if(c.hoodCorner){
     // Return canopy wraps the right-hand corner, falling away from the wall.
-    add('Top return',new THREE.BoxGeometry(d,plate,rw),w/2+d/2,h+plate/2,-rw/2,false);
+    if(c.roundedEnds){const g=roundedTop(rw,d,plate,false,true);g.rotateY(Math.PI/2);add('Top return',g,w/2,h+plate,-rw/2,false);}
+    else add('Top return',new THREE.BoxGeometry(d,plate,rw),w/2+d/2,h+plate/2,-rw/2,false);
     // Corner infill: two triangles meeting on the diagonal hip so both canopies join.
     const tri=(pts:[number,number][])=>{const s=new THREE.Shape();s.moveTo(pts[0][0],pts[0][1]);for(const q of pts.slice(1))s.lineTo(q[0],q[1]);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:plate,bevelEnabled:false});g.rotateX(Math.PI/2);return g;};
     // No outline on the infill: the canopies read as one folded sheet.
@@ -67,7 +76,11 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
     }
     // Return ribs run perpendicular to the side wall (along +x).
     const returnRib=new THREE.ExtrudeGeometry(stiffener,{depth:t,bevelEnabled:false});
-    for(const position of hoodStiffenerLayout(c.returnWidth).positions)add('Stiffener',returnRib.clone(),w/2,h+plate,-position/1000-t/2);
+    const returnR=Math.min(d,rw/2);
+    for(const position of hoodStiffenerLayout(c.returnWidth).positions){
+     const pos=position/1000;const len=c.roundedEnds?edgeDepth(rw-pos-t/2,returnR):d;
+     add('Stiffener',ribOf(len,false)??returnRib.clone(),w/2,h+plate,-pos-t/2);
+    }
     returnRib.dispose();
    }
    rib.dispose();
