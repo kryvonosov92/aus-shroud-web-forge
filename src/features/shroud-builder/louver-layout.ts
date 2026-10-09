@@ -10,7 +10,10 @@ export function louverLayout(c: Pick<Config, 'height' | 'louverSectionHeight' | 
  const pitch=faceHeight+c.louverSpacing;
  const sectionHeight=Math.min(c.height,c.louverSectionHeight),sectionBottom=0;
  const sections:Array<{bottom:number;top:number;center:number}>=[];
- // Trim the last blade to the section height without changing the selected gap.
- for(let bottom=sectionBottom;bottom<sectionHeight;bottom+=pitch)sections.push({bottom,top:Math.min(sectionHeight,bottom+faceHeight),center:bottom+faceHeight/2});
+ // Zero spacing uses complete angled blades only, never a flattened terminal strip.
+ for(let bottom=sectionBottom;bottom<sectionHeight;bottom+=pitch){
+  if(c.louverSpacing===0&&bottom+faceHeight>sectionHeight+1e-7)break;
+  sections.push({bottom,top:Math.min(sectionHeight,bottom+faceHeight),center:bottom+faceHeight/2});
+ }
  return {pitch,faceHeight,bladeDepth,depthCenter:c.depth/2,sectionBottom,sectionHeight,rotation:(c.louverOrientation==='down'?1:-1)*angle,transparency:c.louverSpacing/pitch*100,sections};
 }

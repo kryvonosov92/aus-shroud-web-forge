@@ -28,16 +28,25 @@ describe('Louver section rules',()=>{
   const c=updateConfiguration(base,{louverSectionHeight:900});const layout=louverLayout(c);
   expect(layout.sectionHeight).toBe(900);
   expect(layout.sections[0]?.bottom).toBe(0);
-  expect(layout.sections[layout.sections.length-1]?.top).toBe(900);
+  expect(layout.sections[layout.sections.length-1]?.top).toBeCloseTo(Math.floor(900/layout.faceHeight)*layout.faceHeight,6);
   expect(c.height).toBe(1800);
   expect(measurements(c).outerHeight).toBe(measurements(base).outerHeight);
   const bounds=bladeBounds(0,'down',{louverSectionHeight:900});
   expect(bounds[0].min.y*1000).toBeCloseTo(0,3);
-  expect(bounds[bounds.length-1].max.y*1000).toBeCloseTo(900,3);
+  expect(bounds[bounds.length-1].max.y*1000).toBeCloseTo(Math.floor(900/layout.faceHeight)*layout.faceHeight,3);
   expect(validate(c)).toEqual([]);
  });
  test('blade width remains 88 mm at the fixed angle',()=>{
   expect(louverLayout(base).bladeDepth).toBe(88);
+ });
+ test('0 mm spacing has no flat terminal louver at the section top',()=>{
+  for(const direction of ['up','down'])for(const height of [1800,900]){
+   const c={...base,louverSpacing:0,louverOrientation:direction,louverSectionHeight:height};
+   const layout=louverLayout(c),bounds=bladeBounds(0,direction,{louverSectionHeight:height});
+   expect(bounds.length).toBe(Math.floor(height/layout.faceHeight));
+   for(const box of bounds)expect((box.max.y-box.min.y)*1000).toBeCloseTo(layout.faceHeight,3);
+   expect(bounds[bounds.length-1].max.y*1000).toBeLessThanOrEqual(height+0.001);
+  }
  });
  test('blade centres are halfway through the projection depth',()=>{
   for(const depth of [300,450,600])for(const direction of ['up','down']){
