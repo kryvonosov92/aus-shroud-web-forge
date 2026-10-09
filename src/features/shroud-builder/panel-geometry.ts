@@ -40,8 +40,15 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
     // Corner infill: two triangles meeting on the diagonal hip so both canopies join.
     const tri=(pts:[number,number][])=>{const s=new THREE.Shape();s.moveTo(pts[0][0],pts[0][1]);for(const q of pts.slice(1))s.lineTo(q[0],q[1]);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:plate,bevelEnabled:false});g.rotateX(Math.PI/2);return g;};
     // No outline on the infill: the canopies read as one folded sheet.
+    if(c.hoodCornerRounded){
+     // Rounded corner: quarter-circle canopy sweeping from the front to the return.
+     const s=new THREE.Shape();s.moveTo(0,0);s.absarc(0,0,d,0,Math.PI/2,false);s.lineTo(0,0);
+     const g=new THREE.ExtrudeGeometry(s,{depth:plate,bevelEnabled:false,curveSegments:64});g.rotateX(Math.PI/2);
+     add('Top corner',g,w/2,h+plate,0,false);
+    }else{
     add('Top corner',tri([[0,0],[d,d],[0,d]]),w/2,h+plate,0,false);
     add('Top corner',tri([[0,0],[d,0],[d,d]]),w/2,h+plate,0,false);
+    }
     // Return ribs run perpendicular to the side wall (along +x).
     const returnRib=new THREE.ExtrudeGeometry(stiffener,{depth:t,bevelEnabled:false});
     for(const position of hoodStiffenerLayout(c.returnWidth).positions)add('Stiffener',returnRib.clone(),w/2,h+plate,-position/1000-t/2);

@@ -33,7 +33,7 @@ export function flangeFixingLayout(c:Config){
  };
   if(c.profile==='hood'){
    const end=Math.min(30,w/4);line('Head',-w/2+end,h+o,w/2-end,h+o);
-   if(c.hoodCorner)line('Head return',FIXING_OFFSET,h+o,c.returnWidth+o,h+o,'return',true);
+   if(c.hoodCorner)line('Head return',FIXING_OFFSET,h+o,c.returnWidth-Math.min(30,c.returnWidth/4),h+o,'return',true);
   }else if(c.profile==='round'){
   arc('Circular flange',w/2+o,w/2,0,Math.PI*2,true);
  }else if(c.profile==='curved'){
