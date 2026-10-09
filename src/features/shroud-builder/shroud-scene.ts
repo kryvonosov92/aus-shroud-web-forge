@@ -33,7 +33,7 @@ export function createShroudScene(c:Config,{windowVisible,studWallVisible,screws
   geo.rotateX(layout.rotation);geo.translate(0,section.center/1000,layout.depthCenter/1000);
   // Clip terminal blades at the head/sill while keeping all internal front gaps exact.
   const positions=geo.getAttribute('position');
-  for(let i=0;i<positions.count;i++)positions.setY(i,Math.max(layout.sectionBottom/1000,Math.min(h,positions.getY(i))));
+  for(let i=0;i<positions.count;i++)positions.setY(i,Math.max(layout.sectionBottom/1000,Math.min((layout.sectionBottom+layout.sectionHeight)/1000,positions.getY(i))));
   geo.computeVertexNormals();
   const blade=new THREE.Mesh(geo,mat);blade.name='Louver blade';blades.add(blade);
  }
