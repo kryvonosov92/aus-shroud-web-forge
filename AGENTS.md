@@ -1,4 +1,5 @@
 # Project architecture
+- Reveal louver receiving extrusions during side inspection by fading only the camera-facing jamb; keep physical geometry, offsets and other views unchanged.
 - Derive louvre blade geometry, fixed blade angle, front-referenced offset and receiving-extrusion dimensions from the shared louver-layout module; keep frame height and louver section height independent and bottom-aligned; render closed rectangular extrusion exteriors and only the exposed blade span to conceal inserted ends in both the model and perspective exports, and omit incomplete terminal blades for zero spacing.
 - Keep the Shroud Builder in `src/features/shroud-builder` as a client-side React feature with isolated styles and CDN media; this preserves the existing site while retaining local 3D and PDF exports.
 - Keep blog editing in the existing admin area even though public Latest routes are removed; published content is retained for administrators.
