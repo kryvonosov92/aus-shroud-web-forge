@@ -130,7 +130,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
       ? [[0,-WT],[0,plate+WT],[LEG,plate+WT],[LEG,plate],[WT,plate],[WT,0],[LEG,0],[LEG,-WT]]
       : [[-t-WT,0],[WT,0],[WT,LEG],[0,LEG],[0,WT],[-t,WT],[-t,LEG],[-t-WT,LEG]];
     const f=new THREE.Shape();
-    pts.forEach(([x,y],i)=>{const px=-sx*x,py=top?y:-y;i?f.lineTo(px,py):f.moveTo(px,py);});
+    pts.forEach(([x,y],i)=>{const px=-sx*x;i?f.lineTo(px,y):f.moveTo(px,y);});
     f.closePath();
     add(name,new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),sx*w/2,top?h:0,0);
    };
