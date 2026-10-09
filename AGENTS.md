@@ -1,4 +1,5 @@
 # Project architecture
+- Build modular joiners at the panel junctions from one F cross-section, rotated for head and sill connections and shared by live/export geometry; this prevents full-width front strips from replacing corner fittings.
 - Reveal louver receiving extrusions during side inspection by fading both jambs; keep physical geometry and other views unchanged.
 - Clamp the louver assembly centre to its projected half-depth at offset limits and fit its height below the sloped head; this keeps full-width blades and rectangular extrusions inside the frame in model and exports.
 - Derive louvre blade geometry, fixed blade angle, front-referenced offset and receiving-extrusion dimensions from the shared louver-layout module; keep frame height and louver section height independent and bottom-aligned; render closed rectangular extrusion exteriors and only the exposed blade span to conceal inserted ends in both the model and perspective exports, and omit incomplete terminal blades for zero spacing.
