@@ -140,7 +140,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
       });
      f.closePath();
      const x=side*(w/2+t);
-     const y=(top?1:-1)*(h/2+plate/2-LEG+slotCenter)+(top?h/2:-h/2);
+     const y=top?h+plate/2-LEG+slotCenter:-(plate/2-LEG+slotCenter);
 
      add(`Corner joiner ${top?'top':'bottom'} ${side<0?'left':'right'}`,
       new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),x,y);
