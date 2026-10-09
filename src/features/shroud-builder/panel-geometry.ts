@@ -128,7 +128,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
      // into the interior (top) or upward (bottom, after the sy flip).
      const pts:[number,number][]=top
       ? [[0,-WT],[0,plate+WT],[LEG,plate+WT],[LEG,plate],[WT,plate],[WT,0],[LEG,0],[LEG,-WT]]
-      : [[-t-WT,0],[WT,0],[WT,LEG],[0,LEG],[0,WT],[-t,WT],[-t,LEG],[-t-WT,LEG]];
+      : [[-t-WT,0],[LEG,0],[LEG,WT],[WT,WT],[WT,LEG],[0,LEG],[0,WT],[-t,WT],[-t,LEG],[-t-WT,LEG]];
     const f=new THREE.Shape();
     pts.forEach(([x,y],i)=>{const px=-sx*x;i?f.lineTo(px,y):f.moveTo(px,y);});
     f.closePath();
