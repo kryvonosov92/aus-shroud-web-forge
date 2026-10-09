@@ -3,6 +3,7 @@ import {Config,THICKNESS,FALL_SLOPE,palette} from './shroud-model';
 import {archOutline} from './arch-geometry';
 import {createInstallation} from './shroud-installation';
 import {createPanelBody} from './panel-geometry';
+import {louverLayout} from './louver-layout';
 export type ModelOptions={windowVisible:boolean;studWallVisible:boolean;screwsVisible:boolean};
 /** Shared geometry, material and lighting for the live model and PDF perspective. */
 export function createShroudScene(c:Config,{windowVisible,studWallVisible,screwsVisible}:ModelOptions,gpu:boolean){
@@ -26,10 +27,16 @@ export function createShroudScene(c:Config,{windowVisible,studWallVisible,screws
  }else{
  model.add(createPanelBody(c,mat,edges));
  if(c.profile==='louvered'){
- const angle=c.bladeAngle*Math.PI/180,bladeDepth=Math.min(d,0.16),pitch=c.bladePitch/1000;
- // Fit the unchanged blade angle between the sloping head and sill.
- const v=bladeDepth*Math.abs(Math.sin(angle)+FALL_SLOPE*Math.cos(angle))+t*Math.abs(Math.cos(angle)-FALL_SLOPE*Math.sin(angle));
- for(let yy=v/2+0.012;yy<=h-v/2-0.012;yy+=pitch){const blade=box(w,t,bladeDepth,0,yy-FALL_SLOPE*d/2,d/2);blade.rotation.x=angle;}
+ const layout=louverLayout(c),blades=new THREE.Group();blades.name='Louver blades';model.add(blades);
+ for(const section of layout.sections){
+  const geo=new THREE.BoxGeometry(w,t,layout.bladeDepth/1000);
+  geo.rotateX(layout.rotation);geo.translate(0,section.center/1000,d/2);
+  // Clip terminal blades at the head/sill while keeping all internal front gaps exact.
+  const positions=geo.getAttribute('position');
+  for(let i=0;i<positions.count;i++)positions.setY(i,Math.max(0,Math.min(h,positions.getY(i))));
+  geo.computeVertexNormals();
+  const blade=new THREE.Mesh(geo,mat);blade.name='Louver blade';blades.add(blade);
+ }
  }
  }
  const windowLayers:THREE.Object3D[]=[];
