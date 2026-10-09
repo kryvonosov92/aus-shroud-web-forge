@@ -117,18 +117,20 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   }
   if(c.profile==='modular'){
     // F-profile corner extrusion (CRL satin anodized style, per AWS detail image):
-    // a corner mould with a slot on each leg — one grips the head/sill panel
-    // edge, the other grips the jamb (side panel) edge, so both panels insert
-    // into it. 18.9 mm legs, runs the full depth, coloured with the shroud.
+    // top corners — the F sits on the jamb's top edge and the head panel edge
+    // inserts into its slot; bottom corners — the F sits on the sill and the
+    // jamb's bottom edge inserts into its slot. 18.9 mm legs, full depth,
+    // coloured with the shroud material.
     const mm=(v:number)=>v/1000;
-    const LEG=mm(18.9),WT=mm(2); // leg length, wall thickness (slots = panel thickness)
+    const LEG=mm(18.9),WT=mm(2); // leg length, wall thickness (slot = panel thickness)
     const joiner=(name:string,sx:number,top:boolean)=>{
-     const sy=top?1:-1;
-     // y positive = into the shroud interior; x positive = inward from the
-     // jamb's inner face. Head/sill slot: y∈[-plate,0]. Jamb slot: x∈[-t,0].
-     const pts:[number,number][]=[[-t-WT,-WT],[LEG,-WT],[LEG,-plate],[WT,-plate],[WT,0],[LEG,0],[LEG,WT],[WT,WT],[WT,LEG],[0,LEG],[0,WT],[-t,WT],[-t,LEG],[-t-WT,LEG],[-t-WT,-WT]];
+     // x positive = inward from the jamb's inner face; y positive = downward
+     // into the interior (top) or upward (bottom, after the sy flip).
+     const pts:[number,number][]=top
+      ? [[0,-WT],[0,plate+WT],[LEG,plate+WT],[LEG,plate],[WT,plate],[WT,0],[LEG,0],[LEG,-WT]]
+      : [[-t-WT,0],[WT,0],[WT,LEG],[0,LEG],[0,WT],[-t,WT],[-t,LEG],[-t-WT,LEG]];
     const f=new THREE.Shape();
-    pts.forEach(([x,y],i)=>{const px=-sx*x,py=sy*y;i?f.lineTo(px,py):f.moveTo(px,py);});
+    pts.forEach(([x,y],i)=>{const px=-sx*x;i?f.lineTo(px,y):f.moveTo(px,y);});
     f.closePath();
     add(name,new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),sx*w/2,top?h:0,0);
    };
