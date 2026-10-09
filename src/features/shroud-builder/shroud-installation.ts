@@ -31,7 +31,7 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
  if(fl){
   if(c.profile==='hood'){
    flange(rect(-w/2,h+t,w/2,h+t+fl));
-   if(c.hoodCorner)flange(rect(0,h+t,c.returnWidth+t+fl,h+t+fl),layout.points.filter(p=>p.face==='return'),'return');
+   if(c.hoodCorner)flange(rect(0,h+t,c.returnWidth,h+t+fl),layout.points.filter(p=>p.face==='return'),'return');
   }
   else if(c.profile==='round'){
    const shape=new THREE.Shape();shape.absarc(0,w/2*mm,(w/2+t+fl)*mm,0,2*Math.PI,false);
