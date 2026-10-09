@@ -33,15 +33,16 @@ test('bottom F extrusion matches the top profile, hugging the shroud the same wa
   outline.push([x,y]);
   minY=Math.min(minY,y);maxY=Math.max(maxY,y);
  }
- // The channel mouth is the lowest edge; its four wall ends give the 6.8 mm slot.
- const mouth=outline.filter(([,y])=>Math.abs(y-minY)<1e-7).map(([x])=>x*1000);
+ // Same profile as the top fitting: the channel mouth is the highest edge and
+ // its four wall ends give the 6.8 mm slot.
+ const mouth=outline.filter(([,y])=>Math.abs(y-maxY)<1e-7).map(([x])=>x*1000);
  const unique=[...new Set(mouth.map(v=>Math.round(v*1000)/1000))].sort((a,b)=>a-b);
  expect(unique).toHaveLength(4);
  expect(unique[2]-unique[1]).toBeCloseTo(6.8,3);
  expect(unique[1]).toBeLessThan(c.width/2);
  expect(unique[2]).toBeGreaterThan(c.width/2+6);
- // The closed back of the F sits above the mouth, so the profile opens downward.
- const back=outline.filter(([,y])=>Math.abs(y-maxY)<1e-7).map(([x])=>x*1000);
+ // The closed back of the F sits below the mouth, exactly like the top fitting.
+ const back=outline.filter(([,y])=>Math.abs(y-minY)<1e-7).map(([x])=>x*1000);
  const backUnique=[...new Set(back.map(v=>Math.round(v*1000)/1000))].sort((a,b)=>a-b);
  expect(backUnique).toHaveLength(2);
  expect(backUnique[1]-backUnique[0]).toBeCloseTo(18.9,3);
