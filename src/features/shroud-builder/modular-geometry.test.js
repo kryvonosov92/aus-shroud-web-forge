@@ -19,7 +19,7 @@ test('modular corner profiles measure 18.9 by 18.9 mm, not the frame width',()=>
  group.traverse(o=>{if(o instanceof THREE.Mesh)o.geometry.dispose();});mat.dispose();
 });
 
-test('bottom F extrusion is vertically mirrored: the channel opens downward around the side panel',()=>{
+test('bottom F extrusion matches the top profile, hugging the shroud the same way',()=>{
  const c=selectProfile(initial,'modular'),mat=new THREE.MeshStandardMaterial();
  const group=createPanelBody(c,mat);
  const mesh=group.getObjectByName('Corner joiner bottom right panel');
