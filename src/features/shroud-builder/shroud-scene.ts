@@ -62,13 +62,13 @@ export function createShroudScene(c:Config,{windowVisible,studWallVisible,screws
  return {scene,model,svgLayers};
 }
 
-/** Side inspection fades only the near jamb, without moving the actual extrusion. */
+/** Side inspection fades the jambs, without moving the actual extrusion. */
 export function revealLouverExtrusions(model:THREE.Group,direction:THREE.Vector3){
  if(!model.getObjectByName('Louver side extrusions'))return;
- for(const [name,side] of [['Left panel',-1],['Right panel',1]] as const){
+ for(const name of ['Left panel','Right panel']){
   const panel=model.getObjectByName(name);
   if(!(panel instanceof THREE.Mesh)||!(panel.material instanceof THREE.MeshStandardMaterial))continue;
-  const reveal=Math.abs(direction.x)>Math.abs(direction.z)*1.2&&direction.x*side>0;
+  const reveal=Math.abs(direction.x)>Math.abs(direction.z)*1.2;
   panel.material.transparent=reveal;panel.material.opacity=reveal?0.12:1;panel.material.depthWrite=!reveal;
  }
 }

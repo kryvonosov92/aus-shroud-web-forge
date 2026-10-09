@@ -24,7 +24,7 @@ export default function Elevation({config:c}: {config:Config}) {
  {round&&<circle cx={w/2} cy={w/2} r={w/2+3} fill="none" stroke={c.colour} strokeWidth={6}/>}
  {hood&&<><rect x="0" y="-6" width={w} height={6} fill={c.colour}/><rect x="0" y="0" width={w} height={h} fill="none" stroke="#b9bdc5" strokeWidth={stroke} strokeDasharray="10 10"/>{ribs.positions.map(x=><rect key={x} x={x-3} y={-6-c.stiffenerHeight} width={6} height={c.stiffenerHeight} fill={c.colour}/>)}</>}
  {c.profile==='louvered'&&louverLayout(c).sections.map(section=><rect key={section.bottom} x={0} y={h-section.top} width={w} height={section.top-section.bottom} fill={c.colour}/>)}
- {c.profile==='louvered'&&[0,w-LOUVER_EXTRUSION_WIDTH].map(x=><rect key={x} x={x} y={h-c.louverSectionHeight} width={LOUVER_EXTRUSION_WIDTH} height={c.louverSectionHeight} fill={c.colour}/>)}
+ {c.profile==='louvered'&&[0,w-LOUVER_EXTRUSION_WIDTH].map(x=><rect key={x} x={x} y={h-louverLayout(c).sectionHeight} width={LOUVER_EXTRUSION_WIDTH} height={louverLayout(c).sectionHeight} fill={c.colour}/>)}
  {dim(0,h+padding*.43,w,h+padding*.43,`${round?'Ø ':''}${w.toLocaleString()} INTERNAL`)}{!round&&dim(-padding*.43,0,-padding*.43,h,`${h.toLocaleString()} ${hood?'WINDOW HEIGHT':c.profile==='louvered'?'INTERNAL HEIGHT':'INTERNAL'}`)}
  {c.profile==='louvered'&&dim(w+padding*.43,h-c.louverSectionHeight,w+padding*.43,h,`${c.louverSectionHeight.toLocaleString()} LOUVER SECTION HEIGHT`)}
  <text x={w/2} y={h/2} textAnchor="middle" fill="#737b8c" fontSize={font*.8}>{c.profile==='corner'?'FACE A · RETURN SHOWN IN 3D':(arch||round)?`R ${c.internalRadius.toLocaleString()} INTERNAL`:hood?'WINDOW REFERENCE':c.profile==='louvered'?'':'CLEAR OPENING'}</text>

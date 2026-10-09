@@ -1,6 +1,6 @@
 import {describe,expect,test} from 'bun:test';
 import * as THREE from 'three';
-import {initial,selectProfile,updateConfiguration,validate,measurements} from './shroud-model';
+import {initial,selectProfile,updateConfiguration,validate,measurements,FALL_SLOPE} from './shroud-model';
 import {louverLayout} from './louver-layout';
 import {createShroudScene,disposeShroudScene,revealLouverExtrusions} from './shroud-scene';
 
@@ -14,12 +14,12 @@ function bladeBounds(spacing,orientation,patch={}){
  disposeShroudScene(scene);return bounds;
 }
 describe('Louver section rules',()=>{
- test('side inspection reveals the extrusion through only the near jamb and restores it from the front',()=>{
+ test('side inspection reveals the extrusion through the jambs and restores them from the front',()=>{
   const {scene,model}=createShroudScene(base,{windowVisible:false,studWallVisible:false,screwsVisible:false},true);
   for(const side of [-1,1]){
    revealLouverExtrusions(model,new THREE.Vector3(side,0,0));
    expect(model.getObjectByName(side<0?'Left panel':'Right panel').material.opacity).toBeLessThan(1);
-   expect(model.getObjectByName(side<0?'Right panel':'Left panel').material.opacity).toBe(1);
+   expect(model.getObjectByName(side<0?'Right panel':'Left panel').material.opacity).toBeLessThan(1);
    expect(model.getObjectByName('Louver side extrusions').children[0].children[0].material.opacity).toBe(1);
   }
   revealLouverExtrusions(model,new THREE.Vector3(0,0,1));
@@ -55,7 +55,7 @@ describe('Louver section rules',()=>{
   for(const direction of ['up','down'])for(const height of [1800,900]){
    const c={...base,louverSpacing:0,louverOrientation:direction,louverSectionHeight:height};
    const layout=louverLayout(c),bounds=bladeBounds(0,direction,{louverSectionHeight:height});
-   expect(bounds.length).toBe(Math.floor(height/layout.faceHeight));
+   expect(bounds.length).toBe(Math.floor(layout.sectionHeight/layout.faceHeight));
    for(const box of bounds)expect((box.max.y-box.min.y)*1000).toBeCloseTo(layout.faceHeight,3);
    expect(bounds[bounds.length-1].max.y*1000).toBeLessThanOrEqual(height+0.001);
   }
@@ -63,8 +63,8 @@ describe('Louver section rules',()=>{
  test('150 mm offset places blades in the middle of a 300 mm projection',()=>{
   for(const direction of ['up','down'])for(const box of bladeBounds(9,direction,{depth:300,louverOffset:150}))expect((box.min.z+box.max.z)*500).toBeCloseTo(150,3);
  });
- test('0 mm offset places blades at the front of the shroud',()=>{
-  for(const box of bladeBounds(9,'down',{depth:300,louverOffset:0}))expect((box.min.z+box.max.z)*500).toBeCloseTo(300,3);
+ test('0 mm offset puts the foremost blade surface at the front, without protruding',()=>{
+  for(const direction of ['up','down'])for(const box of bladeBounds(9,direction,{depth:300,louverOffset:0}))expect(box.max.z*1000).toBeCloseTo(300,3);
  });
  test('offset is measured inward from the front at every depth',()=>{
   for(const depth of [300,450,600])for(const direction of ['up','down']){
@@ -93,6 +93,24 @@ describe('Louver section rules',()=>{
     expect(blade.min.x*1000).toBeCloseTo(-base.width/2+60,3);
     expect(blade.max.x*1000).toBeCloseTo(base.width/2-60,3);
    }
+  }
+ });
+ test('full-height blades and extrusion tops stay below the sloped head, and within the projection at zero offset',()=>{
+  for(const depth of [300,450,600])for(const orientation of ['up','down'])for(const spacing of [0,9]){
+   const c={...base,depth,louverOffset:0,louverSectionHeight:base.height,louverOrientation:orientation,louverSpacing:spacing};
+   const {scene,model}=createShroudScene(c,{windowVisible:false,studWallVisible:false,screwsVisible:false},true);
+   model.updateWorldMatrix(true,true);
+   for(const name of ['Louver blades','Louver side extrusions'])model.getObjectByName(name).traverse(object=>{
+    if(!(object instanceof THREE.Mesh))return;
+    const positions=object.geometry.getAttribute('position');
+    for(let i=0;i<positions.count;i++){
+     const point=new THREE.Vector3().fromBufferAttribute(positions,i).applyMatrix4(object.matrixWorld);
+     expect(point.z*1000).toBeLessThanOrEqual(depth+0.001);
+     expect(point.z*1000).toBeGreaterThanOrEqual(-0.001);
+     expect(point.y*1000).toBeLessThanOrEqual(c.height-point.z*1000*FALL_SLOPE+0.001);
+    }
+   });
+   disposeShroudScene(scene);
   }
  });
 });
