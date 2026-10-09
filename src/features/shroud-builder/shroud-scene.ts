@@ -29,17 +29,16 @@ export function createShroudScene(c:Config,{windowVisible,studWallVisible,screws
  if(c.profile==='louvered'){
  const layout=louverLayout(c),blades=new THREE.Group();blades.name='Louver blades';model.add(blades);
  const rails=new THREE.Group();rails.name='Louver side extrusions';model.add(rails);
- const railWidth=LOUVER_EXTRUSION_WIDTH/1000,railDepth=LOUVER_EXTRUSION_DEPTH/1000,wall=0.002,railHeight=layout.sectionHeight/1000;
+ const railWidth=LOUVER_EXTRUSION_WIDTH/1000,railDepth=LOUVER_EXTRUSION_DEPTH/1000,railHeight=layout.sectionHeight/1000;
  for(const side of [-1,1]){
   const rail=new THREE.Group();rail.name=side<0?'Left louver extrusion':'Right louver extrusion';
   rail.position.set(side*(w/2-railWidth/2),railHeight/2,layout.depthCenter/1000);rails.add(rail);
-  // Inward-facing channels receive the blade ends; a nominal 2 mm wall keeps the openings visible.
-  for(const [a,b,x,z] of [[wall,railDepth,side*(railWidth-wall)/2,0],[railWidth,wall,0,-(railDepth-wall)/2],[railWidth,wall,0,(railDepth-wall)/2]]){
-   const part=new THREE.Mesh(new THREE.BoxGeometry(a,railHeight,b),mat);part.position.set(x,0,z);rail.add(part);
-  }
+  // Closed rectangular exterior: blade sockets and inserted ends are concealed inside it.
+  rail.add(new THREE.Mesh(new THREE.BoxGeometry(railWidth,railHeight,railDepth),mat));
  }
  for(const section of layout.sections){
-  const geo=new THREE.BoxGeometry(Math.max(w-2*wall,wall),t,layout.bladeDepth/1000);
+  // Render only the exposed span; the inserted ends are hidden by the rectangular extrusions.
+  const geo=new THREE.BoxGeometry(Math.max(w-2*railWidth,0.001),t,layout.bladeDepth/1000);
   geo.rotateX(layout.rotation);geo.translate(0,section.center/1000,layout.depthCenter/1000);
   // Clip terminal blades at the head/sill while keeping all internal front gaps exact.
   const positions=geo.getAttribute('position');

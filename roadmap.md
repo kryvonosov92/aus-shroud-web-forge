@@ -1,4 +1,5 @@
 # Current tasks
+- [x] Correct rectangular louver extrusions and conceal inserted blade ends; verify geometry and preview.
 - [x] Add front-referenced louver offset and two 60 × 40 mm side extrusions; remove divider and verify preview/exports.
 - [x] Simplify louver height controls and remove the flat terminal blade for 0 mm spacing; verify geometry and preview.
 - [x] Move louver section height above projection depth, bottom-align louvers, remove blade angle and relabel the 9 mm option.

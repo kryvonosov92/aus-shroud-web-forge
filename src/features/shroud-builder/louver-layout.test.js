@@ -60,16 +60,27 @@ describe('Louver section rules',()=>{
    for(const box of bounds)expect((box.min.z+box.max.z)*500).toBeCloseTo(depth/2,3);
   }
  });
- test('left and right receiving extrusions are 60 mm wide and 40 mm deep',()=>{
+ test('left and right receiving extrusions are closed rectangles 60 mm wide and 40 mm deep',()=>{
   const c={...base,louverSectionHeight:900,louverOffset:150};
   const {scene,model}=createShroudScene(c,{windowVisible:false,studWallVisible:false,screwsVisible:false},true);
   const rails=model.getObjectByName('Louver side extrusions');if(!rails)throw new Error('Extrusions missing');
   expect(rails.children.length).toBe(2);
   for(const rail of rails.children){
+   expect(rail.children.length).toBe(1);
+   expect(rail.children[0].geometry.type).toBe('BoxGeometry');
    const bounds=new THREE.Box3().setFromObject(rail),size=bounds.getSize(new THREE.Vector3());
    expect(size.x*1000).toBeCloseTo(60,3);expect(size.z*1000).toBeCloseTo(40,3);expect(size.y*1000).toBeCloseTo(900,3);
    expect((bounds.min.z+bounds.max.z)*500).toBeCloseTo(150,3);
   }
   disposeShroudScene(scene);
+ });
+ test('blade ends are concealed at the inner faces of both rectangular extrusions',()=>{
+  for(const direction of ['up','down'])for(const offset of [0,150])for(const spacing of [0,9]){
+   const bounds=bladeBounds(spacing,direction,{depth:300,louverOffset:offset});
+   for(const blade of bounds){
+    expect(blade.min.x*1000).toBeCloseTo(-base.width/2+60,3);
+    expect(blade.max.x*1000).toBeCloseTo(base.width/2-60,3);
+   }
+  }
  });
 });
