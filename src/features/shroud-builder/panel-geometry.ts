@@ -116,21 +116,19 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    if(p.right)box('Right',t,h,d,w/2+t/2,h/2,d/2);
   }
   if(c.profile==='modular'){
-   // Interlocking folded-hem corner joint (per AWS detail photo): the head/sill edge
-   // folds down into a lip and the jamb edge folds up and hooks over it, forming an
-   // S-shaped interlock that runs the full depth, 2 mm proud of the front edge.
+   // F-profile corner extrusion (CRL satin anodized style, per AWS detail image):
+   // a spine wraps the outside of the jamb and two prongs grip the head/sill
+   // panel edge in a 6.8 mm slot. 18.9 mm legs, runs the full depth, coloured
+   // with the shroud material.
    const mm=(v:number)=>v/1000;
-   const LIP=mm(18),HOOK=mm(24),OVER=mm(12),FT=mm(3); // lip drop, hook rise, hook overhang, fold thickness
+   const LEG=mm(18.9),WT=mm(2); // leg length, wall thickness (slot = plate thickness)
    const joiner=(name:string,sx:number,top:boolean)=>{
     const sy=top?1:-1;
-    // Head/sill downturned lip, just inside the jamb face.
-    add(name+' lip',new THREE.BoxGeometry(FT,LIP,d+0.002),sx*(w/2+FT/2),(top?h:0)-sy*LIP/2,0);
-    // Jamb hook: a leg rising past the lip, then bending inward over it (inverted-L band).
-    const hook=new THREE.Shape();
-    const pts:[number,number][]=[[0,0],[FT,0],[FT,HOOK],[FT-OVER,HOOK],[FT-OVER,HOOK-FT],[0,HOOK-FT]];
-    pts.forEach(([x,y],i)=>{const px=-sx*x,py=sy*y;i?hook.lineTo(px,py):hook.moveTo(px,py);});
-    hook.closePath();
-    add(name+' hook',new THREE.ExtrudeGeometry(hook,{depth:d+0.002,bevelEnabled:false}),sx*(w/2+FT),top?h:0,0);
+    const pts:[number,number][]=[[0,-WT],[0,plate+WT],[-LEG,plate+WT],[-LEG,plate],[-WT,plate],[-WT,0],[-LEG,0],[-LEG,-WT]];
+    const f=new THREE.Shape();
+    pts.forEach(([x,y],i)=>{const px=-sx*x,py=sy*y;i?f.lineTo(px,py):f.moveTo(px,py);});
+    f.closePath();
+    add(name,new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),sx*w/2,top?h:0,0);
    };
    if(p.left)joiner('Corner joiner top left',-1,true);
    if(p.right)joiner('Corner joiner top right',1,true);
