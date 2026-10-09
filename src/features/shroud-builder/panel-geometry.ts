@@ -116,32 +116,33 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    if(p.right)box('Right',t,h,d,w/2+t/2,h/2,d/2);
   }
   if(c.profile==='modular'){
-    // F-joiner strips (CRL satin anodized style, per AWS sketch): one F profile
-    // runs the full width along the top edge and one along the bottom edge.
-    // The spine sits at the front face and the two prongs reach back over and
-    // under the panel edge, so the top/bottom panel inserts into the slot.
-    // 18.9 mm legs, 2 mm walls, coloured with the shroud material.
-    const mm=(v:number)=>v/1000;
-    const LEG=mm(18.9),WT=mm(2); // leg length, wall thickness (slot = panel thickness)
-    const joiner=(name:string,top:boolean)=>{
-     // Cross-section in the Y-Z plane (shape x = -z so rotateY maps extrusion
-     // depth onto the X axis): spine at the front face z=d, prongs reaching
-     // back (toward z=0) around the panel edge.
-     const yTop=top?h+plate:WT,yBot=top?h-WT:-plate-WT; // spine extents
-     const ySlotTop=top?h+plate:0,ySlotBot=top?h:-plate; // panel edge between prongs
-     const pts:[number,number][]=[
-      [-d,yTop],[-(d-LEG),yTop],[-(d-LEG),ySlotTop],[-(d-WT),ySlotTop],
-      [-(d-WT),ySlotBot],[-(d-LEG),ySlotBot],[-(d-LEG),yBot],[-d,yBot],
-     ];
+    // Reference is a cross-section, not a full-width front cap. Keep the
+    // fittings at the four head/jamb and sill/jamb junctions, along depth.
+    const LEG=18.9/1000,SLOT=6.8/1000,WT=2/1000;
+    const spine=WT+SLOT,mid=LEG/2;
+    // Exact pictured F: receiving channel on the left, two arms on the right.
+    // Wall thickness is estimated; the labelled outside dimensions and slot are exact.
+    const pts:[number,number][]=[
+     [0,0],[LEG,0],[LEG,WT],[spine+WT,WT],
+     [spine+WT,mid-WT/2],[LEG,mid-WT/2],[LEG,mid+WT/2],
+     [spine+WT,mid+WT/2],[spine+WT,LEG],[spine,LEG],
+     [spine,WT],[WT,WT],[WT,LEG],[0,LEG],
+    ];
+    const joiner=(side:number,top:boolean)=>{
      const f=new THREE.Shape();
-     pts.forEach(([x,y],i)=>{i?f.lineTo(x,y):f.moveTo(x,y);});
+     pts.forEach(([x,y],i)=>{
+      const px=top?-side*y:-side*x;
+      const py=top?x:y;
+      if(i===0)f.moveTo(px,py);else f.lineTo(px,py);
+     });
      f.closePath();
-     const g=new THREE.ExtrudeGeometry(f,{depth:w+2*t,bevelEnabled:false});
-     g.rotateY(Math.PI/2); // extrusion direction Z -> X, shape x -> -z
-     add(name,g,-(w+2*t)/2,0,0);
+     const x=top?side*(w/2+t):side*(w/2+t/2+WT+SLOT/2);
+     const y=top?h+plate/2-WT-SLOT/2:-WT;
+     add(`Corner joiner ${top?'top':'bottom'} ${side<0?'left':'right'}`,
+      new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),x,y);
     };
-    joiner('F-joiner top',true);
-    if(p.bottom)joiner('F-joiner bottom',false);
+    if(p.left){joiner(-1,true);if(p.bottom)joiner(-1,false);}
+    if(p.right){joiner(1,true);if(p.bottom)joiner(1,false);}
   }
  }
  return group;
