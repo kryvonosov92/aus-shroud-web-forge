@@ -29,13 +29,14 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
  };
  const box=(name:string,a:number,b:number,depth:number,x:number,y:number,z:number)=>add(name,new THREE.BoxGeometry(a,b,depth),x,y,z);
   if(c.profile==='hood'){
-   box('Top',w,plate,d,0,h+plate/2,d/2);
+   // With a corner wrap the canopy reads as one folded sheet, so skip outlines.
+   add('Top',new THREE.BoxGeometry(w,plate,d),0,h+plate/2,d/2,!c.hoodCorner);
    const stiffener=new THREE.Shape();stiffener.moveTo(0,0);stiffener.lineTo(d,0);stiffener.lineTo(0,c.stiffenerHeight/1000);stiffener.closePath();
    const rib=new THREE.ExtrudeGeometry(stiffener,{depth:t,bevelEnabled:false});rib.rotateY(-Math.PI/2);
    for(const position of hoodStiffenerLayout(c.width).positions)add('Stiffener',rib.clone(),-w/2+position/1000+t/2,h+plate);
    if(c.hoodCorner){
     // Return canopy wraps the right-hand corner, falling away from the wall.
-    box('Top return',d,plate,rw,w/2+d/2,h+plate/2,-rw/2);
+    add('Top return',new THREE.BoxGeometry(d,plate,rw),w/2+d/2,h+plate/2,-rw/2,false);
     // Corner infill: two triangles meeting on the diagonal hip so both canopies join.
     const tri=(pts:[number,number][])=>{const s=new THREE.Shape();s.moveTo(pts[0][0],pts[0][1]);for(const q of pts.slice(1))s.lineTo(q[0],q[1]);s.closePath();const g=new THREE.ExtrudeGeometry(s,{depth:plate,bevelEnabled:false});g.rotateX(Math.PI/2);return g;};
     // No outline on the infill: the canopies read as one folded sheet.
