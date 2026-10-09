@@ -117,14 +117,16 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   }
   if(c.profile==='modular'){
     // F-profile corner extrusion (CRL satin anodized style, per AWS detail image):
-    // the spine sits against the jamb's inner face and the two prongs reach
-    // inwards, gripping over the head/sill panel edges. 18.9 mm legs, runs the
-    // full depth, coloured with the shroud material.
+    // a corner mould with a slot on each leg — one grips the head/sill panel
+    // edge, the other grips the jamb (side panel) edge, so both panels insert
+    // into it. 18.9 mm legs, runs the full depth, coloured with the shroud.
     const mm=(v:number)=>v/1000;
-    const LEG=mm(18.9),WT=mm(2); // leg length, wall thickness (slot = plate thickness)
+    const LEG=mm(18.9),WT=mm(2); // leg length, wall thickness (slots = panel thickness)
     const joiner=(name:string,sx:number,top:boolean)=>{
      const sy=top?1:-1;
-     const pts:[number,number][]=[[0,-WT],[0,plate+WT],[LEG,plate+WT],[LEG,plate],[WT,plate],[WT,0],[LEG,0],[LEG,-WT]];
+     // y positive = into the shroud interior; x positive = inward from the
+     // jamb's inner face. Head/sill slot: y∈[-plate,0]. Jamb slot: x∈[-t,0].
+     const pts:[number,number][]=[[-t-WT,-WT],[LEG,-WT],[LEG,-plate],[WT,-plate],[WT,0],[LEG,0],[LEG,WT],[WT,WT],[WT,LEG],[0,LEG],[0,WT],[-t,WT],[-t,LEG],[-t-WT,LEG],[-t-WT,-WT]];
     const f=new THREE.Shape();
     pts.forEach(([x,y],i)=>{const px=-sx*x,py=sy*y;i?f.lineTo(px,py):f.moveTo(px,py);});
     f.closePath();
