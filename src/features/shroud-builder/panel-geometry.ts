@@ -9,12 +9,14 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
  const p=includedPanels(c),w=c.width/1000,h=c.height/1000,d=c.depth/1000,t=THICKNESS/1000,rw=c.returnWidth/1000,bd=c.bottomDepth/1000;
  // Vertical separation of parallel 3° faces retains a true 6 mm plate thickness.
  const plate=t/Math.cos(FALL_DEGREES*Math.PI/180);
- const add=(name:string,geo:THREE.BufferGeometry,x=0,y=0,z=0,outline=true)=>{
+ const add=(name:string,geo:THREE.BufferGeometry,x=0,y=0,z=0,outline=true,radial=false)=>{
   geo.translate(x,y,z);
   const positions=geo.getAttribute('position');
   for(let i=0;i<positions.count;i++){
    const px=positions.getX(i),py=positions.getY(i),pz=positions.getZ(i);
-   const projection=c.profile==='corner'||(c.profile==='hood'&&c.hoodCorner)?Math.max(0,pz,px-w/2):Math.max(0,pz);
+   // A rounded corner falls radially from the wall corner, so its curved
+   // front edge holds the same 3° fall as the straight canopies it joins.
+   const projection=radial?Math.hypot(Math.max(0,px-w/2),Math.max(0,pz)):c.profile==='corner'||(c.profile==='hood'&&c.hoodCorner)?Math.max(0,pz,px-w/2):Math.max(0,pz);
     // The sill's upper face falls from y=0 at the rear. Jambs must follow
     // that face at their lower edge, rather than exposing an open wedge.
     const sillJamb=name==='Left'||name==='Right';
@@ -44,7 +46,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
      // Rounded corner: quarter-circle canopy sweeping from the front to the return.
      const s=new THREE.Shape();s.moveTo(0,0);s.absarc(0,0,d,0,Math.PI/2,false);s.lineTo(0,0);
      const g=new THREE.ExtrudeGeometry(s,{depth:plate,bevelEnabled:false,curveSegments:64});g.rotateX(Math.PI/2);
-     add('Top corner',g,w/2,h+plate,0,false);
+     add('Top corner',g,w/2,h+plate,0,false,true);
     }else{
     add('Top corner',tri([[0,0],[d,d],[0,d]]),w/2,h+plate,0,false);
     add('Top corner',tri([[0,0],[d,0],[d,d]]),w/2,h+plate,0,false);
