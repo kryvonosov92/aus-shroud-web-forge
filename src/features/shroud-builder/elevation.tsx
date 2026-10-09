@@ -1,4 +1,5 @@
 import { Config, measurements, hoodStiffenerLayout, archContour,hasPanelOptions,includedPanels,panelDescription } from './shroud-model';
+import {louverLayout} from './louver-layout';
 export default function Elevation({config:c}: {config:Config}) {
  const m=measurements(c),w=c.width,h=c.height,f=m.face;const padding=Math.max(w,h)*0.2;const vx=w+padding*2,vy=h+padding*2;const stroke=Math.max(w,h)/650;const font=Math.max(w,h)/35;const dim=(x1:number,y1:number,x2:number,y2:number,text:string)=> <g stroke="#737b8c" strokeWidth={stroke}><path d={`M${x1},${y1} L${x2},${y2}`}/>{[[x1,y1],[x2,y2]].map(([x,y],i)=><path key={i} d={x1===x2?`M${x-10},${y}h20`:`M${x},${y-10}v20`}/>)}<text x={(x1+x2)/2+(x1===x2?-font:0)} y={(y1+y2)/2-(y1===y2?font/2:0)} textAnchor="middle" dominantBaseline="middle" stroke="none" fill="#424242" fontSize={font} transform={x1===x2?`rotate(-90 ${(x1+x2)/2-font} ${(y1+y2)/2})`:undefined}>{text}</text></g>;
  const arch=c.profile==='curved',round=c.profile==='round',hood=c.profile==='hood',ribs=hoodStiffenerLayout(w);
@@ -22,9 +23,9 @@ export default function Elevation({config:c}: {config:Config}) {
  </g>}
  {round&&<circle cx={w/2} cy={w/2} r={w/2+3} fill="none" stroke={c.colour} strokeWidth={6}/>}
  {hood&&<><rect x="0" y="-6" width={w} height={6} fill={c.colour}/><rect x="0" y="0" width={w} height={h} fill="none" stroke="#b9bdc5" strokeWidth={stroke} strokeDasharray="10 10"/>{ribs.positions.map(x=><rect key={x} x={x-3} y={-6-c.stiffenerHeight} width={6} height={c.stiffenerHeight} fill={c.colour}/>)}</>}
- {c.profile==='louvered'&&Array.from({length:Math.max(0,Math.floor(h/c.bladePitch)-1)},(_,i)=><line key={i} x1="0" x2={w} y1={(i+1)*c.bladePitch} y2={(i+1)*c.bladePitch} stroke={c.colour} strokeWidth={Math.min(70,c.bladePitch*0.65)}/>)}
- {dim(0,h+padding*.43,w,h+padding*.43,`${round?'Ø ':''}${w.toLocaleString()} INTERNAL`)}{!round&&dim(-padding*.43,0,-padding*.43,h,`${h.toLocaleString()} ${hood?'WINDOW HEIGHT':'INTERNAL'}`)}
- <text x={w/2} y={h/2} textAnchor="middle" fill="#737b8c" fontSize={font*.8}>{c.profile==='corner'?'FACE A · RETURN SHOWN IN 3D':(arch||round)?`R ${c.internalRadius.toLocaleString()} INTERNAL`:hood?'WINDOW REFERENCE':'CLEAR OPENING'}</text>
+ {c.profile==='louvered'&&louverLayout(c).sections.map(section=><rect key={section.bottom} x={0} y={h-section.top} width={w} height={section.top-section.bottom} fill={c.colour}/>)}
+ {dim(0,h+padding*.43,w,h+padding*.43,`${round?'Ø ':''}${w.toLocaleString()} INTERNAL`)}{!round&&dim(-padding*.43,0,-padding*.43,h,`${h.toLocaleString()} ${hood?'WINDOW HEIGHT':c.profile==='louvered'?'LOUVER SECTION HEIGHT':'INTERNAL'}`)}
+ <text x={w/2} y={h/2} textAnchor="middle" fill="#737b8c" fontSize={font*.8}>{c.profile==='corner'?'FACE A · RETURN SHOWN IN 3D':(arch||round)?`R ${c.internalRadius.toLocaleString()} INTERNAL`:hood?'WINDOW REFERENCE':c.profile==='louvered'?'':'CLEAR OPENING'}</text>
  <text x={w/2} y={-padding*.65-hoodExtra} textAnchor="middle" fill="#424242" fontSize={font*.75}>6 mm material · {c.depth} mm depth</text>
   {hood&&<text x={w/2} y={-padding*.42-hoodExtra} textAnchor="middle" fill="#424242" fontSize={font*.6}>{ribs.count} stiffeners · 150 mm end centres · {Number(ribs.pitch.toFixed(1))} mm equal spacing</text>}
   {hood&&c.hoodCorner&&<text x={w/2} y={h+padding*.75} textAnchor="middle" fill="#424242" fontSize={font*.6}>Corner return {c.returnWidth.toLocaleString()} mm · shown in 3D</text>}
