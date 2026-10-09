@@ -114,3 +114,11 @@ describe('Louver section rules',()=>{
   }
  });
 });
+test('Louver Section Height follows Internal Height until changed manually', () => {
+  const { updateConfiguration, initial } = require('./shroud-model');
+  let c = updateConfiguration({ ...initial, profile: 'louvered' }, { height: 2100 });
+  expect(c.louverSectionHeight).toBe(2100);
+  c = updateConfiguration(c, { louverSectionHeight: 900 });
+  c = updateConfiguration(c, { height: 2400 });
+  expect(c.louverSectionHeight).toBe(900);
+});

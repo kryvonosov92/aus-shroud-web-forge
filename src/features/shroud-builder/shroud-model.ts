@@ -61,6 +61,8 @@ export function archContour(c:Config,offset=0){
 }
 export function updateConfiguration(c:Config,patch:Partial<Config>):Config{
  const next={...c,...patch};
+ // Louver Section Height follows Internal Height until the user sets it to a different value.
+ if(patch.height!==undefined&&patch.louverSectionHeight===undefined&&c.louverSectionHeight===c.height)next.louverSectionHeight=patch.height;
  if(next.profile==='round'){
   if(patch.internalRadius!==undefined)next.width=next.height=next.internalRadius*2;
   else if(patch.height!==undefined&&patch.width===undefined)next.width=next.height;
