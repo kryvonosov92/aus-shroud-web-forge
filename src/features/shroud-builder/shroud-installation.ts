@@ -29,7 +29,10 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
   const obj=new THREE.Mesh(geo,material);obj.name=`${face} flange with ${points.length} holes`;place(obj,face);flanges.add(obj);
  };
  if(fl){
-  if(c.profile==='hood')flange(rect(-w/2,h+t,w/2,h+t+fl));
+  if(c.profile==='hood'){
+   flange(rect(-w/2,h+t,w/2,h+t+fl));
+   if(c.hoodCorner)flange(rect(0,h+t,c.returnWidth+t+fl,h+t+fl),layout.points.filter(p=>p.face==='return'),'return');
+  }
   else if(c.profile==='round'){
    const shape=new THREE.Shape();shape.absarc(0,w/2*mm,(w/2+t+fl)*mm,0,2*Math.PI,false);
    const inner=new THREE.Path();inner.absarc(0,w/2*mm,w/2*mm,0,2*Math.PI,true);shape.holes.push(inner);flange(shape);
@@ -121,6 +124,9 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
    const r=w/2+t,outer=archContour(c,t+STUD_FACE);frame(-r-STUD_FACE,r+STUD_FACE,-t,h+t+STUD_FACE);
    arcBacking(c.internalRadius+t,outer.centerY,outer.startAngle,outer.endAngle);
    for(const x of [-r-STUD_FACE/2,r+STUD_FACE/2])wood(STUD_FACE,outer.springY+t,x,(outer.springY-t)/2);
+  }else if(c.profile==='hood'&&c.hoodCorner){
+   frame(-w/2,w/2,-t,h+t,'front',-Infinity,w/2-t-STUD_DEPTH,'right');
+   frame(0,c.returnWidth+t,-t,h+t,'return',t,Infinity,'left');
   }else frame(-w/2-(c.profile==='hood'?0:t),w/2+(c.profile==='hood'?0:t),-t,h+t);
  }
  root.userData.fixingCount=layout.points.length;root.userData.maxFixingPitchMm=layout.maxPitch;

@@ -6,7 +6,7 @@ export default function Elevation({config:c}: {config:Config}) {
  const outerArch=arch?archContour(c,f):null,innerArch=arch?archContour(c):null;
  const shape=arch?`M${-f} ${h+f}V${h-outerArch!.springY} A${outerArch!.radius} ${outerArch!.radius} 0 0 1 ${w+f} ${h-outerArch!.springY}V${h+f}Z M0 ${h}H${w}V${h-innerArch!.springY} A${innerArch!.radius} ${innerArch!.radius} 0 0 0 0 ${h-innerArch!.springY}Z`:`M${-f} ${-f}H${w+f}V${h+f}H${-f}Z M0 0V${h}H${w}V0Z`;
  const hoodExtra=hood?Math.max(0,c.stiffenerHeight+font-padding*.6):0;
- return <svg className="elevation-svg" viewBox={`${-padding} ${-padding-hoodExtra} ${vx} ${vy+hoodExtra}`} role="img" aria-label={round?`Front elevation: ${w} mm internal diameter; ${c.internalRadius} mm internal radius; 6 mm material`:`Front elevation: ${w} mm internal width, ${h} mm internal height; ${f} mm material${selectable?`; included panels: ${panelDescription(c)}`:''}${arch?`; ${c.internalRadius} mm internal radius`:''}${hood?`; ${ribs.count} stiffeners at ${ribs.pitch.toFixed(1)} mm equal centres`:''}`}>
+ return <svg className="elevation-svg" viewBox={`${-padding} ${-padding-hoodExtra} ${vx} ${vy+hoodExtra}`} role="img" aria-label={round?`Front elevation: ${w} mm internal diameter; ${c.internalRadius} mm internal radius; 6 mm material`:`Front elevation: ${w} mm internal width, ${h} mm internal height; ${f} mm material${selectable?`; included panels: ${panelDescription(c)}`:''}${arch?`; ${c.internalRadius} mm internal radius`:''}${hood?`; ${ribs.count} stiffeners at ${ribs.pitch.toFixed(1)} mm equal centres`:''}${hood&&c.hoodCorner?`; ${c.returnWidth} mm corner return`:''}`}>
  {!hood&&!round&&!selectable&&<path d={shape} fill={c.colour} fillRule="evenodd"/>}
  {selectable&&<g fill={c.colour}>
   {arch?<>
@@ -26,6 +26,7 @@ export default function Elevation({config:c}: {config:Config}) {
  {dim(0,h+padding*.43,w,h+padding*.43,`${round?'Ø ':''}${w.toLocaleString()} INTERNAL`)}{!round&&dim(-padding*.43,0,-padding*.43,h,`${h.toLocaleString()} ${hood?'WINDOW HEIGHT':'INTERNAL'}`)}
  <text x={w/2} y={h/2} textAnchor="middle" fill="#737b8c" fontSize={font*.8}>{c.profile==='corner'?'FACE A · RETURN SHOWN IN 3D':(arch||round)?`R ${c.internalRadius.toLocaleString()} INTERNAL`:hood?'WINDOW REFERENCE':'CLEAR OPENING'}</text>
  <text x={w/2} y={-padding*.65-hoodExtra} textAnchor="middle" fill="#424242" fontSize={font*.75}>6 mm material · {c.depth} mm depth</text>
- {hood&&<text x={w/2} y={-padding*.42-hoodExtra} textAnchor="middle" fill="#424242" fontSize={font*.6}>{ribs.count} stiffeners · 150 mm end centres · {Number(ribs.pitch.toFixed(1))} mm equal spacing</text>}
+  {hood&&<text x={w/2} y={-padding*.42-hoodExtra} textAnchor="middle" fill="#424242" fontSize={font*.6}>{ribs.count} stiffeners · 150 mm end centres · {Number(ribs.pitch.toFixed(1))} mm equal spacing</text>}
+  {hood&&c.hoodCorner&&<text x={w/2} y={h+padding*.75} textAnchor="middle" fill="#424242" fontSize={font*.6}>Corner return {c.returnWidth.toLocaleString()} mm · shown in 3D</text>}
  </svg>;
 }
