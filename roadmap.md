@@ -1,4 +1,5 @@
 # Current tasks
+- [ ] Keep extrusion and last louver below the sloped shroud head, and contain blades/extrusions at zero offset.
 - [ ] Reveal the 40 mm louver extrusions when viewing the model from either side; verify side views.
 - [x] Correct rectangular louver extrusions and conceal inserted blade ends; verify geometry and preview.
 - [x] Add front-referenced louver offset and two 60 × 40 mm side extrusions; remove divider and verify preview/exports.
