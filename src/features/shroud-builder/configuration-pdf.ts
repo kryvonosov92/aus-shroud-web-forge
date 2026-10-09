@@ -14,7 +14,7 @@ export function configurationFields(c:Config):Field[]{
  const f=finishSpecification(c),p=includedPanels(c),fix=flangeFixingLayout(c),m=measurements(c);
  const fields:Field[]=[];
  if(c.profile==='round')fields.push(['Internal diameter',mm(c.width)],['Internal radius',mm(c.internalRadius)]);
- else fields.push([c.profile==='corner'?'Internal width A':c.profile==='hood'?'Clear canopy span':'Internal width',mm(c.width)],[c.profile==='hood'?'Window height (reference)':c.profile==='louvered'?'Louver Section Height':'Internal height',mm(c.height)]);
+ else fields.push([c.profile==='corner'?'Internal width A':c.profile==='hood'?'Clear canopy span':'Internal width',mm(c.width)],[c.profile==='hood'?'Window height (reference)':c.profile==='louvered'?'Shroud height':'Internal height',mm(c.height)]);
  if(c.profile==='corner')fields.push(['Internal return width B',mm(c.returnWidth)]);
  if(c.profile==='curved'){const a=archContour(c);fields.push(['Internal radius',mm(c.internalRadius)],['Arch rise / straight jamb',`${mm(a.rise)} / ${mm(a.springY)}`]);}
  fields.push([c.profile==='tapered'?'Head depth':'Projection depth',mm(c.depth)],['Material thickness',mm(THICKNESS)],['Drainage fall',fallDescription(c)]);
@@ -26,7 +26,7 @@ export function configurationFields(c:Config):Field[]{
  if(c.flange)fields.push(['Fixings (illustrative)',`${fix.points.length} screws · ≤ ${mm(fix.maxPitch)} centres`]);
  if(c.profile!=='corner')fields.push([c.profile==='round'?'Outside diameter':'Body overall width × height',c.profile==='round'?mm(m.outerWidth):`${fmt(m.outerWidth)} × ${fmt(m.outerHeight)} mm`]);
  if(c.profile==='hood'){const ribs=hoodStiffenerLayout(c.width);fields.push(['Hood stiffeners',`${ribs.count} × 6 mm triangular plates`],['Stiffener rear height',mm(c.stiffenerHeight)],['Stiffener spacing',`150 mm ends · ${mm(ribs.pitch)} equal centres`],['Stiffener centres from left',ribs.positions.map(fmt).join(', ')+' mm']);if(c.hoodCorner)fields.push(['Corner return length',mm(c.returnWidth)]);}
- if(c.profile==='louvered')fields.push(['Louver spacing',mm(c.louverSpacing)],['Transparency',`${louverLayout(c).transparency}%`],['Louver orientation',`Facing ${c.louverOrientation}`],['Blade angle',`${fmt(c.bladeAngle)}°`]);
+ if(c.profile==='louvered')fields.push(['Louver Section Height',mm(c.louverSectionHeight)],['Louver width',mm(88)],['Louver depth offset',mm(c.depth/2)],['Louver spacing',mm(c.louverSpacing)],['Transparency',`${fmt(louverLayout(c).transparency)}%`],['Louver orientation',`Facing ${c.louverOrientation}`],['Blade angle',`${fmt(c.bladeAngle)}°`]);
  if(c.profile==='corner')fields.push(['Panel orientation','Left: face A end. Right: return B end. Bottom: both faces.']);
  return fields;
 }

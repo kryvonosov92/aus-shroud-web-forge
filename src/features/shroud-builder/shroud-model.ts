@@ -18,7 +18,7 @@ export const products: {id: Profile; name: string; title: string; description: s
   {id:'curved',name:'Arch shroud',title:'Arch Shroud',description:'An adjustable circular arch with fixed sides and an optional bottom panel.',image:'1aae726f-762a-4c16-b289-5dcdf8e70726',slug:'thermacorec-curved-shroud'},
   {id:'round',name:'Round shroud',title:'Round Shroud',description:'A full circular shroud, sized by its internal radius or diameter.',image:'round',slug:'thermacorec-curved-shroud'},
 ];
-export type Config = { profile:Profile; width:number; height:number; internalRadius:number; depth:number; returnWidth:number; bottomDepth:number; colour:string; finish:string; otherColour:string; louverSpacing:0|9; louverOrientation:'down'|'up'; bladeAngle:number; flange:number; stiffenerHeight:number; reference:string; leftPanel:boolean; bottomPanel:boolean; rightPanel:boolean; hoodCorner:boolean; hoodCornerRounded?:boolean; roundedEnds?:boolean };
+export type Config = { profile:Profile; width:number; height:number; internalRadius:number; depth:number; returnWidth:number; bottomDepth:number; colour:string; finish:string; otherColour:string; louverSectionHeight:number; louverSpacing:0|9; louverOrientation:'down'|'up'; bladeAngle:number; flange:number; stiffenerHeight:number; reference:string; leftPanel:boolean; bottomPanel:boolean; rightPanel:boolean; hoodCorner:boolean; hoodCornerRounded?:boolean; roundedEnds?:boolean };
 export const hasPanelOptions=(profile:Profile)=>['box','corner','tapered','curved'].includes(profile);
 export function includedPanels(c:Config){
  const selectable=hasPanelOptions(c.profile);
@@ -41,7 +41,7 @@ export const palette:PowderColour[] = [
  // Medium Bronze Kinetic swatch; this is not a measured coating specification.
  {name:'Electro Bronze Medium',hex:'#5c4b36',brand:'Dulux',code:'9068183F',sheen:'Flat',source:'https://www.duluxpowders.com.au/products/electro/',image:builderAsset('colours/electro-medium-bronze.webp')},
 ];
-export const initial:Config = {profile:'box',width:1200,height:1800,internalRadius:600,depth:300,returnWidth:1200,bottomDepth:150,colour:palette[0].hex,finish:palette[0].name,otherColour:'',louverSpacing:0,louverOrientation:'down',bladeAngle:45,flange:50,stiffenerHeight:50,reference:'AWS-001',leftPanel:true,bottomPanel:true,rightPanel:true,hoodCorner:false};
+export const initial:Config = {profile:'box',width:1200,height:1800,internalRadius:600,depth:300,returnWidth:1200,bottomDepth:150,colour:palette[0].hex,finish:palette[0].name,otherColour:'',louverSectionHeight:1800,louverSpacing:0,louverOrientation:'down',bladeAngle:45,flange:50,stiffenerHeight:50,reference:'AWS-001',leftPanel:true,bottomPanel:true,rightPanel:true,hoodCorner:false};
 export const MAX_ARCH_RADIUS = 100000;
 export function minimumArchRadius(width:number,height:number){
  const a=width/2;
@@ -67,6 +67,7 @@ export function updateConfiguration(c:Config,patch:Partial<Config>):Config{
   else next.height=next.width;
   next.internalRadius=next.width/2;
  }
+ if(next.profile==='louvered')next.louverSectionHeight=Math.min(next.height,next.louverSectionHeight);
  if(next.profile==='curved'){next.leftPanel=true;next.rightPanel=true;}
  return next;
 }
@@ -100,6 +101,7 @@ export function validate(c:Config):string[]{
  if(c.profile==='curved'&&(!Number.isFinite(c.internalRadius)||c.internalRadius+0.000001<minimumArchRadius(c.width,c.height)||c.internalRadius>MAX_ARCH_RADIUS))e.push('Arch radius must span the opening and fit within the overall height.');
  if(c.profile==='tapered'&&(!Number.isFinite(c.bottomDepth)||c.bottomDepth<50||c.bottomDepth>c.depth))e.push('Sill depth must be between 50 mm and the head depth.');
  if(c.profile==='louvered'){
+  if(!Number.isFinite(c.louverSectionHeight)||c.louverSectionHeight<50||c.louverSectionHeight>c.height)e.push('Louver section height must be between 50 mm and the shroud height.');
   if(![0,9].includes(c.louverSpacing))e.push('Select 0 mm or 9 mm louvre spacing.');
   if(!['down','up'].includes(c.louverOrientation))e.push('Select louvers facing down or up.');
   if(!Number.isFinite(c.bladeAngle)||c.bladeAngle<30||c.bladeAngle>75)e.push('Use a blade angle of 30–75°.');
