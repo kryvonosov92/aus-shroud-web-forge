@@ -22,29 +22,29 @@ test('modular corner profiles measure 18.9 by 18.9 mm, not the frame width',()=>
 test('bottom F extrusion matches the top profile, hugging the shroud the same way',()=>{
  const c=selectProfile(initial,'modular'),mat=new THREE.MeshStandardMaterial();
  const group=createPanelBody(c,mat);
- const mesh=group.getObjectByName('Corner joiner bottom right panel');
- expect(mesh).toBeInstanceOf(THREE.Mesh);
- const points=mesh.geometry.getAttribute('position');
- const outline=[];
- let minY=Infinity,maxY=-Infinity;
- for(let i=0;i<points.count;i++){
-  if(Math.abs(points.getZ(i))>1e-7)continue;
-  const x=points.getX(i),y=points.getY(i);
-  outline.push([x,y]);
-  minY=Math.min(minY,y);maxY=Math.max(maxY,y);
- }
- // Same profile as the top fitting: the channel mouth is the highest edge and
- // its four wall ends give the 6.8 mm slot.
- const mouth=outline.filter(([,y])=>Math.abs(y-maxY)<1e-7).map(([x])=>x*1000);
- const unique=[...new Set(mouth.map(v=>Math.round(v*1000)/1000))].sort((a,b)=>a-b);
- expect(unique).toHaveLength(4);
- expect(unique[2]-unique[1]).toBeCloseTo(6.8,3);
- expect(unique[1]).toBeLessThan(c.width/2);
- expect(unique[2]).toBeGreaterThan(c.width/2+6);
- // The closed back of the F sits below the mouth, exactly like the top fitting.
- const back=outline.filter(([,y])=>Math.abs(y-minY)<1e-7).map(([x])=>x*1000);
- const backUnique=[...new Set(back.map(v=>Math.round(v*1000)/1000))].sort((a,b)=>a-b);
- expect(backUnique).toHaveLength(2);
- expect(backUnique[1]-backUnique[0]).toBeCloseTo(18.9,3);
+ const outlineOf=name=>{
+  const mesh=group.getObjectByName(name);
+  expect(mesh).toBeInstanceOf(THREE.Mesh);
+  const points=mesh.geometry.getAttribute('position');
+  const out=[];
+  for(let i=0;i<points.count;i++){
+   if(Math.abs(points.getZ(i))>1e-7)continue;
+   out.push([Math.round(points.getX(i)*1e6),Math.round(points.getY(i)*1e6)]);
+  }
+  return out;
+ };
+ const top=outlineOf('Corner joiner top right panel');
+ const bottom=outlineOf('Corner joiner bottom right panel');
+ // The bottom fitting is the identical F cross-section, translated down to the sill.
+ const topMinY=Math.min(...top.map(([,y])=>y));
+ const bottomMinY=Math.min(...bottom.map(([,y])=>y));
+ const dy=bottomMinY-topMinY;
+ const normalised=bottom.map(([x,y])=>`${x},${y-dy}`).sort();
+ const reference=top.map(([x,y])=>`${x},${y}`).sort();
+ expect(normalised).toEqual(reference);
+ // And it hugs the shroud width exactly like the top one.
+ const xs=bottom.map(([x])=>x/1000);
+ expect(Math.max(...xs)).toBeCloseTo(c.width/2+6,3);
+ expect(Math.max(...xs)-Math.min(...xs)).toBeCloseTo(18.9,3);
  group.traverse(o=>{if(o instanceof THREE.Mesh)o.geometry.dispose();});mat.dispose();
 });
