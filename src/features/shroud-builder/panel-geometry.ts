@@ -14,7 +14,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   const positions=geo.getAttribute('position');
   for(let i=0;i<positions.count;i++){
    const px=positions.getX(i),py=positions.getY(i),pz=positions.getZ(i);
-   const projection=c.profile==='corner'?Math.max(0,pz,px-w/2):Math.max(0,pz);
+   const projection=c.profile==='corner'||(c.profile==='hood'&&c.hoodCorner)?Math.max(0,pz,px-w/2):Math.max(0,pz);
     // The sill's upper face falls from y=0 at the rear. Jambs must follow
     // that face at their lower edge, rather than exposing an open wedge.
     const sillJamb=name==='Left'||name==='Right';
@@ -28,13 +28,20 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   if(edges&&outline)mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo,28),edges));
  };
  const box=(name:string,a:number,b:number,depth:number,x:number,y:number,z:number)=>add(name,new THREE.BoxGeometry(a,b,depth),x,y,z);
- if(c.profile==='hood'){
-  box('Top',w,plate,d,0,h+plate/2,d/2);
-  const stiffener=new THREE.Shape();stiffener.moveTo(0,0);stiffener.lineTo(d,0);stiffener.lineTo(0,c.stiffenerHeight/1000);stiffener.closePath();
-  const rib=new THREE.ExtrudeGeometry(stiffener,{depth:t,bevelEnabled:false});rib.rotateY(-Math.PI/2);
-  for(const position of hoodStiffenerLayout(c.width).positions)add('Stiffener',rib.clone(),-w/2+position/1000+t/2,h+plate);
-  rib.dispose();
- }else if(c.profile==='curved'){
+  if(c.profile==='hood'){
+   box('Top',w,plate,d,0,h+plate/2,d/2);
+   const stiffener=new THREE.Shape();stiffener.moveTo(0,0);stiffener.lineTo(d,0);stiffener.lineTo(0,c.stiffenerHeight/1000);stiffener.closePath();
+   const rib=new THREE.ExtrudeGeometry(stiffener,{depth:t,bevelEnabled:false});rib.rotateY(-Math.PI/2);
+   for(const position of hoodStiffenerLayout(c.width).positions)add('Stiffener',rib.clone(),-w/2+position/1000+t/2,h+plate);
+   if(c.hoodCorner){
+    // Return canopy wraps the right-hand corner, falling away from the wall.
+    box('Top return',d,plate,rw,w/2+d/2,h+plate/2,-rw/2);
+    const returnRib=rib.clone();returnRib.rotateY(Math.PI);
+    for(const position of hoodStiffenerLayout(c.returnWidth).positions)add('Stiffener',returnRib.clone(),w/2,h+plate,-position/1000-t/2);
+    returnRib.dispose();
+   }
+   rib.dispose();
+  }else if(c.profile==='curved'){
   const shapes=archPanelShapes(c,THICKNESS);
   for(const key of ['head','left','right'] as const)add(key==='head'?'Top':key[0].toUpperCase()+key.slice(1),new THREE.ExtrudeGeometry(shapes[key],{depth:d,steps:Math.max(1,Math.ceil(d/.06)),bevelEnabled:false,curveSegments:80}),0,0,0,false);
   if(p.bottom)box('Bottom',w+2*t,plate,d,0,-plate/2,d/2);
