@@ -29,10 +29,24 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   const mesh=new THREE.Mesh(geo,material);mesh.name=`${name} panel`;group.add(mesh);
   if(edges&&outline)mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo,28),edges));
  };
- const box=(name:string,a:number,b:number,depth:number,x:number,y:number,z:number)=>add(name,new THREE.BoxGeometry(a,b,depth),x,y,z);
+  const box=(name:string,a:number,b:number,depth:number,x:number,y:number,z:number)=>add(name,new THREE.BoxGeometry(a,b,depth),x,y,z);
+  // Plan-view plate with the front corners rounded off (radius = depth).
+  // Shape y becomes z after the X rotation; extrusion becomes the plate thickness.
+  const roundedTop=(width:number,depth:number,plate:number,roundLeft:boolean,roundRight:boolean)=>{
+   const r=Math.min(depth,width/2);
+   const s=new THREE.Shape();
+   s.moveTo(-width/2,0);s.lineTo(width/2,0);
+   if(roundRight){s.lineTo(width/2,depth-r);s.absarc(width/2-r,depth-r,r,0,Math.PI/2,false);}else s.lineTo(width/2,depth);
+   if(roundLeft){s.lineTo(-width/2+r,depth);s.absarc(-width/2+r,depth-r,r,Math.PI/2,Math.PI,false);}else s.lineTo(-width/2,depth);
+   s.closePath();
+   const g=new THREE.ExtrudeGeometry(s,{depth:plate,bevelEnabled:false,curveSegments:48});
+   g.rotateX(Math.PI/2);
+   return g;
+  };
   if(c.profile==='hood'){
    // With a corner wrap the canopy reads as one folded sheet, so skip outlines.
-   add('Top',new THREE.BoxGeometry(w,plate,d),0,h+plate/2,d/2,!c.hoodCorner);
+   if(c.roundedEnds)add('Top',roundedTop(w,d,plate,true,!c.hoodCorner),0,h+plate,0,!c.hoodCorner);
+   else add('Top',new THREE.BoxGeometry(w,plate,d),0,h+plate/2,d/2,!c.hoodCorner);
    const stiffener=new THREE.Shape();stiffener.moveTo(0,0);stiffener.lineTo(d,0);stiffener.lineTo(0,c.stiffenerHeight/1000);stiffener.closePath();
    const rib=new THREE.ExtrudeGeometry(stiffener,{depth:t,bevelEnabled:false});rib.rotateY(-Math.PI/2);
    for(const position of hoodStiffenerLayout(c.width).positions)add('Stiffener',rib.clone(),-w/2+position/1000+t/2,h+plate);
@@ -77,9 +91,10 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   if(p.left)box('Left',t,h,d,-w/2-t/2,h/2,d/2);
   if(p.right)box('Right',d,h,t,w/2+d/2,h/2,-rw-t/2);
  }else{
-  box('Top',w+2*t,plate,d,0,h+plate/2,d/2);
+  if(c.roundedEnds)add('Top',roundedTop(w+2*t,d,plate,true,true),0,h+plate,0);
+  else box('Top',w+2*t,plate,d,0,h+plate/2,d/2);
   const sillDepth=c.profile==='tapered'?bd:d;
-  if(p.bottom)box('Bottom',w+2*t,plate,sillDepth,0,-plate/2,sillDepth/2);
+   if(p.bottom){if(c.roundedEnds)add('Bottom',roundedTop(w+2*t,sillDepth,plate,true,true),0,0,0);else box('Bottom',w+2*t,plate,sillDepth,0,-plate/2,sillDepth/2);}
   if(c.profile==='tapered'){
    const shape=new THREE.Shape();shape.moveTo(0,0);shape.lineTo(bd,0);shape.lineTo(d,h);shape.lineTo(0,h);shape.closePath();
    const side=new THREE.ExtrudeGeometry(shape,{depth:t,bevelEnabled:false});side.rotateY(-Math.PI/2);
