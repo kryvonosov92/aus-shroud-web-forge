@@ -104,10 +104,9 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   if(p.left)box('Left',t,h,d,-w/2-t/2,h/2,d/2);
   if(p.right)box('Right',d,h,t,w/2+d/2,h/2,-rw-t/2);
  }else{
-  if(c.roundedEnds)add('Top',roundedTop(w+2*t,d,plate,true,true),0,h+plate,0);
-  else box('Top',w+2*t,plate,d,0,h+plate/2,d/2);
+  box('Top',w+2*t,plate,d,0,h+plate/2,d/2);
   const sillDepth=c.profile==='tapered'?bd:d;
-   if(p.bottom){if(c.roundedEnds)add('Bottom',roundedTop(w+2*t,sillDepth,plate,true,true),0,0,0);else box('Bottom',w+2*t,plate,sillDepth,0,-plate/2,sillDepth/2);}
+   if(p.bottom)box('Bottom',w+2*t,plate,sillDepth,0,-plate/2,sillDepth/2);
   if(c.profile==='tapered'){
    const shape=new THREE.Shape();shape.moveTo(0,0);shape.lineTo(bd,0);shape.lineTo(d,h);shape.lineTo(0,h);shape.closePath();
    const side=new THREE.ExtrudeGeometry(shape,{depth:t,bevelEnabled:false});side.rotateY(-Math.PI/2);
