@@ -52,6 +52,7 @@ function addDimensions(model:THREE.Group,c:Config):Label[]{
  dim(new THREE.Vector3(-w/2,-gap,d+.025),new THREE.Vector3(w/2,-gap,d+.025),`${c.profile==='round'?'Ø ':''}${c.width.toLocaleString()}${c.profile==='round'?' INTERNAL':' W'}`);
  if(c.profile!=='hood'&&c.profile!=='round')dim(new THREE.Vector3(-w/2-gap,0,d+.025),new THREE.Vector3(-w/2-gap,h,d+.025),`${c.height.toLocaleString()} H`,true);
  dim(new THREE.Vector3(w/2+gap,h+gap,0),new THREE.Vector3(w/2+gap,h+gap,d),`${c.depth} D`);
+ if(c.profile==='hood'&&c.hoodCorner){const rw=c.returnWidth/1000;dim(new THREE.Vector3(w/2+d+gap,h+gap,0),new THREE.Vector3(w/2+d+gap,h+gap,-rw),`${c.returnWidth} RETURN`);}
  return labels;
 }
 function drawLabels(ctx:CanvasRenderingContext2D,labels:Label[],model:THREE.Group,camera:THREE.Camera,width:number,height:number){

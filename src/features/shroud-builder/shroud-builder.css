@@ -26,7 +26,7 @@
 
 @media(max-width:420px){.shroud-builder .panel-switches label{flex-direction:column;align-items:flex-start;gap:8px}}
 
-.shroud-builder .panel-switches.single-panel{grid-template-columns:110px}
+.shroud-builder .panel-switches.single-panel{grid-template-columns:minmax(0,1fr)}
 
 /* AWS website branding: Inter, charcoal controls and the original vector logo. */
 .shroud-builder,.shroud-builder .dark{--foreground:#111317;--primary:#424242;--primary-foreground:#fafafa;--muted:#f0f1f4;--muted-foreground:#737b8c;--accent:#dadee7;--accent-foreground:#1b2632;--ring:#616161;}

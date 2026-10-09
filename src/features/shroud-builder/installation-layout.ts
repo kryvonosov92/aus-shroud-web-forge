@@ -31,9 +31,10 @@ export function flangeFixingLayout(c:Config){
   const length=r*Math.abs(end-start),n=Math.max(closed?4:2,Math.ceil(length/FIXING_MAX_PITCH));
   runs.push({name,closed,pitch:length/n,points:Array.from({length:n+(closed?0:1)},(_,i)=>({x:r*Math.cos(start+(end-start)*i/n),y:cy+r*Math.sin(start+(end-start)*i/n),face:'front'}))});
  };
- if(c.profile==='hood'){
-  const end=Math.min(30,w/4);line('Head',-w/2+end,h+o,w/2-end,h+o);
- }else if(c.profile==='round'){
+  if(c.profile==='hood'){
+   const end=Math.min(30,w/4);line('Head',-w/2+end,h+o,w/2-end,h+o);
+   if(c.hoodCorner)line('Head return',FIXING_OFFSET,h+o,c.returnWidth+o,h+o,'return',true);
+  }else if(c.profile==='round'){
   arc('Circular flange',w/2+o,w/2,0,Math.PI*2,true);
  }else if(c.profile==='curved'){
   const a=archContour(c,o);
