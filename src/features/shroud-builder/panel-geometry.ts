@@ -116,13 +116,17 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    if(p.right)box('Right',t,h,d,w/2+t/2,h/2,d/2);
   }
   if(c.profile==='modular'){
-   // Stepped external corner joiners run the full depth where the head/sill meets each jamb.
-   const leg=0.025,jt=0.003,step=0.012,ox=w/2+t;
+   // Stepped internal corner joiners (per AWS detail): a double-step angle seated in the
+   // inside corner where head/sill meets each jamb, running the full depth and
+   // standing 2 mm proud of the front edge so the stepped profile reads at the face.
+   const mm=(v:number)=>v/1000;
+   const profile:[number,number][]=[[0,0],[30,0],[30,-3],[18,-3],[18,-6],[6,-6],[6,-18],[3,-18],[3,-30],[0,-30]];
    const joiner=(name:string,sx:number,top:boolean)=>{
-    const sy=top?1:-1,y0=top?h+plate:-plate;
-    box(name,leg,jt,d,sx*(ox-leg/2),y0+sy*jt/2,d/2);
-    box(name,jt,leg,d,sx*(ox+jt/2),y0+sy*(jt-leg/2),d/2);
-    box(name,step,jt,d,sx*(ox+jt-step/2+jt),y0+sy*(jt+jt/2),d/2);
+    const sy=top?1:-1,shape=new THREE.Shape();
+    profile.forEach(([x,y],i)=>{const px=-sx*mm(x),py=sy*mm(y);i?shape.lineTo(px,py):shape.moveTo(px,py);});
+    shape.closePath();
+    const g=new THREE.ExtrudeGeometry(shape,{depth:d+0.002,bevelEnabled:false});
+    add(name,g,sx*w/2,top?h:0,0);
    };
    if(p.left)joiner('Corner joiner top left',-1,true);
    if(p.right)joiner('Corner joiner top right',1,true);
