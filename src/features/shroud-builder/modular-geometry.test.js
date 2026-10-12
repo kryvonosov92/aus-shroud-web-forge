@@ -62,8 +62,9 @@ test('both bottom F slot walls hug the sill with the same 6.8 mm clearance as th
   const ys=[];
   for(let i=0;i<points.count;i++)if(Math.abs(points.getZ(i))<1e-7)ys.push(points.getY(i)*1000);
   const levels=[...new Set(ys.map(y=>Math.round(y*1000)/1000))].sort((a,b)=>a-b);
-  // The receiving slot lies between levels 1 and 2 of the rotated F.
-  const lower=levels[1],upper=levels[2];
+  // The receiving channel runs from the spine (x=8.8) to the wall (x=2).
+  // After rotation those boundaries are levels 2 and 3.
+  const lower=levels[2],upper=levels[3];
   const plateBottom=top?c.height:-plate,plateTop=top?c.height+plate:0;
   expect(upper-lower).toBeCloseTo(6.8,2);
   expect((lower+upper)/2).toBeCloseTo((plateBottom+plateTop)/2,2);
