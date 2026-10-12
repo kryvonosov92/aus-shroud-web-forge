@@ -1,7 +1,7 @@
 import {expect,test} from 'bun:test';
 import * as THREE from 'three';
 import {createPanelBody} from './panel-geometry';
-import {initial,selectProfile,FALL_SLOPE} from './shroud-model';
+import {initial,selectProfile,FALL_SLOPE,THICKNESS,FALL_DEGREES} from './shroud-model';
 
 test('modular corner profiles measure 18.9 by 18.9 mm, not the frame width',()=>{
  const c=selectProfile(initial,'modular'),mat=new THREE.MeshStandardMaterial();
@@ -42,9 +42,34 @@ test('bottom F extrusion matches the top profile, hugging the shroud the same wa
  const normalised=bottom.map(([x,y])=>`${x},${y-dy}`).sort();
  const reference=top.map(([x,y])=>`${x},${y}`).sort();
  expect(normalised).toEqual(reference);
+  const plate=THICKNESS/Math.cos(FALL_DEGREES*Math.PI/180);
+  expect(dy/1000).toBeCloseTo(-c.height-plate,3);
  // And it hugs the shroud width exactly like the top one.
  const xs=bottom.map(([x])=>x/1000);
  expect(Math.max(...xs)).toBeCloseTo(c.width/2+6,3);
  expect(Math.max(...xs)-Math.min(...xs)).toBeCloseTo(18.9,3);
+ group.traverse(o=>{if(o instanceof THREE.Mesh)o.geometry.dispose();});mat.dispose();
+});
+
+test('both bottom F slot walls hug the sill with the same 6.8 mm clearance as the head',()=>{
+ const c=selectProfile(initial,'modular'),mat=new THREE.MeshStandardMaterial();
+ const group=createPanelBody(c,mat);
+ const plate=THICKNESS/Math.cos(FALL_DEGREES*Math.PI/180);
+ for(const side of ['left','right'])for(const top of [true,false]){
+  const mesh=group.getObjectByName(`Corner joiner ${top?'top':'bottom'} ${side} panel`);
+  expect(mesh).toBeInstanceOf(THREE.Mesh);
+  const points=mesh.geometry.getAttribute('position');
+  const ys=[];
+  for(let i=0;i<points.count;i++)if(Math.abs(points.getZ(i))<1e-7)ys.push(points.getY(i)*1000);
+  const levels=[...new Set(ys.map(y=>Math.round(y*1000)/1000))].sort((a,b)=>a-b);
+  // The receiving channel runs from the spine (x=8.8) to the wall (x=2).
+  // After rotation those boundaries are levels 2 and 3.
+  const lower=levels[2],upper=levels[3];
+  const plateBottom=top?c.height:-plate,plateTop=top?c.height+plate:0;
+  expect(upper-lower).toBeCloseTo(6.8,2);
+  expect((lower+upper)/2).toBeCloseTo((plateBottom+plateTop)/2,2);
+  expect(plateBottom-lower).toBeCloseTo((6.8-plate)/2,2);
+  expect(upper-plateTop).toBeCloseTo((6.8-plate)/2,2);
+ }
  group.traverse(o=>{if(o instanceof THREE.Mesh)o.geometry.dispose();});mat.dispose();
 });

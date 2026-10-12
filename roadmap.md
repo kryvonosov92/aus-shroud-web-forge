@@ -1,4 +1,5 @@
 # Current tasks
+- [x] Align the bottom modular F-slot around the sill thickness, matching the top fitting, and verify both corners.
 - [x] Keep extrusion and last louver below the sloped shroud head, and contain blades/extrusions at zero offset.
 - [x] Reveal the 40 mm louver extrusions when viewing the model from either side; verify side views.
 - [x] Correct rectangular louver extrusions and conceal inserted blade ends; verify geometry and preview.

@@ -128,9 +128,9 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
      [spine+WT,mid+WT/2],[spine+WT,LEG],[spine,LEG],
      [spine,WT],[WT,WT],[WT,LEG],[0,LEG],
     ];
-    // One cross-section for every corner: the head/jamb orientation, mirrored
-     // vertically at the sill so the bottom fitting hugs the shroud exactly like
-     // the top one. Channel opens toward the frame interior in both cases.
+     // Identical F cross-section at every corner. Centre each receiving slot
+     // on its horizontal plate: the head centre is h + plate/2, the sill
+     // centre is -plate/2. Negating the entire top offset raises the sill slot.
     const joiner=(side:number,top:boolean)=>{
      const f=new THREE.Shape();
      pts.forEach(([x,y],i)=>{
@@ -140,7 +140,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
       });
      f.closePath();
      const x=side*(w/2+t);
-     const y=top?h+plate/2-LEG+slotCenter:-(plate/2-LEG+slotCenter);
+      const y=(top?h+plate/2:-plate/2)-LEG+slotCenter;
 
      add(`Corner joiner ${top?'top':'bottom'} ${side<0?'left':'right'}`,
       new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),x,y);
