@@ -47,9 +47,12 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
       const points=run(bottom?'Curved sill':'Curved head');
       // Subdivide long planar edges before bending; triangulate the strip in short spans.
       const vertices:number[]=[];
-      const cuts=new Set([-t,total/mm+t]);
-      for(let x=20;x<total/mm;x+=20)if(!points.some(p=>Math.abs((p.distance??0)-x)<6))cuts.add(x);
-      for(const point of points)for(const x of [(point.distance??0)-5,(point.distance??0)+5])if(x>-t&&x<total/mm+t)cuts.add(x);
+      // Extend past both path ends by the flange width so the strip wraps over
+      // the jamb flanges and the corner reads as one continuous frame.
+      const end=-t-fl,stop=total/mm+t+fl;
+      const cuts=new Set([end,stop]);
+      for(let x=end+20;x<stop;x+=20)if(!points.some(p=>Math.abs((p.distance??0)-x)<6))cuts.add(x);
+      for(const point of points)for(const x of [(point.distance??0)-5,(point.distance??0)+5])if(x>end&&x<stop)cuts.add(x);
       const boundaries=[...cuts].sort((a,b)=>a-b);
       for(let i=0;i<boundaries.length-1;i++){
        const start=boundaries[i],end=boundaries[i+1];
