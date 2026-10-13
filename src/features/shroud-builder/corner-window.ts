@@ -2,17 +2,35 @@ import * as THREE from 'three';
 import {Config} from './shroud-model';
 
 /** A tangent quarter-circle joining the two rear glazing planes, in metres. */
-export function cornerWindowPath(c:Config){
+export function cornerPlanPath(c:Config,offset=0,endExtension=0){
  const w=c.width/1000,rw=c.returnWidth/1000;
- const radius=Math.min(0.6,w*0.45,rw*0.45),rear=0.012;
- const cx=w/2-rear-radius,cz=-rear-radius;
- const points=[new THREE.Vector2(-w/2,-rear)];
+ const baseRadius=Math.min(0.6,w*0.45,rw*0.45),radius=baseRadius+offset;
+ const cx=w/2-baseRadius,cz=-baseRadius;
+ const points=[new THREE.Vector2(-w/2-endExtension,offset)];
  for(let i=0;i<=64;i++){
   const angle=Math.PI/2-i*Math.PI/128;
   points.push(new THREE.Vector2(cx+radius*Math.cos(angle),cz+radius*Math.sin(angle)));
  }
- points.push(new THREE.Vector2(w/2-rear,-rw));
+ points.push(new THREE.Vector2(w/2+offset,-rw-endExtension));
  return {points,radius,center:new THREE.Vector2(cx,cz)};
+}
+export function cornerWindowPath(c:Config){return cornerPlanPath(c,-0.012);}
+
+/** Plan strip, shared by the horizontal shroud and curved timber bands. */
+export function cornerPlanStrip(c:Config,innerOffset:number,outerOffset:number,thickness:number,endExtension=0){
+ const inner=cornerPlanPath(c,innerOffset,endExtension).points;
+ const outer=cornerPlanPath(c,outerOffset,endExtension).points;
+ const shape=new THREE.Shape([...inner,...outer.reverse()]);
+ const geometry=new THREE.ExtrudeGeometry(shape,{depth:thickness,bevelEnabled:false});
+ geometry.rotateX(Math.PI/2);
+ return geometry;
+}
+
+export function cornerProjection(c:Config,x:number,z:number){
+ const {radius,center}=cornerPlanPath(c);
+ if(x<=center.x)return Math.max(0,z);
+ if(z<=center.y)return Math.max(0,x-c.width/2000);
+ return Math.max(0,Math.hypot(x-center.x,z-center.y)-radius);
 }
 
 /** Continuous glass and perimeter rails only: no vertical frame at the bend. */
