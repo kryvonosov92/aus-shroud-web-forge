@@ -1,4 +1,5 @@
 # Current tasks
+- [x] Match the latest modular corner reference, invert the bottom fittings, and verify panel insertion and the 3D preview.
 - [x] Align the bottom modular F-slot around the sill thickness, matching the top fitting, and verify both corners.
 - [x] Keep extrusion and last louver below the sloped shroud head, and contain blades/extrusions at zero offset.
 - [x] Reveal the 40 mm louver extrusions when viewing the model from either side; verify side views.
