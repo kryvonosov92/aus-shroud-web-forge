@@ -1,4 +1,5 @@
 # Current tasks
+- [x] Move Corner Shroud projection depth above the Corner options in "Set the dimensions"; verify field order in preview.
 - [x] Add Corner Shroud rounded corner control for top and bottom panels; verify geometry, preview and PDF.
 - [x] Match the latest modular corner reference, invert the bottom fittings, and verify panel insertion and the 3D preview.
 - [x] Align the bottom modular F-slot around the sill thickness, matching the top fitting, and verify both corners.
