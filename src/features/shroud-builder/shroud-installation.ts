@@ -53,7 +53,15 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
       const boundaries=[...cuts].sort((a,b)=>a-b);
       for(let i=0;i<boundaries.length-1;i++){
        const start=boundaries[i],end=boundaries[i+1];
-       const strip=rect(start,bottom?-t-fl:h+t,end,bottom?0:h+t+fl);
+       // Sample the long edges every few mm so bending follows the arc and
+       // neighbouring strips meet at shared points — no wedge gaps at the joins.
+       const y0=bottom?-t-fl:h+t,y1=bottom?0:h+t+fl;
+       const strip=new THREE.Shape();strip.moveTo(start*mm,y0*mm);
+       const steps=Math.max(1,Math.ceil((end-start)/5));
+       for(let s=1;s<=steps;s++)strip.lineTo((start+(end-start)*s/steps)*mm,y0*mm);
+       strip.lineTo(end*mm,y1*mm);
+       for(let s=steps-1;s>=0;s--)strip.lineTo((start+(end-start)*s/steps)*mm,y1*mm);
+       strip.closePath();
        for(const point of points)if((point.distance??0)>start+PREVIEW_HOLE_DIAMETER/2&&(point.distance??0)<end-PREVIEW_HOLE_DIAMETER/2)strip.holes.push(hole(point.distance??0,point.y,PREVIEW_HOLE_DIAMETER/2));
        const part=new THREE.ExtrudeGeometry(strip,{depth:t*mm,bevelEnabled:false});
        const positions=part.getAttribute('position');
