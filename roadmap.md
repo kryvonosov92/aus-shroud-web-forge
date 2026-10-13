@@ -1,4 +1,5 @@
 # Current tasks
+- [x] Default the Corner Shroud to rounded corner off when the profile is selected; verify in preview.
 - [x] Make curved Corner Shroud glass, inner/outer panels, fixing surround and timber follow one profile; verify preview and PDF.
 - [x] Rename Corner Shroud edge rounding and add independent curved corner glazing without a corner post; verify preview and exports.
 - [x] Move Hood projection depth above the Corner canopy and Ends options in "Set the dimensions"; verify field order in preview.
