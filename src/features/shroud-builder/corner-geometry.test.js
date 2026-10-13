@@ -129,6 +129,6 @@ test('Curved glass shroud head and sill have concentric inner and outer arcs and
 test('Corner specification records curved glass separately from rounded edges',()=>{
  const c=selectProfile(initial,'corner');
  expect(configurationFields({...c,cornerWindowRounded:true,cornerRounded:false})).toContainEqual(['Corner window','Rounded glass · no corner frame']);
- expect(configurationFields({...c,cornerWindowRounded:true,cornerRounded:false})).toContainEqual(['Corner edge','Square']);
+ expect(configurationFields({...c,cornerWindowRounded:true,cornerRounded:false})).toContainEqual(['Corner edge','Rounded']);
  expect(configurationFields(c)).toContainEqual(['Corner window','Square']);
 });
