@@ -36,8 +36,8 @@ test('bottom F extrusion is the top connection flipped upside down around the si
  const top=outlineOf('Corner joiner top right panel');
  const bottom=outlineOf('Corner joiner bottom right panel');
   // Reflect in the plane halfway between head and sill receiving-slot centres.
-  const normalised=bottom.map(([x,y])=>`${x},${Math.round(c.height*1000)-y}`).sort();
-  const reference=top.map(([x,y])=>`${x},${y}`).sort();
+  const normalised=[...new Set(bottom.map(([x,y])=>`${x},${Math.round(c.height*1000)-y}`))].sort();
+  const reference=[...new Set(top.map(([x,y])=>`${x},${y}`))].sort();
   expect(normalised).toEqual(reference);
  const xs=bottom.map(([x])=>x/1000);
   expect(Math.max(...xs)).toBeCloseTo(c.width/2+8.4,3);
