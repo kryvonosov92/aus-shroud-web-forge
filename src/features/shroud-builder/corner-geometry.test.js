@@ -132,3 +132,11 @@ test('Corner specification records curved glass separately from rounded edges',(
  expect(configurationFields({...c,cornerWindowRounded:true,cornerRounded:false})).toContainEqual(['Corner edge','Rounded']);
  expect(configurationFields(c)).toContainEqual(['Corner window','Square']);
 });
+test('Selecting the Corner Shroud defaults the rounded corner to off',()=>{
+ const fromHood=selectProfile({...initial,profile:'hood',hoodCorner:true,hoodCornerRounded:true},'corner');
+ expect(fromHood.cornerWindowRounded).toBe(false);
+ const reselected=selectProfile({...selectProfile(initial,'corner'),cornerWindowRounded:true,cornerRounded:true},'corner');
+ expect(reselected.cornerWindowRounded).toBe(false);
+ expect(reselected.cornerRounded).toBe(true);
+ expect(initial.cornerWindowRounded).toBe(false);
+});
