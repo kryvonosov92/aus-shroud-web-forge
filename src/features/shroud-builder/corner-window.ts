@@ -16,6 +16,19 @@ export function cornerPlanPath(c:Config,offset=0,endExtension=0){
 }
 export function cornerWindowPath(c:Config){return cornerPlanPath(c,-0.012);}
 
+export function cornerPathLengths(c:Config){
+ const {radius,center}=cornerPlanPath(c);
+ const front=center.x+c.width/2000,arc=radius*Math.PI/2,ret=c.returnWidth/1000+center.y;
+ return {front,arc,ret,total:front+arc+ret};
+}
+export function cornerPointAt(c:Config,distance:number){
+ const {radius,center}=cornerPlanPath(c),{front,arc}=cornerPathLengths(c);
+ if(distance<=front)return {x:-c.width/2000+distance,z:0,angle:0};
+ if(distance>=front+arc)return {x:c.width/2000,z:center.y-(distance-front-arc),angle:Math.PI/2};
+ const angle=(distance-front)/radius;
+ return {x:center.x+radius*Math.sin(angle),z:center.y+radius*Math.cos(angle),angle};
+}
+
 /** Plan strip, shared by the horizontal shroud and curved timber bands. */
 export function cornerPlanStrip(c:Config,innerOffset:number,outerOffset:number,thickness:number,endExtension=0){
  const inner=cornerPlanPath(c,innerOffset,endExtension).points;

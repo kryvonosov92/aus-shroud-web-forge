@@ -1,4 +1,5 @@
 import {Config, THICKNESS, archContour, includedPanels, hasPanelOptions} from './shroud-model';
+import {cornerPathLengths,cornerPointAt} from './corner-window';
 
 export const STUD_FACE = 45;
 export const STUD_DEPTH = 90;
@@ -6,7 +7,7 @@ export const FIXING_MAX_PITCH = 250;
 export const FIXING_OFFSET = STUD_FACE / 2;
 export const PREVIEW_HOLE_DIAMETER = 7;
 export type FixingFace = 'front' | 'return';
-export type FixingPoint = {x:number;y:number;face:FixingFace};
+export type FixingPoint = {x:number;y:number;face:FixingFace;z?:number;angle?:number;distance?:number};
 export type FixingRun = {name:string;points:FixingPoint[];pitch:number;closed:boolean};
 
 /** Equal centres including both ends; ceiling keeps every interval <= maximum. */
@@ -43,9 +44,21 @@ export function flangeFixingLayout(c:Config){
   if(p.right&&a.springY>0)line('Right jamb',a.halfWidth,0,a.halfWidth,a.springY,'front',true);
   arc('Arch',a.radius,a.centerY,a.startAngle,a.endAngle,false,true);
  }else if(c.profile==='corner'){
+   if(c.cornerWindowRounded){
+    const total=cornerPathLengths(c).total*1000;
+    for(const [name,y] of [['Curved head',h+o],...(p.bottom?[['Curved sill',-o]]:[])] as [string,number][]){
+     const centres=equalCentres(0,total);
+     runs.push({name,closed:false,pitch:centres.pitch,points:centres.positions.map(distance=>{
+      const q=cornerPointAt(c,distance/1000);return {x:q.x*1000,y,z:q.z*1000,angle:q.angle,distance,face:'front'};
+     })});
+    }
+    if(p.left)line('Jamb A',-w/2-o,0,-w/2-o,h,'front',true);
+    if(p.right)line('Jamb B',c.returnWidth+o,0,c.returnWidth+o,h,'return',true);
+   }else{
   const left=-w/2-o,right=w/2-FIXING_OFFSET,far=c.returnWidth+o;
   line('Head A',left,h+o,right,h+o,'front',true);if(p.bottom)line('Sill A',left,-o,right,-o,'front',true);if(p.left)line('Jamb A',left,0,left,h,'front',true);
   line('Head B',FIXING_OFFSET,h+o,far,h+o,'return',true);if(p.bottom)line('Sill B',FIXING_OFFSET,-o,far,-o,'return',true);if(p.right)line('Jamb B',far,0,far,h,'return',true);
+   }
  }else if(hasPanelOptions(c.profile)){
   const left=-w/2-o,right=w/2+o;
   line('Head',left,h+o,right,h+o,'front',true);if(p.bottom)line('Sill',left,-o,right,-o,'front',true);
@@ -55,6 +68,6 @@ export function flangeFixingLayout(c:Config){
   line('Head',left,h+o,right,h+o);line('Sill',left,-o,right,-o);line('Left jamb',left,-o,left,h+o);line('Right jamb',right,-o,right,h+o);
  }
  const unique=new Map<string,FixingPoint>();
- for(const run of runs)for(const p of run.points)unique.set(`${p.face}:${p.x.toFixed(5)}:${p.y.toFixed(5)}`,p);
+ for(const run of runs)for(const p of run.points)unique.set(`${p.face}:${p.x.toFixed(5)}:${p.y.toFixed(5)}:${p.z?.toFixed(5)??''}`,p);
  return {runs,points:[...unique.values()],maxPitch:Math.max(0,...runs.map(r=>r.pitch))};
 }

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {Config, THICKNESS, archContour, includedPanels, hasPanelOptions} from './shroud-model';
 import {archPanelShapes} from './arch-geometry';
+import {cornerPlanPath,cornerPlanStrip,cornerPathLengths,cornerPointAt} from './corner-window';
 import {STUD_FACE, STUD_DEPTH, PREVIEW_HOLE_DIAMETER, FixingFace, flangeFixingLayout, equalCentres} from './installation-layout';
 
 const mm=0.001;
@@ -40,6 +41,36 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
    const shapes=archPanelShapes(c,t+fl);flange(shapes.head,run('Arch'));
    if(p.left)flange(shapes.left,run('Left jamb'));if(p.bottom)flange(shapes.bottom,run('Sill'));if(p.right)flange(shapes.right,run('Right jamb'));
   }else if(c.profile==='corner'){
+    if(c.cornerWindowRounded){
+     const total=cornerPathLengths(c).total;
+     const curvedFlange=(bottom:boolean)=>{
+      const shape=rect(-t,bottom?-t-fl:h+t,total/mm+t,bottom?0:h+t+fl);
+      const points=run(bottom?'Curved sill':'Curved head');
+      for(const point of points)shape.holes.push(hole(point.distance??0,point.y,PREVIEW_HOLE_DIAMETER/2));
+      const geo=new THREE.ExtrudeGeometry(shape,{depth:t*mm,steps:1,bevelEnabled:false});
+      // Subdivide long planar edges before bending; triangulate the strip in short spans.
+      const vertices:number[]=[];
+      const segments=Math.ceil(total/0.025);
+      for(let i=0;i<segments;i++){
+       const start=-t+(total/mm+2*t)*i/segments,end=-t+(total/mm+2*t)*(i+1)/segments;
+       const strip=rect(start,bottom?-t-fl:h+t,end,bottom?0:h+t+fl);
+       for(const point of points)if((point.distance??0)>start+PREVIEW_HOLE_DIAMETER/2&&(point.distance??0)<end-PREVIEW_HOLE_DIAMETER/2)strip.holes.push(hole(point.distance??0,point.y,PREVIEW_HOLE_DIAMETER/2));
+       const part=new THREE.ExtrudeGeometry(strip,{depth:t*mm,bevelEnabled:false});
+       const positions=part.getAttribute('position');
+       for(let j=0;j<positions.count;j++){
+        const q=cornerPointAt(c,positions.getX(j)),depth=positions.getZ(j)-t*mm;
+        vertices.push(q.x+depth*Math.sin(q.angle),positions.getY(j),q.z+depth*Math.cos(q.angle));
+       }
+       part.dispose();
+      }
+      geo.dispose();
+      const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geometry.computeVertexNormals();
+      const mesh=new THREE.Mesh(geometry,material);mesh.name=bottom?'Curved sill fixing flange':'Curved head fixing flange';flanges.add(mesh);
+     };
+     curvedFlange(false);if(p.bottom)curvedFlange(true);
+     if(p.left)flange(rect(-w/2-t-fl,0,-w/2-t,h+t),run('Jamb A'));
+     if(p.right)flange(rect(c.returnWidth+t,0,c.returnWidth+t+fl,h+t),run('Jamb B'),'return');
+    }else{
    for(const face of ['front','return'] as const){
     const a=face==='front'?-w/2-t-fl:0,b=face==='front'?w/2-t:c.returnWidth+t+fl;
     const pts=layout.points.filter(p=>p.face===face);
@@ -48,6 +79,7 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
      if(p.bottom)flange(rect(a,-t-fl,b,0),pts.filter(p=>p.y<0),face);
     if(face==='front'?p.left:p.right)flange(rect(face==='front'?a:b-fl,0,face==='front'?a+fl:b,h+t),pts.filter(p=>p.y>=0&&p.y<=h),face);
    }
+    }
   }else if(hasPanelOptions(c.profile)){
    const a=-w/2-t-fl,b=w/2+t+fl;
    flange(rect(a,h+t,b,h+t+fl),run('Head'));
@@ -70,7 +102,7 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
   for(const p of layout.points){
    const screw=new THREE.Group();screw.name='Illustrative flange screw';
    for(const geo of [shaft,tip,head]){const part=new THREE.Mesh(geo,steel);part.userData.embedded=geo!==head;screw.add(part);}screw.add(new THREE.LineSegments(cross,slotMat));
-   if(p.face==='front')screw.position.set(p.x*mm,p.y*mm,0);else{screw.rotation.y=Math.PI/2;screw.position.set(w/2*mm,p.y*mm,-p.x*mm);}screws.add(screw);
+    if(p.z!==undefined){screw.rotation.y=p.angle??0;screw.position.set(p.x*mm,p.y*mm,p.z*mm);}else if(p.face==='front')screw.position.set(p.x*mm,p.y*mm,0);else{screw.rotation.y=Math.PI/2;screw.position.set(w/2*mm,p.y*mm,-p.x*mm);}screws.add(screw);
   }
  }
  if(options.studWall){
@@ -113,11 +145,37 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
    }
   };
   if(c.profile==='corner'){
+    if(c.cornerWindowRounded){
+     const {radius,center}=cornerPlanPath(c),cx=center.x/mm,returnStart=radius/mm;
+     frame(-w/2-t,cx,-t,h+t,'front',-Infinity,cx,'right');
+     frame(returnStart,c.returnWidth+t,-t,h+t,'return',returnStart,Infinity,'left');
+     const curveTimber=new THREE.Group();curveTimber.name='Curved corner timber frame';timber.add(curveTimber);
+     // Laminated/segmented curved bands follow the glazing; no post through the opening.
+     for(const y of [h+t+STUD_FACE,h+t+2*STUD_FACE,-t,-t-STUD_FACE,h+t+350,-t-350+STUD_FACE]){
+      const full=cornerPlanStrip(c,-(t+STUD_DEPTH)*mm,-t*mm,STUD_FACE*mm);
+      // Retain only the arc section; straight timber already meets its tangent ends.
+      full.dispose();
+      const shape=new THREE.Shape();
+      const inner=radius-(t+STUD_DEPTH)*mm,outer=radius-t*mm;
+      shape.absarc(center.x,center.y,outer,0,Math.PI/2,false);
+      shape.absarc(center.x,center.y,inner,Math.PI/2,0,true);shape.closePath();
+      const geometry=new THREE.ExtrudeGeometry(shape,{depth:STUD_FACE*mm,bevelEnabled:false,curveSegments:64});geometry.rotateX(Math.PI/2);
+      const beam=new THREE.Mesh(geometry,pine[index++%pine.length]);beam.name='Curved 90 x 45 pine band';beam.position.y=y*mm;curveTimber.add(beam);
+     }
+     for(let i=0;i<=8;i++){
+      const angle=i*Math.PI/16,rad=radius-(t+STUD_DEPTH/2)*mm;
+      for(const [low,high] of [[h+t+2*STUD_FACE,h+t+350-STUD_FACE],[-t-350+STUD_FACE,-t-2*STUD_FACE]]){
+       const stud=new THREE.Mesh(new THREE.BoxGeometry(STUD_FACE*mm,(high-low)*mm,STUD_DEPTH*mm),pine[index++%pine.length]);
+       stud.rotation.y=Math.PI/2-angle;stud.position.set(center.x+rad*Math.cos(angle),(low+high)/2*mm,center.y+rad*Math.sin(angle));stud.name='Curved wall short stud';curveTimber.add(stud);
+      }
+     }
+    }else{
    // An open corner window has no full-height pine post through the glazing.
    // Butt the two 90 mm-deep walls together and keep timber behind both flanges.
    // This removes intersecting/coplanar wood faces at the head and sill corner.
    frame(-w/2-t,w/2,-t,h+t,'front',-Infinity,w/2-t-STUD_DEPTH,'right');
    frame(0,c.returnWidth+t,-t,h+t,'return',t,Infinity,'left');
+    }
   }else if(c.profile==='round'){
    const r=w/2+t;frame(-r-STUD_FACE,r+STUD_FACE,-t-STUD_FACE,h+t+STUD_FACE);arcBacking(r,w/2,0,2*Math.PI);
   }else if(c.profile==='curved'){
