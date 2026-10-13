@@ -15,7 +15,7 @@ export function configurationFields(c:Config):Field[]{
  const fields:Field[]=[];
  if(c.profile==='round')fields.push(['Internal diameter',mm(c.width)],['Internal radius',mm(c.internalRadius)]);
  else fields.push([c.profile==='corner'?'Internal width A':c.profile==='hood'?'Clear canopy span':'Internal width',mm(c.width)],[c.profile==='hood'?'Window height (reference)':c.profile==='louvered'?'Internal Height':'Internal height',mm(c.height)]);
- if(c.profile==='corner')fields.push(['Internal return width B',mm(c.returnWidth)]);
+  if(c.profile==='corner')fields.push(['Internal return width B',mm(c.returnWidth)],['Corner shape',c.cornerRounded?'Rounded':'Square']);
  if(c.profile==='curved'){const a=archContour(c);fields.push(['Internal radius',mm(c.internalRadius)],['Arch rise / straight jamb',`${mm(a.rise)} / ${mm(a.springY)}`]);}
  fields.push([c.profile==='tapered'?'Head depth':'Projection depth',mm(c.depth)],['Material thickness',mm(THICKNESS)],['Drainage fall',fallDescription(c)]);
  if(c.profile==='tapered')fields.push(['Sill / lower side depth',mm(c.bottomDepth)]);
