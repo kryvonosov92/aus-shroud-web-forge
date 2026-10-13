@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {Config,THICKNESS,FALL_SLOPE,FALL_DEGREES,includedPanels,hoodStiffenerLayout} from './shroud-model';
 import {archPanelShapes} from './arch-geometry';
+import {cornerPlanStrip,cornerProjection} from './corner-window';
 
 /** Independent plates. Internal dimensions are measured at the rear fixing plane. */
 export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edges?:THREE.LineBasicMaterial){
@@ -16,7 +17,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    const px=positions.getX(i),py=positions.getY(i),pz=positions.getZ(i);
    // A rounded corner falls radially from the wall corner, so its curved
    // front edge holds the same 3° fall as the straight canopies it joins.
-   const projection=radial?Math.hypot(Math.max(0,px-w/2),Math.max(0,pz)):c.profile==='corner'||(c.profile==='hood'&&c.hoodCorner)?Math.max(0,pz,px-w/2):Math.max(0,pz);
+    const projection=c.profile==='corner'&&c.cornerWindowRounded?cornerProjection(c,px,pz):radial?Math.hypot(Math.max(0,px-w/2),Math.max(0,pz)):c.profile==='corner'||(c.profile==='hood'&&c.hoodCorner)?Math.max(0,pz,px-w/2):Math.max(0,pz);
     // The sill's upper face falls from y=0 at the rear. Jambs must follow
     // that face at their lower edge, rather than exposing an open wedge.
     const sillJamb=name==='Left'||name==='Right';
@@ -89,6 +90,12 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   for(const key of ['head','left','right'] as const)add(key==='head'?'Top':key[0].toUpperCase()+key.slice(1),new THREE.ExtrudeGeometry(shapes[key],{depth:d,steps:Math.max(1,Math.ceil(d/.06)),bevelEnabled:false,curveSegments:80}),0,0,0,false);
   if(p.bottom)box('Bottom',w+2*t,plate,d,0,-plate/2,d/2);
  }else if(c.profile==='corner'){
+   if(c.cornerWindowRounded){
+    const head=cornerPlanStrip(c,0,d,plate,t);
+    add('Top',head.clone(),0,h+plate,0,false);
+    if(p.bottom)add('Bottom',head.clone(),0,0,0,false);
+    head.dispose();
+   }else{
   // Two planes meet on the diagonal hip. Explicit triangles preserve the crease;
   // only the outside perimeter has thickness faces, so no doubled corner seam.
    const arc=c.cornerRounded?Array.from({length:65},(_,i)=>{const angle=i*Math.PI/128;return [w/2+d*Math.cos(angle),d*Math.sin(angle)];}):[];
@@ -107,6 +114,7 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    add('Top',head.clone(),0,h,0,!c.cornerRounded,!!c.cornerRounded);
    if(p.bottom)add('Bottom',head.clone(),0,-plate,0,!c.cornerRounded,!!c.cornerRounded);
   head.dispose();
+   }
   if(p.left)box('Left',t,h,d,-w/2-t/2,h/2,d/2);
   if(p.right)box('Right',d,h,t,w/2+d/2,h/2,-rw-t/2);
  }else{

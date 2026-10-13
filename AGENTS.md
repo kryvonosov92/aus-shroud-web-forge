@@ -1,6 +1,6 @@
 # Project architecture
-- Build Corner Shroud rounded head and sill from the same quarter-circle plan geometry with radial drainage fall; this keeps the preview and perspective exports consistent without changing the square wall connection.
-- Keep Corner Shroud glazing rounding independent of edge rounding, with a shared tangent glazing path and perimeter rails in `corner-window.ts`; live and exported scenes must show the same continuous glass without a bend mullion.
+- Build Corner Shroud head and sill from shared plan paths with normal drainage fall; edge-only rounding retains the square wall connection, while curved glazing requires concentric inner/outer edges.
+- Derive curved Corner Shroud glass, panels, flanges and timber from the shared tangent path in `corner-window.ts`; live and exported scenes must follow one curve without a bend mullion.
 - Build modular joiners from one shared F cross-section with its spine outside the jamb, horizontal slot centred on the head/sill and tail receiving the trimmed jamb; reflect bottom fittings vertically so both live and export geometry show the same unobscured connection.
 - Reveal louver receiving extrusions during side inspection by fading both jambs; keep physical geometry and other views unchanged.
 - Clamp the louver assembly centre to its projected half-depth at offset limits and fit its height below the sloped head; this keeps full-width blades and rectangular extrusions inside the frame in model and exports.

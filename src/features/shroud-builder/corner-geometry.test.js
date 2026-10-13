@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import {createPanelBody} from './panel-geometry';
 import {initial,selectProfile,FALL_SLOPE,FALL_DEGREES,THICKNESS} from './shroud-model';
 import {configurationFields} from './configuration-pdf';
-import {cornerWindowPath} from './corner-window';
+import {cornerWindowPath,cornerPlanPath,cornerProjection} from './corner-window';
 import {createShroudScene,disposeShroudScene} from './shroud-scene';
 
 test('Corner Shroud rounded option rounds both top and bottom at the projection radius',()=>{
@@ -73,14 +73,14 @@ test('Rounded corner glazing is continuous around the bend with no central verti
  }
 });
 
-test('Rounded glass and rounded panel edges are independent options',()=>{
+test('Curved glass forces both panel edges to follow the curve regardless of the edge-only switch',()=>{
  const c=selectProfile(initial,'corner');
  for(const edge of [false,true]){
   const {scene,model}=createShroudScene({...c,cornerRounded:edge,cornerWindowRounded:true},{windowVisible:true,studWallVisible:false,screwsVisible:false},true);
   expect(model.getObjectByName('Rounded corner window')).toBeInstanceOf(THREE.Group);
   const points=model.getObjectByName('Top panel').geometry.getAttribute('position');
   const hasSquareTip=Array.from({length:points.count},(_,i)=>Math.abs(points.getX(i)-(c.width/2+c.depth)/1000)<1e-6&&Math.abs(points.getZ(i)-c.depth/1000)<1e-6).some(Boolean);
-  expect(hasSquareTip).toBe(!edge);
+   expect(hasSquareTip).toBe(false);
   disposeShroudScene(scene);
  }
  const {scene,model}=createShroudScene({...c,cornerWindowRounded:true},{windowVisible:false,studWallVisible:false,screwsVisible:false},true);
@@ -88,9 +88,47 @@ test('Rounded glass and rounded panel edges are independent options',()=>{
  disposeShroudScene(scene);
 });
 
+test('Curved glass shroud head and sill have concentric inner and outer arcs and 3 degree fall',()=>{
+ for(const depth of [300,450,600]){
+  const c={...selectProfile(initial,'corner'),cornerWindowRounded:true,depth};
+  const {scene,model}=createShroudScene(c,{windowVisible:true,studWallVisible:true,screwsVisible:true},true);
+  const {radius,center}=cornerPlanPath(c),plate=THICKNESS/1000/Math.cos(FALL_DEGREES*Math.PI/180);
+  for(const name of ['Top panel','Bottom panel']){
+   const positions=model.getObjectByName(name).geometry.getAttribute('position');
+   let inner=0,outer=0;
+   for(let i=0;i<positions.count;i++){
+    const x=positions.getX(i),z=positions.getZ(i);
+    if(x>center.x+1e-5&&z>center.y+1e-5){
+     const r=Math.hypot(x-center.x,z-center.y);
+     expect(Math.min(Math.abs(r-radius),Math.abs(r-radius-depth/1000))).toBeLessThan(1e-6);
+     if(Math.abs(r-radius)<1e-6)inner++;else outer++;
+    }
+    const restored=positions.getY(i)+cornerProjection(c,x,z)*FALL_SLOPE;
+    const base=name==='Top panel'?c.height/1000:-plate;
+    expect(Math.min(Math.abs(restored-base),Math.abs(restored-base-plate))).toBeLessThan(1e-6);
+   }
+   expect(inner).toBeGreaterThan(60);expect(outer).toBeGreaterThan(60);
+  }
+  const timber=model.getObjectByName('Curved corner timber frame');
+  expect(timber).toBeInstanceOf(THREE.Group);
+  const bands=timber.children.filter(o=>o.name==='Curved 90 x 45 pine band');
+  expect(bands.length).toBe(6);
+  for(const band of bands){
+   const positions=band.geometry.getAttribute('position');
+   for(let i=0;i<positions.count;i++){
+    const r=Math.hypot(positions.getX(i)-center.x,positions.getZ(i)-center.y);
+    expect(Math.min(Math.abs(r-(radius-0.006)),Math.abs(r-(radius-0.096)))).toBeLessThan(1e-6);
+   }
+  }
+  expect(model.getObjectByName('Curved head fixing flange')).toBeInstanceOf(THREE.Mesh);
+  expect(model.getObjectByName('Curved sill fixing flange')).toBeInstanceOf(THREE.Mesh);
+  disposeShroudScene(scene);
+ }
+});
+
 test('Corner specification records curved glass separately from rounded edges',()=>{
  const c=selectProfile(initial,'corner');
  expect(configurationFields({...c,cornerWindowRounded:true,cornerRounded:false})).toContainEqual(['Corner window','Rounded glass · no corner frame']);
- expect(configurationFields({...c,cornerWindowRounded:true,cornerRounded:false})).toContainEqual(['Corner edge','Square']);
+ expect(configurationFields({...c,cornerWindowRounded:true,cornerRounded:false})).toContainEqual(['Corner edge','Rounded']);
  expect(configurationFields(c)).toContainEqual(['Corner window','Square']);
 });
