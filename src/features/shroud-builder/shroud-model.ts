@@ -91,7 +91,7 @@ export function hoodStiffenerLayout(width:number){
 }
 export function validate(c:Config):string[]{
  const e:string[]=[];const l=limits(c);if(!Number.isFinite(c.internalRadius)||c.internalRadius<25||c.internalRadius>MAX_ARCH_RADIUS)e.push('Enter a valid internal radius.'); if(!products.some(p=>p.id===c.profile))e.push('Select a valid profile.');
- for(const key of ['leftPanel','bottomPanel','rightPanel'] as const)if(c[key]!==undefined&&typeof c[key]!=='boolean')e.push('Panel selections must be on or off.');
+  for(const key of ['leftPanel','bottomPanel','rightPanel','cornerRounded'] as const)if(c[key]!==undefined&&typeof c[key]!=='boolean')e.push('Panel selections must be on or off.');
  for(const [k,label] of [['width','Internal width'],['height','Internal height']] as const){if(!Number.isFinite(c[k])||c[k]<50||c[k]>6000)e.push(`${label} must be between 50 and 6,000 mm.`);}
  if(!Number.isFinite(c.depth)||c.depth<l.min||c.depth>l.max)e.push(`Depth must be between ${l.min} and ${l.max} mm for this profile.`);
  if(c.profile==='corner'&&(!Number.isFinite(c.returnWidth)||c.returnWidth<50||c.returnWidth>6000))e.push('Return width must be between 50 and 6,000 mm.');
