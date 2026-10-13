@@ -1,4 +1,5 @@
 # Project architecture
+- Build Corner Shroud rounded head and sill from the same quarter-circle plan geometry with radial drainage fall; this keeps the preview and perspective exports consistent without changing the square wall connection.
 - Build modular joiners from one shared F cross-section with its spine outside the jamb, horizontal slot centred on the head/sill and tail receiving the trimmed jamb; reflect bottom fittings vertically so both live and export geometry show the same unobscured connection.
 - Reveal louver receiving extrusions during side inspection by fading both jambs; keep physical geometry and other views unchanged.
 - Clamp the louver assembly centre to its projected half-depth at offset limits and fit its height below the sloped head; this keeps full-width blades and rectangular extrusions inside the frame in model and exports.

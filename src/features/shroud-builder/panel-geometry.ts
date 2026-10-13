@@ -91,15 +91,21 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
  }else if(c.profile==='corner'){
   // Two planes meet on the diagonal hip. Explicit triangles preserve the crease;
   // only the outside perimeter has thickness faces, so no doubled corner seam.
-  const points=[[-w/2-t,0],[w/2,0],[w/2,-rw-t],[w/2+d,-rw-t],[w/2+d,d],[-w/2-t,d]];
+   const arc=c.cornerRounded?Array.from({length:65},(_,i)=>{const angle=i*Math.PI/128;return [w/2+d*Math.cos(angle),d*Math.sin(angle)];}):[];
+   const points=c.cornerRounded
+    ?[[-w/2-t,0],[w/2,0],[w/2,-rw-t],[w/2+d,-rw-t],...arc,[-w/2-t,d]]
+    :[[-w/2-t,0],[w/2,0],[w/2,-rw-t],[w/2+d,-rw-t],[w/2+d,d],[-w/2-t,d]];
   const vertices:number[]=[];
   const vertex=(i:number,y:number)=>vertices.push(points[i][0],y,points[i][1]);
   const tri=(a:number,b:number,cc:number,y:number)=>{vertex(a,y);vertex(b,y);vertex(cc,y);};
-  for(const [a,b,cc] of [[0,1,4],[0,4,5],[1,2,3],[1,3,4]]){tri(a,cc,b,plate);tri(a,b,cc,0);}
+   const faces=c.cornerRounded
+    ?[[0,1,points.length-2],[0,points.length-2,points.length-1],[1,2,3],[1,3,4],...Array.from({length:64},(_,i)=>[1,4+i,5+i])]
+    :[[0,1,4],[0,4,5],[1,2,3],[1,3,4]];
+   for(const [a,b,cc] of faces){tri(a,cc,b,plate);tri(a,b,cc,0);}
   for(let i=0;i<points.length;i++){const j=(i+1)%points.length;vertex(i,0);vertex(j,plate);vertex(j,0);vertex(i,0);vertex(i,plate);vertex(j,plate);}
   const head=new THREE.BufferGeometry();head.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
-  add('Top',head.clone(),0,h);
-  if(p.bottom)add('Bottom',head.clone(),0,-plate);
+   add('Top',head.clone(),0,h,0,!c.cornerRounded,!!c.cornerRounded);
+   if(p.bottom)add('Bottom',head.clone(),0,-plate,0,!c.cornerRounded,!!c.cornerRounded);
   head.dispose();
   if(p.left)box('Left',t,h,d,-w/2-t/2,h/2,d/2);
   if(p.right)box('Right',d,h,t,w/2+d/2,h/2,-rw-t/2);
