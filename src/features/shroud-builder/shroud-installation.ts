@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {Config, THICKNESS, archContour, includedPanels, hasPanelOptions} from './shroud-model';
 import {archPanelShapes} from './arch-geometry';
-import {cornerPlanPath,cornerPlanStrip,cornerPathLengths,cornerPointAt} from './corner-window';
+import {cornerPlanPath,cornerPathLengths,cornerPointAt} from './corner-window';
 import {STUD_FACE, STUD_DEPTH, PREVIEW_HOLE_DIAMETER, FixingFace, flangeFixingLayout, equalCentres} from './installation-layout';
 
 const mm=0.001;
@@ -44,15 +44,15 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
     if(c.cornerWindowRounded){
      const total=cornerPathLengths(c).total;
      const curvedFlange=(bottom:boolean)=>{
-      const shape=rect(-t,bottom?-t-fl:h+t,total/mm+t,bottom?0:h+t+fl);
       const points=run(bottom?'Curved sill':'Curved head');
-      for(const point of points)shape.holes.push(hole(point.distance??0,point.y,PREVIEW_HOLE_DIAMETER/2));
-      const geo=new THREE.ExtrudeGeometry(shape,{depth:t*mm,steps:1,bevelEnabled:false});
       // Subdivide long planar edges before bending; triangulate the strip in short spans.
       const vertices:number[]=[];
-      const segments=Math.ceil(total/0.025);
-      for(let i=0;i<segments;i++){
-       const start=-t+(total/mm+2*t)*i/segments,end=-t+(total/mm+2*t)*(i+1)/segments;
+      const cuts=new Set([-t,total/mm+t]);
+      for(let x=20;x<total/mm;x+=20)if(!points.some(p=>Math.abs((p.distance??0)-x)<6))cuts.add(x);
+      for(const point of points)for(const x of [(point.distance??0)-5,(point.distance??0)+5])if(x>-t&&x<total/mm+t)cuts.add(x);
+      const boundaries=[...cuts].sort((a,b)=>a-b);
+      for(let i=0;i<boundaries.length-1;i++){
+       const start=boundaries[i],end=boundaries[i+1];
        const strip=rect(start,bottom?-t-fl:h+t,end,bottom?0:h+t+fl);
        for(const point of points)if((point.distance??0)>start+PREVIEW_HOLE_DIAMETER/2&&(point.distance??0)<end-PREVIEW_HOLE_DIAMETER/2)strip.holes.push(hole(point.distance??0,point.y,PREVIEW_HOLE_DIAMETER/2));
        const part=new THREE.ExtrudeGeometry(strip,{depth:t*mm,bevelEnabled:false});
@@ -63,7 +63,6 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
        }
        part.dispose();
       }
-      geo.dispose();
       const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geometry.computeVertexNormals();
       const mesh=new THREE.Mesh(geometry,material);mesh.name=bottom?'Curved sill fixing flange':'Curved head fixing flange';flanges.add(mesh);
      };
@@ -152,11 +151,8 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
      const curveTimber=new THREE.Group();curveTimber.name='Curved corner timber frame';timber.add(curveTimber);
      // Laminated/segmented curved bands follow the glazing; no post through the opening.
      for(const y of [h+t+STUD_FACE,h+t+2*STUD_FACE,-t,-t-STUD_FACE,h+t+350,-t-350+STUD_FACE]){
-      const full=cornerPlanStrip(c,-(t+STUD_DEPTH)*mm,-t*mm,STUD_FACE*mm);
-      // Retain only the arc section; straight timber already meets its tangent ends.
-      full.dispose();
       const shape=new THREE.Shape();
-      const inner=radius-(t+STUD_DEPTH)*mm,outer=radius-t*mm;
+      const inner=Math.max(radius*0.1,radius-(t+STUD_DEPTH)*mm),outer=Math.max(radius*0.2,radius-t*mm);
       shape.absarc(center.x,center.y,outer,0,Math.PI/2,false);
       shape.absarc(center.x,center.y,inner,Math.PI/2,0,true);shape.closePath();
       const geometry=new THREE.ExtrudeGeometry(shape,{depth:STUD_FACE*mm,bevelEnabled:false,curveSegments:64});geometry.rotateX(Math.PI/2);
