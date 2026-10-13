@@ -1,4 +1,5 @@
 # Current tasks
+- [x] Rename Corner Shroud edge rounding and add independent curved corner glazing without a corner post; verify preview and exports.
 - [x] Move Hood projection depth above the Corner canopy and Ends options in "Set the dimensions"; verify field order in preview.
 - [x] Move Corner Shroud projection depth above the Corner options in "Set the dimensions"; verify field order in preview.
 - [x] Add Corner Shroud rounded corner control for top and bottom panels; verify geometry, preview and PDF.
