@@ -20,9 +20,9 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
     // The sill's upper face falls from y=0 at the rear. Jambs must follow
     // that face at their lower edge, rather than exposing an open wedge.
     const sillJamb=name==='Left'||name==='Right';
-    const falls=c.profile==='curved'
+     const falls=c.profile==='modular'||(c.profile==='curved'
      ? name==='Bottom'||(p.bottom&&sillJamb&&Math.abs(py)<1e-7)
-     : !sillJamb||py<=1e-7||py>=h-1e-7;
+      : !sillJamb||py<=1e-7||py>=h-1e-7);
     if(falls)positions.setY(i,py-projection*FALL_SLOPE);
   }
   geo.computeVertexNormals();geo.computeBoundingBox();geo.computeBoundingSphere();
@@ -104,6 +104,9 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
   if(p.left)box('Left',t,h,d,-w/2-t/2,h/2,d/2);
   if(p.right)box('Right',d,h,t,w/2+d/2,h/2,-rw-t/2);
  }else{
+   const LEG=18.9/1000,SLOT=6.8/1000,WT=2/1000;
+   // The jamb enters the F's lower channel, stopping against the middle arm.
+   const jambInset=c.profile==='modular'?(SLOT-plate)/2+WT:0;
   box('Top',w+2*t,plate,d,0,h+plate/2,d/2);
   const sillDepth=c.profile==='tapered'?bd:d;
    if(p.bottom)box('Bottom',w+2*t,plate,sillDepth,0,-plate/2,sillDepth/2);
@@ -112,14 +115,13 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    const side=new THREE.ExtrudeGeometry(shape,{depth:t,bevelEnabled:false});side.rotateY(-Math.PI/2);
    if(p.left)add('Left',side.clone(),-w/2);if(p.right)add('Right',side.clone(),w/2+t);side.dispose();
   }else{
-   if(p.left)box('Left',t,h,d,-w/2-t/2,h/2,d/2);
-   if(p.right)box('Right',t,h,d,w/2+t/2,h/2,d/2);
+    if(p.left)box('Left',t,h-2*jambInset,d,-w/2-t/2,h/2,d/2);
+    if(p.right)box('Right',t,h-2*jambInset,d,w/2+t/2,h/2,d/2);
   }
   if(c.profile==='modular'){
     // Reference is a cross-section, not a full-width front cap. Keep the
     // fittings at the four head/jamb and sill/jamb junctions, along depth.
-    const LEG=18.9/1000,SLOT=6.8/1000,WT=2/1000;
-    const spine=WT+SLOT,mid=LEG/2,slotCenter=(WT+spine)/2;
+     const spine=WT+SLOT,mid=WT+SLOT+WT/2,slotCenter=(WT+spine)/2;
     // Exact pictured F: receiving channel on the left, two arms on the right.
     // Wall thickness is estimated; the labelled outside dimensions and slot are exact.
     const pts:[number,number][]=[
@@ -128,19 +130,19 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
      [spine+WT,mid+WT/2],[spine+WT,LEG],[spine,LEG],
      [spine,WT],[WT,WT],[WT,LEG],[0,LEG],
     ];
-     // Identical F cross-section at every corner. Centre each receiving slot
-     // on its horizontal plate: the head centre is h + plate/2, the sill
-     // centre is -plate/2. Negating the entire top offset raises the sill slot.
+     // Outside spine and inward arms match the connection reference. The tail
+     // receives the jamb; bottom fittings reflect vertically about the sill slot.
     const joiner=(side:number,top:boolean)=>{
      const f=new THREE.Shape();
+      const vertical=top?1:-1;
      pts.forEach(([x,y],i)=>{
       const px=-side*y;
-      const py=LEG-x;
+       const py=vertical*(slotCenter-x);
       if(i===0)f.moveTo(px,py);else f.lineTo(px,py);
       });
      f.closePath();
-     const x=side*(w/2+t);
-      const y=(top?h+plate/2:-plate/2)-LEG+slotCenter;
+      const x=side*(w/2+t+WT+(SLOT-t)/2);
+      const y=top?h+plate/2:-plate/2;
 
      add(`Corner joiner ${top?'top':'bottom'} ${side<0?'left':'right'}`,
       new THREE.ExtrudeGeometry(f,{depth:d,bevelEnabled:false}),x,y);
