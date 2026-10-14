@@ -43,6 +43,7 @@ export const palette:PowderColour[] = [
 ];
 export const initial:Config = {profile:'box',width:1200,height:1800,internalRadius:600,depth:300,returnWidth:1200,bottomDepth:150,colour:palette[0].hex,finish:palette[0].name,otherColour:'',louverOffset:150,louverSectionHeight:1800,louverSpacing:0,louverOrientation:'down',flange:50,stiffenerHeight:50,reference:'AWS-001',leftPanel:true,bottomPanel:true,rightPanel:true,hoodCorner:false,cornerRounded:false,cornerWindowRounded:false};
 export const MAX_ARCH_RADIUS = 100000;
+export const MAX_ARCH_WIDTH = 3000;
 export function minimumArchRadius(width:number,height:number){
  const a=width/2;
  return height>=a?a:(a*a+height*height)/(2*height);
@@ -92,7 +93,8 @@ export function hoodStiffenerLayout(width:number){
 export function validate(c:Config):string[]{
  const e:string[]=[];const l=limits(c);if(!Number.isFinite(c.internalRadius)||c.internalRadius<25||c.internalRadius>MAX_ARCH_RADIUS)e.push('Enter a valid internal radius.'); if(!products.some(p=>p.id===c.profile))e.push('Select a valid profile.');
   for(const key of ['leftPanel','bottomPanel','rightPanel','cornerRounded','cornerWindowRounded'] as const)if(c[key]!==undefined&&typeof c[key]!=='boolean')e.push('Panel selections must be on or off.');
- for(const [k,label] of [['width','Internal width'],['height','Internal height']] as const){if(!Number.isFinite(c[k])||c[k]<50||c[k]>6000)e.push(`${label} must be between 50 and 6,000 mm.`);}
+  for(const [k,label] of [['width','Internal width'],['height','Internal height']] as const){if(!Number.isFinite(c[k])||c[k]<50||c[k]>6000)e.push(`${label} must be between 50 and 6,000 mm.`);}
+  if(c.profile==='curved'&&Number.isFinite(c.width)&&c.width>MAX_ARCH_WIDTH)e.push(`Internal width must be between 50 and ${MAX_ARCH_WIDTH.toLocaleString('en-AU')} mm for an arch shroud.`);
  if(!Number.isFinite(c.depth)||c.depth<l.min||c.depth>l.max)e.push(`Depth must be between ${l.min} and ${l.max} mm for this profile.`);
  if(c.profile==='corner'&&(!Number.isFinite(c.returnWidth)||c.returnWidth<50||c.returnWidth>6000))e.push('Return width must be between 50 and 6,000 mm.');
  if(c.profile==='round'&&c.height!==c.width)e.push('A round shroud must have equal internal width and height; enter its diameter.');
@@ -118,4 +120,4 @@ export function measurements(c:Config){
  const bodyHeight=c.profile==='round'?c.height+face*2:c.profile==='curved'?c.height+face+(p.bottom?plate+c.depth*FALL_SLOPE:0):c.profile==='hood'?plate+c.stiffenerHeight+c.depth*FALL_SLOPE:p.bottom?c.height+2*plate+lowerDepth*FALL_SLOPE:p.left||p.right?c.height+plate+lowerDepth*FALL_SLOPE:plate+c.depth*FALL_SLOPE;
  return {outerWidth:c.width+(c.profile==='hood'?(c.hoodCorner?c.depth:0):face*2),outerHeight:bodyHeight,face,depth:c.depth,archRadius:c.internalRadius};
 }
-export function selectProfile(c:Config,profile:Profile):Config{const next={...c,profile};const l=limits(next);next.depth=Math.max(l.min,Math.min(l.max,next.depth));next.bottomDepth=Math.min(next.depth,next.bottomDepth);if(profile==='round'){next.height=next.width;next.internalRadius=next.width/2;}if(profile==='hood')next.width=Math.max(HOOD_MIN_WIDTH,next.width);if(profile==='curved'){next.leftPanel=true;next.rightPanel=true;next.internalRadius=Math.max(next.internalRadius,minimumArchRadius(next.width,next.height));}if(profile!=='hood')next.roundedEnds=false;if(profile==='corner')next.cornerWindowRounded=false;return next;}
+export function selectProfile(c:Config,profile:Profile):Config{const next={...c,profile};const l=limits(next);next.depth=Math.max(l.min,Math.min(l.max,next.depth));next.bottomDepth=Math.min(next.depth,next.bottomDepth);if(profile==='round'){next.height=next.width;next.internalRadius=next.width/2;}if(profile==='hood')next.width=Math.max(HOOD_MIN_WIDTH,next.width);if(profile==='curved'){next.leftPanel=true;next.rightPanel=true;next.width=Math.min(MAX_ARCH_WIDTH,next.width);next.internalRadius=Math.max(next.internalRadius,minimumArchRadius(next.width,next.height));}if(profile!=='hood')next.roundedEnds=false;if(profile==='corner')next.cornerWindowRounded=false;return next;}

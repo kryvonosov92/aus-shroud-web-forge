@@ -1,4 +1,5 @@
 # Current tasks
+- [x] Cap the Arch Shroud internal width input at 3,000 mm; verify field limit, validation and preview.
 - [x] Default the Corner Shroud to rounded corner off when the profile is selected; verify in preview.
 - [x] Make curved Corner Shroud glass, inner/outer panels, fixing surround and timber follow one profile; verify preview and PDF.
 - [x] Rename Corner Shroud edge rounding and add independent curved corner glazing without a corner post; verify preview and exports.
