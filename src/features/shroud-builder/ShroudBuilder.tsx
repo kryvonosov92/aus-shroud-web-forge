@@ -15,7 +15,7 @@ import {RadioGroup,RadioGroupItem} from '@/components/ui/radio-group';
 import {Switch} from '@/components/ui/switch';
 import ShroudView, {ViewMode} from './shroud-view';
 import Elevation from './elevation';
-import {Config,Profile,initial,products,palette,measurements,limits,validate,selectProfile,hoodStiffenerLayout,HOOD_MIN_WIDTH,finishSpecification,updateConfiguration,minimumArchRadius,archContour,MAX_ARCH_RADIUS,hasPanelOptions,includedPanels,panelDescription,maximumArchWidth,fallDescription} from './shroud-model';
+import {Config,Profile,initial,products,palette,measurements,limits,validate,selectProfile,hoodStiffenerLayout,HOOD_MIN_WIDTH,finishSpecification,updateConfiguration,minimumArchRadius,archContour,MAX_ARCH_RADIUS,MAX_ARCH_WIDTH,hasPanelOptions,includedPanels,panelDescription,maximumArchWidth,fallDescription} from './shroud-model';
 import {louverLayout} from './louver-layout';
 import {flangeFixingLayout} from './installation-layout';
 const fmt=(n:number)=>n.toLocaleString('en-AU',{maximumFractionDigits:1});
