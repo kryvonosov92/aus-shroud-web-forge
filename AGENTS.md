@@ -1,4 +1,5 @@
 # Project architecture
+- Resolve React and React DOM to one shared instance and pre-optimize their entry points with Radix Tooltip; this prevents split hook dispatchers during dependency refreshes.
 - Share live/export dimension definitions; corner assemblies show both rear opening widths A and B, and optional tapered corners reuse the corner plan with independent head/sill depths and tapered end jambs.
 - Build Corner Shroud head and sill from shared plan paths with normal drainage fall; edge-only rounding retains the square wall connection, while curved glazing requires concentric inner/outer edges.
 - Derive curved Corner Shroud glass, panels, flanges and timber from the shared tangent path in `corner-window.ts`; live and exported scenes must follow one curve without a bend mullion.
