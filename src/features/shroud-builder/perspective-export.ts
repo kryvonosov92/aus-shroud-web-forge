@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {SVGRenderer} from 'three/examples/jsm/renderers/SVGRenderer.js';
 import {Config} from './shroud-model';
 import {createShroudScene,disposeShroudScene,ModelOptions} from './shroud-scene';
+import {modelDimensions} from './model-dimensions';
 
 /** Fixed perspective, independent of the live camera, active tab and device size. */
 export function exportCamera(model:THREE.Group,width:number,height:number){
@@ -48,11 +49,7 @@ function addDimensions(model:THREE.Group,c:Config):Label[]{
   for(const v of [a,b]){const off=vertical?new THREE.Vector3(.03,0,0):new THREE.Vector3(0,.03,0);model.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([v.clone().sub(off),v.clone().add(off)]),mat));}
   labels.push({text,point:a.clone().add(b).multiplyScalar(.5)});
  };
- const gap=Math.max(w,h)*.1;
- dim(new THREE.Vector3(-w/2,-gap,d+.025),new THREE.Vector3(w/2,-gap,d+.025),`${c.profile==='round'?'Ø ':''}${c.width.toLocaleString()}${c.profile==='round'?' INTERNAL':' W'}`);
- if(c.profile!=='hood'&&c.profile!=='round')dim(new THREE.Vector3(-w/2-gap,0,d+.025),new THREE.Vector3(-w/2-gap,h,d+.025),`${c.height.toLocaleString()} H`,true);
- dim(new THREE.Vector3(w/2+gap,h+gap,0),new THREE.Vector3(w/2+gap,h+gap,d),`${c.depth} D`);
- if(c.profile==='hood'&&c.hoodCorner){const rw=c.returnWidth/1000;dim(new THREE.Vector3(w/2+d+gap,h+gap,0),new THREE.Vector3(w/2+d+gap,h+gap,-rw),`${c.returnWidth} RETURN`);}
+  for(const item of modelDimensions(c))dim(item.a,item.b,item.text,item.vertical);
  return labels;
 }
 function drawLabels(ctx:CanvasRenderingContext2D,labels:Label[],model:THREE.Group,camera:THREE.Camera,width:number,height:number){
