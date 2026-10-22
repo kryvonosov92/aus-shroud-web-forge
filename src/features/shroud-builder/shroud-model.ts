@@ -18,7 +18,9 @@ export const products: {id: Profile; name: string; title: string; description: s
   {id:'curved',name:'Arch shroud',title:'Arch Shroud',description:'An adjustable circular arch with fixed sides and an optional bottom panel.',image:'1aae726f-762a-4c16-b289-5dcdf8e70726',slug:'thermacorec-curved-shroud'},
   {id:'round',name:'Round shroud',title:'Round Shroud',description:'A full circular shroud, sized by its internal radius or diameter.',image:'round',slug:'thermacorec-curved-shroud'},
 ];
-export type Config = { profile:Profile; width:number; height:number; internalRadius:number; depth:number; returnWidth:number; bottomDepth:number; colour:string; finish:string; otherColour:string; louverOffset:number; louverSectionHeight:number; louverSpacing:0|9; louverOrientation:'down'|'up'; flange:number; stiffenerHeight:number; reference:string; leftPanel:boolean; bottomPanel:boolean; rightPanel:boolean; hoodCorner:boolean; hoodCornerRounded?:boolean; cornerRounded?:boolean; cornerWindowRounded?:boolean; roundedEnds?:boolean };
+export type Config = { profile:Profile; width:number; height:number; internalRadius:number; depth:number; returnWidth:number; bottomDepth:number; colour:string; finish:string; otherColour:string; louverOffset:number; louverSectionHeight:number; louverSpacing:0|9; louverOrientation:'down'|'up'; flange:number; stiffenerHeight:number; reference:string; leftPanel:boolean; bottomPanel:boolean; rightPanel:boolean; hoodCorner:boolean; taperedCorner?:boolean; hoodCornerRounded?:boolean; cornerRounded?:boolean; cornerWindowRounded?:boolean; roundedEnds?:boolean };
+export const isCornerShroud=(c:Config)=>c.profile==='corner'||(c.profile==='tapered'&&c.taperedCorner===true);
+export const hasCornerReturn=(c:Config)=>isCornerShroud(c)||(c.profile==='hood'&&c.hoodCorner);
 export const hasPanelOptions=(profile:Profile)=>['box','corner','tapered','curved'].includes(profile);
 export function includedPanels(c:Config){
  const selectable=hasPanelOptions(c.profile);
@@ -92,11 +94,11 @@ export function hoodStiffenerLayout(width:number){
 }
 export function validate(c:Config):string[]{
  const e:string[]=[];const l=limits(c);if(!Number.isFinite(c.internalRadius)||c.internalRadius<25||c.internalRadius>MAX_ARCH_RADIUS)e.push('Enter a valid internal radius.'); if(!products.some(p=>p.id===c.profile))e.push('Select a valid profile.');
-  for(const key of ['leftPanel','bottomPanel','rightPanel','cornerRounded','cornerWindowRounded'] as const)if(c[key]!==undefined&&typeof c[key]!=='boolean')e.push('Panel selections must be on or off.');
+  for(const key of ['leftPanel','bottomPanel','rightPanel','cornerRounded','cornerWindowRounded','taperedCorner'] as const)if(c[key]!==undefined&&typeof c[key]!=='boolean')e.push('Panel selections must be on or off.');
   for(const [k,label] of [['width','Internal width'],['height','Internal height']] as const){if(!Number.isFinite(c[k])||c[k]<50||c[k]>6000)e.push(`${label} must be between 50 and 6,000 mm.`);}
   if(c.profile==='curved'&&Number.isFinite(c.width)&&c.width>MAX_ARCH_WIDTH)e.push(`Internal width must be between 50 and ${MAX_ARCH_WIDTH.toLocaleString('en-AU')} mm for an arch shroud.`);
  if(!Number.isFinite(c.depth)||c.depth<l.min||c.depth>l.max)e.push(`Depth must be between ${l.min} and ${l.max} mm for this profile.`);
- if(c.profile==='corner'&&(!Number.isFinite(c.returnWidth)||c.returnWidth<50||c.returnWidth>6000))e.push('Return width must be between 50 and 6,000 mm.');
+ if(isCornerShroud(c)&&(!Number.isFinite(c.returnWidth)||c.returnWidth<50||c.returnWidth>6000))e.push('Return width must be between 50 and 6,000 mm.');
  if(c.profile==='round'&&c.height!==c.width)e.push('A round shroud must have equal internal width and height; enter its diameter.');
  if(c.profile==='round'&&(!Number.isFinite(c.internalRadius)||c.internalRadius<25||c.internalRadius>3000||Math.abs(c.width-c.internalRadius*2)>0.0001))e.push('Round internal radius must be 25–3,000 mm, with diameter equal to twice the radius.');
  if(c.profile==='hood'&&c.width<HOOD_MIN_WIDTH)e.push(`Canopy span must be at least ${HOOD_MIN_WIDTH} mm to fit two 6 mm stiffeners at 150 mm from each side.`);
