@@ -13,6 +13,21 @@ test('Corner Shroud width B dimension tracks the entered rear return length',()=
  expect(b.a.distanceTo(b.b)).toBeCloseTo(2.345,8);
 });
 
+test('widths A and B have equal clearance from the shroud on corner and tapered models',()=>{
+ for(const profile of ['corner','tapered'])for(const depth of [150,300,600]){
+  const c={...initial,profile,taperedCorner:true,depth,height:2400,returnWidth:2345};
+  const dimensions=modelDimensions(c);
+  const a=dimensions.find(item=>item.text.endsWith(' A'));
+  const b=dimensions.find(item=>item.text.endsWith(' B'));
+  expect(a).toBeDefined();
+  expect(b).toBeDefined();
+  for(const endpoint of ['a','b']){
+   expect(b[endpoint].x-c.width/2000-c.depth/1000).toBeCloseTo(a[endpoint].z-c.depth/1000,8);
+   expect(b[endpoint].y).toBe(a[endpoint].y);
+  }
+ }
+});
+
 test('90 degree tapered corner has width B with distinct head and sill depths',()=>{
  const c={...initial,profile:'tapered',taperedCorner:true,returnWidth:2100,depth:600,bottomDepth:150};
  const body=createPanelBody(c,new THREE.MeshStandardMaterial());
