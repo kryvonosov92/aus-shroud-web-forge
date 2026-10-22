@@ -1,5 +1,5 @@
 # Current tasks
-- [ ] Align Internal Width B dimension clearance with Width A; verify corner and tapered preview and shared export positions.
+- [x] Align Internal Width B dimension clearance with Width A; verify corner and tapered preview and shared export positions.
 - [x] Show internal width B on Corner Shroud models and exports.
 - [x] Move Internal return width B above the 90 Degree Corner switch on the Tapered Shroud; verify field order in preview.
 - [x] Add Tapered Shroud 90° corner option with width B; verify geometry, preview and PDF.
