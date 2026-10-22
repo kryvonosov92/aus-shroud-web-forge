@@ -116,8 +116,8 @@ export function createPanelBody(c:Config,material:THREE.MeshStandardMaterial,edg
    return head;
   };
   const head=cornerPlate(d);
-  add('Top',head,0,h,0,!c.cornerRounded,!!c.cornerRounded);
-  if(p.bottom)add('Bottom',cornerPlate(c.profile==='tapered'?bd:d),0,-plate,0,!c.cornerRounded,!!c.cornerRounded);
+  add('Top',head,0,h,0,!(c.profile==='corner'&&c.cornerRounded),c.profile==='corner'&&!!c.cornerRounded);
+  if(p.bottom)add('Bottom',cornerPlate(c.profile==='tapered'?bd:d),0,-plate,0,!(c.profile==='corner'&&c.cornerRounded),c.profile==='corner'&&!!c.cornerRounded);
    }
   if(c.profile==='tapered'){
    const shape=new THREE.Shape();shape.moveTo(0,0);shape.lineTo(bd,0);shape.lineTo(d,h);shape.lineTo(0,h);shape.closePath();
