@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Config, THICKNESS, archContour, includedPanels, hasPanelOptions} from './shroud-model';
+import {isCornerShroud,hasCornerReturn,Config, THICKNESS, archContour, includedPanels, hasPanelOptions} from './shroud-model';
 import {archPanelShapes} from './arch-geometry';
 import {cornerPlanPath,cornerPathLengths,cornerPointAt} from './corner-window';
 import {STUD_FACE, STUD_DEPTH, PREVIEW_HOLE_DIAMETER, FixingFace, flangeFixingLayout, equalCentres} from './installation-layout';
@@ -40,8 +40,8 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
   }else if(c.profile==='curved'){
    const shapes=archPanelShapes(c,t+fl);flange(shapes.head,run('Arch'));
    if(p.left)flange(shapes.left,run('Left jamb'));if(p.bottom)flange(shapes.bottom,run('Sill'));if(p.right)flange(shapes.right,run('Right jamb'));
-  }else if(c.profile==='corner'){
-    if(c.cornerWindowRounded){
+  }else if(isCornerShroud(c)){
+    if(c.profile==='corner'&&c.cornerWindowRounded){
      const total=cornerPathLengths(c).total;
      const curvedFlange=(bottom:boolean)=>{
       const points=run(bottom?'Curved sill':'Curved head');
@@ -154,8 +154,8 @@ export function createInstallation(c:Config,material:THREE.MeshStandardMaterial,
     const part=new THREE.Mesh(g,pine[i%pine.length]);part.name='Mitred 90 x 45 pine backing';timber.add(part);
    }
   };
-  if(c.profile==='corner'){
-    if(c.cornerWindowRounded){
+  if(isCornerShroud(c)){
+    if(c.profile==='corner'&&c.cornerWindowRounded){
      const {radius,center}=cornerPlanPath(c),cx=center.x/mm,returnStart=radius/mm;
      frame(-w/2-t,cx,-t,h+t,'front',-Infinity,cx,'right');
      frame(returnStart,c.returnWidth+t,-t,h+t,'return',returnStart,Infinity,'left');

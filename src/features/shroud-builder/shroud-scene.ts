@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Config,THICKNESS,FALL_SLOPE,palette} from './shroud-model';
+import {isCornerShroud,hasCornerReturn,Config,THICKNESS,FALL_SLOPE,palette} from './shroud-model';
 import {archOutline} from './arch-geometry';
 import {createInstallation} from './shroud-installation';
 import {createPanelBody} from './panel-geometry';
@@ -58,7 +58,7 @@ export function createShroudScene(c:Config,{windowVisible,studWallVisible,screws
    if(c.profile==='corner'&&c.cornerWindowRounded){
     const win=createRoundedCornerWindow(c,glass,windowMat);model.add(win);win.traverse(o=>{if(o instanceof THREE.Mesh)windowLayers.push(o);});
    }else{
-    const win=new THREE.Group();if(c.profile==='round'){const pane=new THREE.Mesh(new THREE.CircleGeometry(w/2,96),glass);pane.position.set(0,w/2,-0.012);win.add(pane);const frame=new THREE.Mesh(new THREE.RingGeometry(Math.max(0,w/2-0.028),w/2,96),windowMat);frame.position.set(0,w/2,-0.006);win.add(frame);}else windowFrame(win,w,h,c.profile==='curved');model.add(win);win.traverse(o=>{if(o instanceof THREE.Mesh)windowLayers.push(o);});if(c.profile==='corner'||(c.profile==='hood'&&c.hoodCorner)){const ret=new THREE.Group();windowFrame(ret,rw,h);ret.rotation.y=Math.PI/2;ret.position.set(w/2,0,-rw/2);model.add(ret);ret.traverse(o=>{if(o instanceof THREE.Mesh)windowLayers.push(o);});}
+    const win=new THREE.Group();if(c.profile==='round'){const pane=new THREE.Mesh(new THREE.CircleGeometry(w/2,96),glass);pane.position.set(0,w/2,-0.012);win.add(pane);const frame=new THREE.Mesh(new THREE.RingGeometry(Math.max(0,w/2-0.028),w/2,96),windowMat);frame.position.set(0,w/2,-0.006);win.add(frame);}else windowFrame(win,w,h,c.profile==='curved');model.add(win);win.traverse(o=>{if(o instanceof THREE.Mesh)windowLayers.push(o);});if(hasCornerReturn(c)){const ret=new THREE.Group();windowFrame(ret,rw,h);ret.rotation.y=Math.PI/2;ret.position.set(w/2,0,-rw/2);model.add(ret);ret.traverse(o=>{if(o instanceof THREE.Mesh)windowLayers.push(o);});}
    }
   }
  const installation=createInstallation(c,mat,{studWall:studWallVisible,screws:screwsVisible});model.add(installation);

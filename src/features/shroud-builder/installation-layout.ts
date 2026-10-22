@@ -1,4 +1,4 @@
-import {Config, THICKNESS, archContour, includedPanels, hasPanelOptions} from './shroud-model';
+import {isCornerShroud,hasCornerReturn,Config, THICKNESS, archContour, includedPanels, hasPanelOptions} from './shroud-model';
 import {cornerPathLengths,cornerPointAt} from './corner-window';
 
 export const STUD_FACE = 45;
@@ -43,8 +43,8 @@ export function flangeFixingLayout(c:Config){
   if(p.left&&a.springY>0)line('Left jamb',-a.halfWidth,0,-a.halfWidth,a.springY,'front',true);
   if(p.right&&a.springY>0)line('Right jamb',a.halfWidth,0,a.halfWidth,a.springY,'front',true);
   arc('Arch',a.radius,a.centerY,a.startAngle,a.endAngle,false,true);
- }else if(c.profile==='corner'){
-   if(c.cornerWindowRounded){
+ }else if(isCornerShroud(c)){
+   if(c.profile==='corner'&&c.cornerWindowRounded){
     const total=cornerPathLengths(c).total*1000;
     for(const [name,y] of [['Curved head',h+o],...(p.bottom?[['Curved sill',-o]]:[])] as [string,number][]){
      const centres=equalCentres(0,total);
