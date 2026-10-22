@@ -1,4 +1,6 @@
 # Current tasks
+- [ ] Show internal width B on Corner Shroud models and exports.
+- [ ] Add Tapered Shroud 90° corner option with width B; verify geometry, preview and PDF.
 - [x] Cap the Arch Shroud internal width input at 3,000 mm; verify field limit, validation and preview.
 - [x] Default the Corner Shroud to rounded corner off when the profile is selected; verify in preview.
 - [x] Make curved Corner Shroud glass, inner/outer panels, fixing surround and timber follow one profile; verify preview and PDF.
